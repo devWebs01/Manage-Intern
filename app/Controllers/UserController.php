@@ -39,24 +39,16 @@ class UserController extends BaseController
      */
     public function create()
     {
-        $rules = [
-            'email'    => 'required|valid_email|is_unique[users.email]',
-            'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
-            'password' => 'required|min_length[6]',
-        ];
-
-        if (!$this->validate($rules)) {
-            // Redirect kembali jika validasi gagal
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
         $data = [
             'email'         => $this->request->getPost('email'),
             'username'      => $this->request->getPost('username'),
             'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
 
-        $this->userModel->insert($data);
+        if (!$this->userModel->save($data)) {
+            // Mengembalikan dengan error jika validasi gagal
+            return redirect()->back()->withInput()->with('errors', $this->userModel->errors());
+        }
 
         return redirect()->to('/users')->with('success', 'User berhasil dibuat.');
     }

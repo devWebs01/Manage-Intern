@@ -48,16 +48,17 @@
                                 <td>{{ $participant->end_date }}</td>
                                 <td>{{ $participant->status }}</td>
                                 <td>
-                                                                      <div class="d-flex gap-2 justify-content-center">
-                                                                        <a href="{{ site_url('participants/' . $participant->id . '/edit') }}"
-                                        class="btn btn-sm btn-warning">Edit</a>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="{{ site_url('participants/' . $participant->id . '/edit') }}"
+                                            class="btn btn-sm btn-warning">Edit</a>
 
-                                    <form action="{{ site_url('participants/' . $participant->id) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus?');">
-    <input type="hidden" name="_method" value="DELETE">
-    <button type="submit" class="btn btn-danger">Hapus</button>
-</form>
+                                        <form action="{{ site_url('participants/' . $participant->id) }}" method="post"
+                                            onsubmit="return confirm('Yakin ingin menghapus?');">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                        </form>
 
-        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
