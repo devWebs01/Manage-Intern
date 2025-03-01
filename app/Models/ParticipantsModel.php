@@ -31,4 +31,12 @@ class ParticipantsModel extends Model
 	protected $validationMessages = [];
 	protected $skipValidation = true;
 
+	/**
+     * Mendefinisikan relasi dengan model User
+     */
+    public function user()
+    {
+        return $this->belongsTo(UserModel::class, 'id', 'user_id');
+    }
+
 }
