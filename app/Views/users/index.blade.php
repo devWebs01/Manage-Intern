@@ -20,28 +20,32 @@
                 @endif
 
                 <div class="mb-3">
-                    <a href="{{ site_url('users/create') }}" class="btn btn-primary">Tambah User</a>
+                    <a href="{{ site_url('users/new') }}" class="btn btn-primary">Tambah User</a>
                 </div>
 
-                <table class="table table-striped">
+                <table class="table table-striped text-nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Email</th>
                             <th>Username</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        @foreach($users as $no => $user)
                             <tr>
-                                <td>{{ $user->id }}</td>
+                                <td>{{ ++$no }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>
-                                    <a href="{{ site_url('users/edit/' . $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                    <a href="{{ site_url('users/delete/' . $user->id) }}" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Hapus user?')">Hapus</a>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                    <a href="{{ site_url('users/' . $user->id . '/edit') }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <form action="{{site_url('users/' . $user->id)}}" method="post" onsubmit="return confirm('Yakin ingin menghapus?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit" class="btn btn-danger">Hapus</button>
+</form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

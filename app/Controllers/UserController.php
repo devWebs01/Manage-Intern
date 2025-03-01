@@ -22,14 +22,14 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $data['users'] = $this->userModel->findAll();
+        $data['users'] = $this->userModel->orderBy('created_at', 'DESC')->findAll();
         return $this->blade->render('users.index', $data);
     }
 
     /**
      * Menampilkan form untuk menambah user baru.
      */
-    public function create()
+    public function new()
     {
         return $this->blade->render('users.create');
     }
@@ -37,7 +37,7 @@ class UserController extends BaseController
     /**
      * Menyimpan data user baru.
      */
-    public function store()
+    public function create()
     {
         $rules = [
             'email'    => 'required|valid_email|is_unique[users.email]',

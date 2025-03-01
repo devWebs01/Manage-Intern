@@ -27,7 +27,7 @@
                 </div>
             @endif
 
-            <form action="{{ site_url('participants/store') }}" method="post">
+            <form action="{{ site_url('participants') }}" method="post">
                 <div class="d-none">{{ csrf_field() }}</div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -83,11 +83,16 @@
                             value="{{ old('end_date') }}">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" name="status" id="status">
-                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        </select>
+                      <label for="status" class="form-label">Status</label>
+    <select name="status" id="status" class="form-control" required>
+        <option value="" disabled selected>Pilih Status</option>
+        @foreach (['Active', 'Completed', 'Dropped'] as $status)
+            <option value="{{ $status }}" 
+                {{ old('status', $participant->status ?? 'Active') == $status ? 'selected' : '' }}>
+                {{ $status }}
+            </option>
+        @endforeach
+    </select>
                     </div>
                 </div>
 

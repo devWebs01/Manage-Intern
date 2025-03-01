@@ -24,14 +24,14 @@ class ParticipantsController extends ResourceController
      */
     public function index()
     {
-        $data['participants'] = $this->participantModel->findAll();
+        $data['participants'] = $this->participantModel->orderBy('created_at', 'DESC')->findAll();
         return $this->blade->render('participants.index', $data);
     }
 
     /**
      * Menampilkan form untuk menambah partisipan baru.
      */
-    public function create()
+    public function new()
     {
         return $this->blade->render('participants.create');
 
@@ -40,7 +40,7 @@ class ParticipantsController extends ResourceController
     /**
      * Menyimpan data partisipan baru beserta data pengguna baru.
      */
-    public function store()
+    public function create()
     {
         $rules = [
             // Validasi untuk data user
@@ -110,52 +110,65 @@ class ParticipantsController extends ResourceController
         if (!$participant) {
             return $this->failNotFound('Partisipan tidak ditemukan');
         }
-
+    
+        $user = $this->userModel->find($participant->user_id);
+        if (!$user) {
+            return $this->failNotFound('Pengguna terkait partisipan tidak ditemukan');
+        }
+    
         $rules = [
-            // Validasi data user (abaikan record milik user yang sedang diupdate)
-            'email'    => "required|valid_email|is_unique[users.email,id,{$participant->user_id}]",
-            'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$participant->user_id}]",
+            // Validasi data user (mengabaikan record milik user yang sedang diupdate)
+            'email' => "required|valid_email|is_unique[users.email,id,{$user->id}]",
+            'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$user->id}]",
             // Validasi data partisipan
-            'full_name'   => 'required',
+            'full_name' => 'required',
             'institution' => 'required',
-            'level'       => 'required',
-            'start_date'  => 'required',
-            'end_date'    => 'required',
-            'status'      => 'required'
+            'level' => 'required',
+            'start_date' => 'required|valid_date',
+            'end_date' => 'required|valid_date',
+            'status' => 'required|in_list[Active, Completed, Dropped]'
         ];
-
-        // Jika password diisi, validasi minimal
+    
+        // Jika password diisi, tambahkan validasi minimal
         if ($this->request->getPost('password')) {
             $rules['password'] = 'min_length[6]';
         }
-
+    
+        // Validasi data
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-
-        // Update data user
+    
+        // Data user untuk diupdate
         $userData = [
-            'email'    => $this->request->getPost('email'),
+            'email' => $this->request->getPost('email'),
             'username' => $this->request->getPost('username')
         ];
+    
+        // Update password hanya jika diisi
         if ($this->request->getPost('password')) {
             $userData['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
-        $this->userModel->update($participant->user_id, $userData);
-
-        // Update data partisipan
+    
+        // Update data user
+        $this->userModel->update($user->id, $userData);
+    
+        // Data partisipan untuk diupdate
         $participantData = [
-            'full_name'   => $this->request->getPost('full_name'),
+            'full_name' => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
-            'level'       => $this->request->getPost('level'),
-            'start_date'  => $this->request->getPost('start_date'),
-            'end_date'    => $this->request->getPost('end_date'),
-            'status'      => $this->request->getPost('status')
+            'level' => $this->request->getPost('level'),
+            'start_date' => $this->request->getPost('start_date'),
+            'end_date' => $this->request->getPost('end_date'),
+            'status' => $this->request->getPost('status')
         ];
+    
+        // Update data partisipan
         $this->participantModel->update($id, $participantData);
-
+    
         return redirect()->to('/participants')->with('success', 'Partisipan berhasil diperbarui.');
     }
+    
 
     /**
      * Menghapus (soft delete) data partisipan.

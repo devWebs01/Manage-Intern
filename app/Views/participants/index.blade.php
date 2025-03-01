@@ -20,42 +20,44 @@
             @endif
 
             <div class="mb-3">
-                <a href="{{ site_url('participants/create') }}" class="btn btn-primary">Tambah Peserta</a>
+                <a href="{{ site_url('participants/new') }}" class="btn btn-primary">Tambah Peserta</a>
             </div>
 
             <div class="table-responsive">
-                <table class="table text-center text-nowrap">
+                <table class="table table-striped text-nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Nama Lengkap</th>
                             <th>Institusi</th>
                             <th>Level</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
                             <th>Status</th>
-                            <th>Email</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($participants as $participant)
-                            <?php $user = model('App\Models\UserModel')->find($participant->user_id); ?>
+                        @foreach ($participants as $no => $participant)
                             <tr>
-                                <td>{{ $participant->id }}</td>
+                                <td>{{ ++$no }}</td>
                                 <td>{{ $participant->full_name }}</td>
                                 <td>{{ $participant->institution }}</td>
                                 <td>{{ $participant->level }}</td>
                                 <td>{{ $participant->start_date }}</td>
                                 <td>{{ $participant->end_date }}</td>
                                 <td>{{ $participant->status }}</td>
-                                <td>{{ $participant->user->email }}</td>
                                 <td>
-                                    <a href="{{ site_url('participants/edit/' . $participant->id) }}"
+                                                                      <div class="d-flex gap-2 justify-content-center">
+                                                                        <a href="{{ site_url('participants/' . $participant->id . '/edit') }}"
                                         class="btn btn-sm btn-warning">Edit</a>
-                                    <a href="{{ site_url('participants/delete' . $participant->id) }}"
-                                        class="btn btn-sm btn-danger" onclick="return confirm('Hapus partisipan?')"
-                                        data-method="delete">Hapus</a>
+
+                                    <form action="{{ site_url('participants/' . $participant->id) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit" class="btn btn-danger">Hapus</button>
+</form>
+
+        </div>
                                 </td>
                             </tr>
                         @endforeach
