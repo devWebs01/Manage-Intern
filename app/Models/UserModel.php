@@ -37,7 +37,23 @@ class UserModel extends Model
         'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
         'password_hash' => 'required',
     ];
-    protected $validationMessages = [];
+    protected $validationMessages = [
+        'email' => [
+            'required' => 'Email wajib diisi.',
+            'valid_email' => 'Format email tidak valid.',
+            'is_unique' => 'Email sudah digunakan.',
+        ],
+        'username' => [
+            'required' => 'Username wajib diisi.',
+            'alpha_numeric_punct' => 'Username hanya boleh mengandung karakter alfanumerik dan tanda baca.',
+            'min_length' => 'Username minimal 3 karakter.',
+            'max_length' => 'Username maksimal 30 karakter.',
+            'is_unique' => 'Username sudah digunakan.',
+        ],
+        'password' => [
+            'min_length' => 'Password minimal 6 karakter.',
+        ],
+    ];
     protected $skipValidation = false;
     protected $afterInsert = ['addToGroup'];
 

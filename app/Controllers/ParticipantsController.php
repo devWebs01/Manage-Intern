@@ -42,34 +42,20 @@ class ParticipantsController extends ResourceController
      */
     public function create()
     {
-        $rules = [
-            // Validasi untuk data user
-            'email'    => 'required|valid_email|is_unique[users.email]',
-            'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
-            'password' => 'required|min_length[6]',
-            // Validasi untuk data partisipan
-            'full_name'   => 'required',
-            'institution' => 'required',
-            'level'       => 'required',
-            'start_date'  => 'required',
-            'end_date'    => 'required',
-            'status'      => 'required'
-        ];
-
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        // Buat data user baru
+        // Data untuk User
         $userData = [
             'email'         => $this->request->getPost('email'),
             'username'      => $this->request->getPost('username'),
             'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT)
         ];
-        $this->userModel->insert($userData);
+
+        // Validasi dan simpan data user melalui model (validasi dijalankan otomatis)
+        if (!$this->userModel->insert($userData)) {
+            return redirect()->back()->withInput()->with('errors', $this->userModel->errors());
+        }
         $userId = $this->userModel->getInsertID();
 
-        // Buat data partisipan dengan user_id yang baru
+        // Data untuk Partisipan
         $participantData = [
             'user_id'     => $userId,
             'full_name'   => $this->request->getPost('full_name'),
@@ -79,7 +65,10 @@ class ParticipantsController extends ResourceController
             'end_date'    => $this->request->getPost('end_date'),
             'status'      => $this->request->getPost('status')
         ];
-        $this->participantModel->insert($participantData);
+
+        if (!$this->participantModel->insert($participantData)) {
+            return redirect()->back()->withInput()->with('errors', $this->participantModel->errors());
+        }
 
         return redirect()->to('/participants')->with('success', 'Partisipan berhasil dibuat.');
     }
