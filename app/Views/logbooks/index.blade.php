@@ -37,7 +37,7 @@
                         @foreach ($logbooks as $no => $logbook)
                             <tr>
                                 <td>{{ ++$no }}</td>
-                                <td>{{ $logbook->date }}</td>
+                                <td>{{ Carbon\Carbon::parse($logbook->date)->format('d M Y') }}</td>
                                 <td>{{ $logbook->activity }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">

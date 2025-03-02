@@ -44,8 +44,8 @@
                                 <td>{{ $participant->full_name }}</td>
                                 <td>{{ $participant->institution }}</td>
                                 <td>{{ $participant->level }}</td>
-                                <td>{{ $participant->start_date }}</td>
-                                <td>{{ $participant->end_date }}</td>
+                                <td>{{ Carbon\Carbon::parse($participant->start_date)->format('d M Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($participant->end_date)->format('d M Y') }}</td>
                                 <td>{{ $participant->status }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
