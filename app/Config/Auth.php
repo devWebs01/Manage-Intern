@@ -18,4 +18,22 @@ class Auth extends AuthConfig
      */
     public $requireActivation = null;
 
+
+    public $views = [
+        'login'           => 'App\Views\Auth\login',
+        'register'        => 'App\Views\Auth\register',
+        'forgot'          => 'App\Views\Auth\forgot',
+        'reset'           => 'App\Views\Auth\reset',
+        'emailForgot'     => 'App\Views\Auth\emails\forgot',
+        'emailActivation' => 'App\Views\Auth\emails\activation',
+    ];
+
+    /**
+     * --------------------------------------------------------------------
+     * Layout for the views to extend
+     * --------------------------------------------------------------------
+     *
+     * @var string
+     */
+    public $viewLayout = 'App\Views\Auth\layout';
 }

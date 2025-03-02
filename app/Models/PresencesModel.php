@@ -14,8 +14,8 @@ class PresencesModel extends Model
 	protected $allowedFields = [
 		'participant_id',
 		'date',
-		'status',
-		'created_at'
+		'check_in', 
+		'check_out'
 	];
 	protected $useTimestamps = false;
 	protected $createdField = 'created_at';
@@ -23,6 +23,6 @@ class PresencesModel extends Model
 	protected $deletedField = 'deleted_at';
 	protected $validationRules = [];
 	protected $validationMessages = [];
-	protected $skipValidation = true;
+	protected $skipValidation = false;
 
 }

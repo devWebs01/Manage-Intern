@@ -21,8 +21,22 @@ class LoginModel extends Model
         'user_id'    => 'permit_empty|integer',
         'date'       => 'required|valid_date',
     ];
-    protected $validationMessages = [];
-    protected $skipValidation     = false;
+    protected $validationMessages = [
+        'ip_address' => [
+            'required' => 'Alamat IP wajib diisi.',
+        ],
+        'email' => [
+            'required' => 'Email wajib diisi.',
+        ],
+        'user_id' => [
+            'integer'  => 'User ID harus berupa angka.',
+        ],
+        'date' => [
+            'required'   => 'Tanggal wajib diisi.',
+            'valid_date' => 'Format tanggal tidak valid. Gunakan format YYYY-MM-DD.',
+        ],
+    ];
+        protected $skipValidation     = false;
 
     /**
      * Stores a remember-me token for the user.

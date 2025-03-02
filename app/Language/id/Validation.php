@@ -1,0 +1,47 @@
+<?php
+
+// Pesan validasi dalam bahasa Indonesia
+return [
+    // Validasi Umum
+    'required'      => 'Field {field} wajib diisi.',
+    'matches'       => 'Field {field} tidak cocok dengan field {param}.',
+    'differs'       => 'Field {field} harus berbeda dari field {param}.',
+    'isUnique'      => 'Field {field} sudah digunakan.',
+    'min_length'    => 'Field {field} harus memiliki setidaknya {param} karakter.',
+    'max_length'    => 'Field {field} tidak boleh melebihi {param} karakter.',
+    'exact_length'  => 'Field {field} harus tepat {param} karakter.',
+    'greater_than'  => 'Field {field} harus lebih besar dari {param}.',
+    'greater_than_equal_to' => 'Field {field} harus lebih besar atau sama dengan {param}.',
+    'less_than'     => 'Field {field} harus lebih kecil dari {param}.',
+    'less_than_equal_to' => 'Field {field} harus lebih kecil atau sama dengan {param}.',
+    'in_list'       => 'Field {field} harus salah satu dari: {param}.',
+    'alpha'         => 'Field {field} hanya boleh mengandung huruf alfabet.',
+    'alpha_numeric' => 'Field {field} hanya boleh mengandung huruf dan angka.',
+    'alpha_numeric_space' => 'Field {field} hanya boleh mengandung huruf, angka, dan spasi.',
+    'alpha_dash'    => 'Field {field} hanya boleh mengandung huruf, angka, underscore, dan tanda hubung.',
+    'numeric'       => 'Field {field} harus berupa angka.',
+    'integer'       => 'Field {field} harus berupa bilangan bulat.',
+    'regex_match'   => 'Field {field} tidak dalam format yang benar.',
+    'valid_url'     => 'Field {field} harus berisi URL yang valid.',
+    'valid_email'   => 'Field {field} harus berisi alamat email yang valid.',
+    'valid_emails'  => 'Field {field} harus berisi semua alamat email yang valid.',
+    'valid_ip'      => 'Field {field} harus berisi IP yang valid.',
+    'valid_base64'  => 'Field {field} harus berisi string Base64 yang valid.',
+    'valid_date'    => 'Field {field} harus berisi tanggal yang valid.',
+    'valid_json'    => 'Field {field} harus berisi JSON yang valid.',
+    'valid_time'    => 'Field {field} harus berisi waktu yang valid.',
+    'uploaded'      => 'Field {field} tidak berhasil diunggah.',
+    'max_size'      => 'Field {field} terlalu besar. Maksimum ukuran file adalah {param}.',
+    'is_image'      => 'Field {field} harus berupa gambar yang valid.',
+    'mime_in'       => 'Field {field} harus berisi file dengan tipe mime yang benar.',
+    'ext_in'        => 'Field {field} harus berisi file dengan ekstensi yang benar.',
+    'max_dims'      => 'Field {field} bukan gambar atau gambar terlalu besar.',
+    
+    // Validasi Khusus
+    'required_with' => 'Field {field} wajib diisi jika {param} ada.',
+    'required_without' => 'Field {field} wajib diisi jika {param} tidak ada.',
+    'required_without_all' => 'Field {field} wajib diisi jika tidak ada satupun dari {param} yang ada.',
+    'permit_empty'  => 'Field {field} boleh kosong.',
+    'valid_cc_num'  => 'Field {field} harus berupa nomor kartu kredit yang valid.',
+    'valid_url_strict' => 'Field {field} harus berisi URL yang valid dengan skema.',
+];

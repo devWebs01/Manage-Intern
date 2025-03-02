@@ -2,6 +2,8 @@
 
 @include('layouts.table')
 
+@php use Illuminate\Support\Str; @endphp
+
 @section('header')
     <li class="breadcrumb-item">
         <a href="{{ site_url('logbooks') }}">
@@ -38,7 +40,7 @@
                             <tr>
                                 <td>{{ ++$no }}</td>
                                 <td>{{ Carbon\Carbon::parse($logbook->date)->format('d M Y') }}</td>
-                                <td>{{ $logbook->activity }}</td>
+                                <td>{{ Str::limit($logbook->activity, 40, '...') }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="{{ site_url('logbooks/' . $logbook->id . '/edit') }}"

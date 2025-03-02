@@ -9,8 +9,8 @@ use CodeIgniter\HTTP\RedirectResponse;
 class LogbooksController extends BaseController
 {
     protected $logbookModel;
-
     protected $blade;
+
     public function __construct()
     {
         $this->logbookModel = new LogbooksModel();
@@ -31,11 +31,14 @@ class LogbooksController extends BaseController
     public function create()
     {
         $data = $this->request->getPost();
-        
-        if ($this->logbookModel->insert($data)) {
-            return redirect()->to('/logbooks')->with('success', 'Logbook berhasil ditambahkan.');
+
+        // Insert data dengan validasi otomatis melalui model
+        if (!$this->logbookModel->insert($data)) {
+            // Jika validasi gagal, error akan diambil dari model
+            return redirect()->back()->withInput()->with('errors', $this->logbookModel->errors());
         }
-        return redirect()->back()->withInput()->with('errors', $this->logbookModel->errors());
+
+        return redirect()->to('/logbooks')->with('success', 'Logbook berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -47,16 +50,18 @@ class LogbooksController extends BaseController
     public function update($id)
     {
         $data = $this->request->getPost();
-        if ($this->logbookModel->update($id, $data)) {
-            return redirect()->to('/logbooks')->with('success', 'Logbook berhasil diperbarui.');
+
+        // Update data dengan validasi otomatis melalui model
+        if (!$this->logbookModel->update($id, $data)) {
+            return redirect()->back()->withInput()->with('errors', $this->logbookModel->errors());
         }
-        return redirect()->back()->withInput()->with('errors', $this->logbookModel->errors());
+
+        return redirect()->to('/logbooks')->with('success', 'Logbook berhasil diperbarui.');
     }
 
     public function delete($id)
     {
         $this->logbookModel->delete($id);
         return redirect()->to('/logbooks')->with('success', 'Logbook berhasil dihapus.');
-    } 
-    
+    }
 }
