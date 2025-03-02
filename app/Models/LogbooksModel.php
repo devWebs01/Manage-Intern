@@ -12,7 +12,7 @@ class LogbooksModel extends Model
 	protected $returnType = 'object';
 	protected $useSoftDeletes = false;
 	protected $allowedFields = [
-		'participant_id',
+		'participant_id' ,
 		'date',
 		'activity',
 		'created_at'
@@ -21,8 +21,12 @@ class LogbooksModel extends Model
 	protected $createdField = 'created_at';
 	protected $updatedField = 'updated_at';
 	protected $deletedField = 'deleted_at';
-	protected $validationRules = [];
+	protected $validationRules = [
+		'participant_id'  => 'required',
+		'date'  => 'required',
+		'activity'  => 'required',
+	];
 	protected $validationMessages = [];
-	protected $skipValidation = true;
+	protected $skipValidation = false;
 
 }

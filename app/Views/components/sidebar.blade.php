@@ -24,7 +24,7 @@
                     </i>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ route_to('users') }}" class="pc-link">
+                    <a href="{{ site_url('users') }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-typography">
                             </i>
@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ route_to('participants') }}" class="pc-link">
+                    <a href="{{ site_url('participants') }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-color-swatch">
                             </i>
@@ -42,12 +42,12 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="" class="pc-link">
+                    <a href="{{ site_url('logbooks') }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-plant-2">
                             </i>
                         </span>
-                        <span class="pc-mtext">Icons</span>
+                        <span class="pc-mtext">Logbook</span>
                     </a>
                 </li>
 

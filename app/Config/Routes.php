@@ -24,5 +24,9 @@ $routes->resource('participants', [
     'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
 ]);
 
+$routes->resource('logbooks', [
+    'controller' => 'LogbooksController',
+    'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
+]);
     
 });

@@ -23,6 +23,7 @@
                 <a href="{{ site_url('users/new') }}" class="btn btn-primary">Tambah User</a>
             </div>
 
+<div class="table-responsive">
             <table class="table table-striped text-nowrap" style="width:100%">
                 <thead>
                     <tr>
@@ -54,6 +55,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 @endsection
