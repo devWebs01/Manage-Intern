@@ -29,7 +29,7 @@
             <form action="{{ site_url('logbooks') }}" method="post">
                 <div class="d-none">
                     {{ csrf_field() }}
-                    <input type="hidden" name="participant_id" id="participant_id" value="{{ user_id() }}" readonly>
+                    <input type="hidden" name="participant_id" id="participant_id" value="{{ user()->id }}" readonly>
                 </div>
                 <div class="row">
                 <div class="col-12 mb-3">

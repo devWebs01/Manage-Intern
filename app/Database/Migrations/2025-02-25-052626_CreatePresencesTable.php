@@ -13,7 +13,7 @@ class CreatePresencesTable extends Migration
             'participant_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'date'          => ['type' => 'DATE'],
             'check_in'        => ['type' => 'TIME'],
-            'check_out'        => ['type' => 'TIME'],
+            'check_out'        => ['type' => 'TIME', 'null' => true],
             'created_at'    => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);

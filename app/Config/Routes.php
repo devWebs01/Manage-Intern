@@ -28,5 +28,10 @@ $routes->resource('logbooks', [
     'controller' => 'LogbooksController',
     'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
 ]);
+
+$routes->resource('presences', [
+    'controller' => 'PresencesController',
+    'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
+]);
     
 });

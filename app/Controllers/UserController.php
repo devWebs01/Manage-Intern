@@ -23,6 +23,7 @@ class UserController extends BaseController
     public function index()
     {
         $data['users'] = $this->userModel->orderBy('created_at', 'DESC')->findAll();
+        
         return $this->blade->render('users.index', $data);
     }
 
@@ -44,6 +45,8 @@ class UserController extends BaseController
             'username'      => $this->request->getPost('username'),
             'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
+        
+        log_message('debug', 'Data yang diterima: ' . print_r($data, true));  
 
         if (!$this->userModel->save($data)) {
             // Mengembalikan dengan error jika validasi gagal
