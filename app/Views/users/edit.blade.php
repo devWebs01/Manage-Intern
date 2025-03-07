@@ -16,18 +16,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-
-
-            @if (session('errors'))
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach (session('errors') as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
+        
             <form action="{{ site_url('users/' . $user->id) }}" method="post">
                 <div class="d-none">
                 {{ csrf_field() }}
@@ -38,7 +27,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control {{ isset(session('errors')['email']) ? 'is-invalid' : '' }}"
-                            name="email" id="email" value="{{ old('email') }}">
+                            name="email" id="email" value="{{ $user->email ?? '' }}">
 
                         @error('email')
                             <div class="invalid-feedback">
@@ -50,7 +39,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="username" class="form-label">username</label>
                         <input type="text" class="form-control {{ isset(session('errors')['username']) ? 'is-invalid' : '' }}"
-                            name="username" id="username" value="{{ old('username') }}">
+                            name="username" id="username" value="{{ $user->username ?? '' }}">
 
                         @error('username')
                             <div class="invalid-feedback">
@@ -59,9 +48,9 @@
                         @enderror
                     </div>
                    <div class="col-12 mb-3">
-                        <label for="password" class="form-label">password</label>
+                        <label for="password" class="form-label">Password (kosongkan jika tidak ingin mengubah)</label>
                         <input type="password" class="form-control {{ isset(session('errors')['password']) ? 'is-invalid' : '' }}"
-                            name="password" id="password" value="{{ old('password') }}">
+                            name="password" id="password">
 
                         @error('password')
                             <div class="invalid-feedback">

@@ -17,7 +17,7 @@ class UserModel extends Model
     protected $primaryKey = 'id';
     protected $returnType = User::class;
     protected $useSoftDeletes = true;
-    protected $allowedFields = [
+    protected $fillable = [
         'email',
         'username',
         'password_hash',

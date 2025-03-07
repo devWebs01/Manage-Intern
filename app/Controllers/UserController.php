@@ -4,14 +4,11 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
-use Illuminate\Http\Request;
 
 class UserController extends BaseController
 {
     protected $userModel;
     protected $blade;
-    protected $request;
-
 
     public function __construct()
     {
@@ -26,7 +23,7 @@ class UserController extends BaseController
     public function index()
     {
         $data['users'] = $this->userModel->latest()->get();
-        
+
         return $this->blade->render('users.index', $data);
     }
 
@@ -41,21 +38,29 @@ class UserController extends BaseController
     /**
      * Menyimpan data user baru.
      */
-    public function create(Request $request)
+    public function create()
     {
-        $request->validate([
-            'email' => 'required|email|unique:users,email',
-            'username' => 'required|min:3|max:30|unique:users,username',
-            'password' => 'required|min:6',
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'email' => 'required|valid_email|is_unique[users.email]',
+            'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
+            'password' => 'required|min_length[6]',
         ]);
-
-        UserModel::create([
-            'email' => $request->input('email'),
-            'username' => $request->input('username'),
-            'password_hash' => password_hash($request->input('password'), PASSWORD_DEFAULT),
-        ]);
-
-        return redirect('/users')->with('success', 'User berhasil ditambahkan.');
+    
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+    
+        $data = [
+            'email' => $this->request->getPost('email'),
+            'username' => $this->request->getPost('username'),
+            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+        ];
+    
+        UserModel::create($data);
+        
+        session()->setFlashdata('success', 'User berhasil ditambahkan.');
+        return redirect()->to('/users');
     }
 
     /**
@@ -77,38 +82,41 @@ class UserController extends BaseController
      */
     public function update($id)
     {
-        $user = $this->userModel->find($id);
+        $user = UserModel::find($id);
         if (!$user) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('User tidak ditemukan');
+            session()->setFlashdata('error', 'User tidak ditemukan.');
+            return redirect()->to('/users');
         }
 
-        // Aturan validasi; pengecekan uniqueness email dan username kecuali milik user yang sedang diupdate
-        $rules = [
-            'email'    => 'required|valid_email|is_unique[users.email,id,'.$id.']',
-            'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,'.$id.']',
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'email' => "required|valid_email|is_unique[users.email,id,{$id}]",
+            'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$id}]",
+            'password' => 'permit_empty|min_length[6]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
+        $data = [
+            'email' => $this->request->getPost('email'),
+            'username' => $this->request->getPost('username'),
         ];
 
         $password = $this->request->getPost('password');
         if ($password) {
-            $rules['password'] = 'min_length[6]';
-        }
-
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $data = [
-            'email'    => $this->request->getPost('email'),
-            'username' => $this->request->getPost('username'),
-        ];
-
-        if ($password) {
             $data['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
         }
 
-        $this->userModel->update($id, $data);
-
-        return redirect()->to('/users')->with('success', 'User berhasil diperbarui.');
+        try {
+            $user->update($data);
+            return redirect()->to('/users')->with('success', 'User berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
+        }
     }
 
     /**
@@ -119,7 +127,7 @@ class UserController extends BaseController
         $user = UserModel::find($id);
         if ($user) {
             try {
-               
+
                 $user->delete();
                 return redirect()->to('/users')->with('success', 'User berhasil dihapus.');
             } catch (\Throwable $th) {
