@@ -4,11 +4,14 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
+use Illuminate\Http\Request;
 
 class UserController extends BaseController
 {
     protected $userModel;
     protected $blade;
+    protected $request;
+
 
     public function __construct()
     {
@@ -22,7 +25,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $data['users'] = $this->userModel->orderBy('created_at', 'DESC')->findAll();
+        $data['users'] = $this->userModel->latest()->get();
         
         return $this->blade->render('users.index', $data);
     }
@@ -38,22 +41,21 @@ class UserController extends BaseController
     /**
      * Menyimpan data user baru.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $data = [
-            'email'         => $this->request->getPost('email'),
-            'username'      => $this->request->getPost('username'),
-            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-        ];
-        
-        log_message('debug', 'Data yang diterima: ' . print_r($data, true));  
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'username' => 'required|min:3|max:30|unique:users,username',
+            'password' => 'required|min:6',
+        ]);
 
-        if (!$this->userModel->save($data)) {
-            // Mengembalikan dengan error jika validasi gagal
-            return redirect()->back()->withInput()->with('errors', $this->userModel->errors());
-        }
+        UserModel::create([
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+            'password_hash' => password_hash($request->input('password'), PASSWORD_DEFAULT),
+        ]);
 
-        return redirect()->to('/users')->with('success', 'User berhasil dibuat.');
+        return redirect('/users')->with('success', 'User berhasil ditambahkan.');
     }
 
     /**
@@ -114,7 +116,15 @@ class UserController extends BaseController
      */
     public function delete($id)
     {
-        $this->userModel->delete($id);
-        return redirect()->to('/users')->with('success', 'User berhasil dihapus.');
+        $user = UserModel::find($id);
+        if ($user) {
+            try {
+               
+                $user->delete();
+                return redirect()->to('/users')->with('success', 'User berhasil dihapus.');
+            } catch (\Throwable $th) {
+                return redirect()->back()->withInput()->with('errors', [$th->getMessage()]);
+            }
+        }
     }
 }

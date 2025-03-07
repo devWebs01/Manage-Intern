@@ -39,7 +39,10 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'login' => LoginFilter::class, // tambahkan ini
         'role' => RoleFilter::class, // tambahkan ini
-        'permission' => PermissionFilter::class // tambahkan ini
+        'permission' => PermissionFilter::class, // tambahkan ini
+
+        'laravelRequest' => \App\Middleware\LaravelRequestMiddleware::class,
+
     ];
 
     /**
@@ -78,6 +81,7 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            'laravelRequest'
         ],
         'after' => [
             // 'honeypot',

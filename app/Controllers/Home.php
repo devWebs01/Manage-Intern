@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-
+use App\Models\LogbooksModel;
 use App\Libraries\BladeOneLibrary;
 
 class Home extends BaseController
@@ -30,5 +30,11 @@ class Home extends BaseController
          // Render view 'home.blade.php' yang berada di folder Views
          return $this->blade->render('dashboard', $data);
 
+    }
+
+    function test () {
+        $user = LogbooksModel::get();
+
+        dd($user);
     }
 }

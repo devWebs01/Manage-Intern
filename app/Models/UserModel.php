@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+// use CodeIgniter\Model;
+use Illuminate\Database\Eloquent\Model;
 use Faker\Generator;
 use Myth\Auth\Authorization\GroupModel;
 use Myth\Auth\Entities\User;

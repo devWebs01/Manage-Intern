@@ -2,7 +2,8 @@
 // ADEL CODEIGNITER 4 CRUD GENERATOR
 
 namespace App\Models;
-use CodeIgniter\Model;
+// use CodeIgniter\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class LogbooksModel extends Model
 {

@@ -13,9 +13,10 @@
         "php": "^8.1",
         "codeigniter4/framework": "^4.0",
         "eftec/bladeone": "^4.18",
-        "illuminate/support": "^5.4",
+        "illuminate/http": "^1.1",
         "myth/auth": "^1.2",
-        "nesbot/carbon": "^3.8"
+        "nabcellent/codeigniter4-eloquent": "*",
+        "nesbot/carbon": "^2.53"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
