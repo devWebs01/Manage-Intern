@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use CodeIgniter\Model;
-use Illuminate\Database\Eloquent\Model;
 use Faker\Generator;
 use Myth\Auth\Authorization\GroupModel;
 use Myth\Auth\Entities\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method User|null first()
@@ -57,6 +58,12 @@ class UserModel extends Model
     ];
     protected $skipValidation = false;
     protected $afterInsert = ['addToGroup'];
+
+    public function participant()
+{
+    return $this->hasOne(\App\Models\ParticipantsModel::class, 'user_id', 'id');
+}
+
 
     /**
      * The id of a group to assign.

@@ -51,11 +51,11 @@ class UserController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
     
-        $data = [
-            'email' => $this->request->getPost('email'),
-            'username' => $this->request->getPost('username'),
-            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-        ];
+        $data = $this->request->getPost(['email', 'username']);
+        
+        if ($password = $this->request->getPost('password')) {
+            $data['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+        }
     
         UserModel::create($data);
         

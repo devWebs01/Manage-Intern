@@ -1,16 +1,21 @@
 <?php
 
 namespace App\Models;
-use CodeIgniter\Model;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ParticipantsModel extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'participants';
     protected $primaryKey = 'id';
-    protected $returnType = 'object';
-    protected $useSoftDeletes = true;
-    protected $allowedFields = [
-        'user_id',
+    public $timestamps = true; // Pastikan tabel memiliki kolom created_at dan updated_at
+    
+    // Daftar kolom yang dapat diisi secara mass assignment
+    protected $fillable = [
+       'user_id',
         'full_name',
         'institution',
         'level',
@@ -21,62 +26,15 @@ class ParticipantsModel extends Model
         'updated_at',
         'deleted_at'
     ];
-    protected $useTimestamps = false;
-    protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at';
-
-    protected $validationRules = [
-        'user_id'     => 'required|integer|is_natural_no_zero',
-        'full_name'   => 'required|min_length[3]|max_length[255]',
-        'institution' => 'required|min_length[3]|max_length[255]',
-        'level'       => 'required',
-        'start_date'  => 'required|valid_date[Y-m-d]',
-        'end_date'    => 'required|valid_date[Y-m-d]',
-        'status'      => 'required|in_list[Active, Completed, Dropped]'
-    ];
     
-    protected $validationMessages = [
-        'user_id' => [
-            'required'           => 'User ID wajib diisi.',
-            'integer'            => 'User ID harus berupa angka.',
-            'is_natural_no_zero' => 'User ID harus berupa angka positif.',
-        ],
-        'full_name' => [
-            'required'   => 'Nama lengkap wajib diisi.',
-            'min_length' => 'Nama lengkap minimal 3 karakter.',
-            'max_length' => 'Nama lengkap maksimal 255 karakter.',
-        ],
-        'institution' => [
-            'required'   => 'Institusi wajib diisi.',
-            'min_length' => 'Institusi minimal 3 karakter.',
-            'max_length' => 'Institusi maksimal 255 karakter.',
-        ],
-        'level' => [
-            'required' => 'Level wajib diisi.',
-        ],
-        'start_date' => [
-            'required'   => 'Tanggal mulai wajib diisi.',
-            'valid_date' => 'Format tanggal mulai tidak valid. Format yang benar: YYYY-MM-DD.'
-        ],
-        'end_date' => [
-            'required'   => 'Tanggal selesai wajib diisi.',
-            'valid_date' => 'Format tanggal selesai tidak valid. Format yang benar: YYYY-MM-DD.'
-        ],
-        'status' => [
-            'required' => 'Status wajib diisi.',
-            'in_list'  => 'Status harus salah satu dari: Active, Completed, Dropped.'
-        ],
-    ];
+    protected $dates = ['deleted_at'];
     
-    // Ubah menjadi false agar validasi dijalankan
-    protected $skipValidation = false;
-
     /**
-     * Mendefinisikan relasi dengan model User.
+     * Relasi ke model User.
      */
-    public function user()
+    public function participant()
     {
-        return $this->belongsTo(UserModel::class, 'id', 'user_id');
+        return $this->hasOne(\App\Models\ParticipantsModel::class);
     }
+    
 }
