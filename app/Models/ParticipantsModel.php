@@ -32,9 +32,14 @@ class ParticipantsModel extends Model
     /**
      * Relasi ke model User.
      */
-    public function participant()
+    public function user()
     {
-        return $this->hasOne(\App\Models\ParticipantsModel::class);
+        return $this->belongsTo(\App\Models\UserModel::class);
+    }
+
+    public function logbooks()
+    {
+        return $this->hasMany(\App\Models\ParticipantsModel::class, 'participant_id', 'id');
     }
     
 }

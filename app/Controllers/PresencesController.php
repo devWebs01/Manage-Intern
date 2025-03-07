@@ -2,40 +2,33 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\PresencesModel;
 use App\Libraries\BladeOneLibrary;
-
-
-
-use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class PresencesController extends BaseController
 {
-    protected $presencesModel;
     protected $blade;
 
     public function __construct()
     {
-        $this->presencesModel = new PresencesModel();
         $this->blade = new BladeOneLibrary();
     }
 
-    // Tampilkan semua data presensi
+    /**
+     * Menampilkan daftar presensi.
+     */
     public function index()
     {
         $today = date('Y-m-d');
-        $presences = $this->presencesModel->findAll();
-    
+        // Mengambil data presensi dengan urutan tanggal (misalnya DESC)
+        $presences = PresencesModel::orderBy('date', 'DESC')->get();
+
         // Cek apakah sudah ada check_in hari ini
-        $hasCheckInToday = false;
-        foreach ($presences as $presence) {
-            if ($presence->date === $today && !empty($presence->check_in)) {
-                $hasCheckInToday = true;
-                break;
-            }
-        }
-    
+        $hasCheckInToday = $presences->contains(function ($presence) use ($today) {
+            return $presence->date === $today && !empty($presence->check_in);
+        });
+
         $data = [
             'presences' => $presences,
             'hasCheckInToday' => $hasCheckInToday
@@ -43,43 +36,108 @@ class PresencesController extends BaseController
         return $this->blade->render('presences.index', $data);
     }
 
-    // Form untuk input presensi baru
+    /**
+     * Menampilkan form untuk input presensi baru.
+     */
     public function new()
     {
         return $this->blade->render('presences.create');
     }
 
-    // Simpan data presensi baru
+    /**
+     * Menyimpan data presensi baru.
+     */
     public function create()
     {
         $data = $this->request->getPost();
-        log_message('debug', 'Data yang diterima: ' . print_r($data, true));
 
-        if (!$this->presencesModel->insert($data)) {
-            log_message('error', 'Gagal menyimpan data: ' . print_r($this->presencesModel->errors(), true));
-            return redirect()->back()->withInput()->with('errors', $this->presencesModel->errors());
+        // Validasi menggunakan CodeIgniter Validation (sesuaikan aturan jika diperlukan)
+        $validation = \Config\Services::validation();
+        $rules = [
+            'participant_id' => 'required|integer|is_natural_no_zero',
+            'date'           => 'required|valid_date[Y-m-d]',
+            'check_in'       => 'required|valid_date[H:i:s]',
+            'check_out'      => 'permit_empty|valid_date[H:i:s]',
+        ];
+        $validation->setRules($rules);
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
         }
 
+        try {
+            $presence = PresencesModel::create($data);
+            if (!$presence) {
+                return redirect()->back()->withInput()->with('errors', ['Gagal membuat presensi.']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
+        }
         return redirect()->to('/presences')->with('success', 'Presensi berhasil ditambahkan.');
     }
 
-    // Form edit presensi
+    /**
+     * Menampilkan form untuk mengedit presensi.
+     */
     public function edit($id)
     {
-        $data['presence'] = $this->presencesModel->find($id);
+        $presence = PresencesModel::find($id);
+        if (!$presence) {
+            throw new PageNotFoundException('Presensi tidak ditemukan');
+        }
+        $data = ['presence' => $presence];
         return $this->blade->render('presences.edit', $data);
     }
 
-    // Update data presensi
+    /**
+     * Memperbarui data presensi.
+     */
     public function update($id)
     {
-        $data = $this->request->getPost();
-        log_message('debug', 'Data yang diterima: ' . print_r($data, true));  
-
-        if (!$this->presencesModel->update($id, $data)) {
-            return redirect()->back()->withInput()->with('errors', $this->presencesModel->errors());
+        $presence = PresencesModel::find($id);
+        if (!$presence) {
+            throw new PageNotFoundException('Presensi tidak ditemukan');
         }
 
+        $data = $this->request->getPost();
+
+        $validation = \Config\Services::validation();
+        $rules = [
+            'participant_id' => 'required|integer|is_natural_no_zero',
+            'date'           => 'required|valid_date[Y-m-d]',
+            'check_in'       => 'required|valid_date[H:i:s]',
+            'check_out'      => 'permit_empty|valid_date[H:i:s]',
+        ];
+        $validation->setRules($rules);
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+        
+        try {
+            $presence->update($data);
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
+        }
         return redirect()->to('/presences')->with('success', 'Presensi berhasil diperbarui.');
+    }
+
+    /**
+     * Menghapus data presensi.
+     */
+    public function delete($id)
+    {
+        $presence = PresencesModel::find($id);
+        if (!$presence) {
+            throw new PageNotFoundException('Presensi tidak ditemukan');
+        }
+        try {
+            $presence->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
+        }
+        return redirect()->to('/presences')->with('success', 'Presensi berhasil dihapus.');
     }
 }

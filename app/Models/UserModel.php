@@ -60,9 +60,9 @@ class UserModel extends Model
     protected $afterInsert = ['addToGroup'];
 
     public function participant()
-{
-    return $this->hasOne(\App\Models\ParticipantsModel::class, 'user_id', 'id');
-}
+    {
+        return $this->hasOne(\App\Models\ParticipantsModel::class, 'user_id', 'id');
+    }
 
 
     /**
