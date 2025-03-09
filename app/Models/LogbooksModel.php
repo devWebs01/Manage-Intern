@@ -19,6 +19,6 @@ class LogbooksModel extends Model
 
     public function participant()
     {
-        return $this->belongsTo(\App\Models\ParticipantsModel::class);
+        return $this->belongsTo(\App\Models\ParticipantsModel::class, 'participant_id', 'id');
     }
 }

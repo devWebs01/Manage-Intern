@@ -21,7 +21,6 @@ class PresencesModel extends Model
     
     /**
      * Relasi ke model Participant.
-     * Pastikan ParticipantsModel sudah didefinisikan dengan namespace App\Models\ParticipantsModel.
      */
     public function participant()
     {

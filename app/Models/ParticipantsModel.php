@@ -34,12 +34,31 @@ class ParticipantsModel extends Model
      */
     public function user()
     {
-        return $this->belongsTo(\App\Models\UserModel::class);
+        return $this->belongsTo(\App\Models\UserModel::class, 'user_id', 'id');
     }
 
+    /**
+     * Relasi ke logbooks (banyak logbooks dimiliki oleh satu peserta)
+     */
     public function logbooks()
     {
-        return $this->hasMany(\App\Models\ParticipantsModel::class, 'participant_id', 'id');
+        return $this->hasMany(\App\Models\LogbooksModel::class, 'participant_id', 'id');
+    }
+    
+    /**
+     * Relasi ke assessments (penilaian) peserta
+     */
+    public function assessments()
+    {
+        return $this->hasMany(\App\Models\ParticipantAssessmentModel::class, 'participant_id', 'id');
+    }
+    
+    /**
+     * Relasi ke presences (absensi) peserta
+     */
+    public function presences()
+    {
+        return $this->hasMany(\App\Models\PresencesModel::class, 'participant_id', 'id');
     }
     
 }

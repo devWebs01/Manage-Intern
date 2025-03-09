@@ -19,7 +19,7 @@
                 </li>
 
                 <li class="pc-item pc-caption">
-                    <label>UI Components</label>
+                    <label>Menu Admin</label>
                     <i class="ti ti-dashboard">
                     </i>
                 </li>
@@ -41,30 +41,7 @@
                         <span class="pc-mtext">Peserta</span>
                     </a>
                 </li>
-                <li class="pc-item">
-                    <a href="{{ site_url('logbooks') }}" class="pc-link">
-                        <span class="pc-micon">
-                            <i class="ti ti-plant-2">
-                            </i>
-                        </span>
-                        <span class="pc-mtext">Logbook</span>
-                    </a>
-                </li>
 
-                <li class="pc-item pc-caption">
-                    <label>Pages</label>
-                    <i class="ti ti-news">
-                    </i>
-                </li>
-                <li class="pc-item">
-                    <a href="{{ site_url('presences') }}" class="pc-link">
-                        <span class="pc-micon">
-                            <i class="ti ti-lock">
-                            </i>
-                        </span>
-                        <span class="pc-mtext">Absen</span>
-                    </a>
-                </li>
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">
@@ -79,16 +56,70 @@
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item">
-                            <a class="pc-link" href="#!">Penilaian</a>
+                            <a class="pc-link" href="{{ site_url('internships') }}">Peserta Magang</a>
                         </li>
                         <li class="pc-item">
-                            <a class="pc-link" href="#!">Serfikat</a>
+                            <a class="pc-link" href="{{ site_url('assessment-indicators') }}">Indikator Penilaian</a>
                         </li>
                     </ul>
                 </li>
-              
+
+                <li class="pc-item pc-caption">
+                    <label>Menu Pembimbing</label>
+                    <i class="ti ti-news">
+                    </i>
+                </li>
+               
+
+                <li class="pc-item">
+                    <a href="{{ site_url('internships') }}" class="pc-link">
+                        <span class="pc-micon">
+                            <i class="ti ti-menu">
+                            </i>
+                        </span>
+                        <span class="pc-mtext">Magang</span>
+                    </a>
+                </li>
+
+                <li class="pc-item">
+                    <a href="{{ site_url('participant-assessments') }}" class="pc-link">
+                        <span class="pc-micon">
+                            <i class="ti ti-menu">
+                            </i>
+                        </span>
+                        <span class="pc-mtext">Penilaian Peserta</span>
+                    </a>
+                </li>
+
+                <li class="pc-item pc-caption">
+                    <label>Menu Peserta</label>
+                    <i class="ti ti-dashboard">
+                    </i>
+
+                     <li class="pc-item">
+                    <a href="{{ site_url('presences') }}" class="pc-link">
+                        <span class="pc-micon">
+                            <i class="ti ti-lock">
+                            </i>
+                        </span>
+                        <span class="pc-mtext">Absen</span>
+                    </a>
+                </li>
+                
+                <li class="pc-item">
+                    <a href="{{ site_url('logbooks') }}" class="pc-link">
+                        <span class="pc-micon">
+                            <i class="ti ti-plant-2">
+                            </i>
+                        </span>
+                        <span class="pc-mtext">Logbook</span>
+                    </a>
+                </li>
+
+                </li>
+
             </ul>
-           
+
         </div>
     </div>
 </nav>

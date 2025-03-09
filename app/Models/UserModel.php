@@ -59,11 +59,13 @@ class UserModel extends Model
     protected $skipValidation = false;
     protected $afterInsert = ['addToGroup'];
 
+     /**
+     * Relasi ke model Participant (satu user memiliki satu peserta).
+     */
     public function participant()
     {
         return $this->hasOne(\App\Models\ParticipantsModel::class, 'user_id', 'id');
     }
-
 
     /**
      * The id of a group to assign.

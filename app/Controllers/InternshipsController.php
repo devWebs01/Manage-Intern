@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+use App\Libraries\BladeOneLibrary;
+use App\Models\LogbooksModel;
+use App\Models\ParticipantsModel;
+use App\Models\PresencesModel;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class InternshipsController extends BaseController
+{
+    protected $blade;
+
+    public function __construct()
+    {
+        // Inisialisasi model dan BladeOneLibrary
+        $this->blade        = new BladeOneLibrary();
+    }
+    public function index()
+    {
+        $data['participants'] = ParticipantsModel::where('status' , 'ACTIVE')->get();
+
+        return $this->blade->render('internships.index', $data);
+    }
+
+    public function show($id)
+    {
+        $data['participant'] = ParticipantsModel::find($id);
+
+        $data['presences']  = PresencesModel::where('participant_id', $id)
+                              ->get();
+        $data['logbooks']  = LogbooksModel::where('participant_id', $id)
+                              ->get();
+
+        return $this->blade->render('internships.show', $data);
+    }
+}

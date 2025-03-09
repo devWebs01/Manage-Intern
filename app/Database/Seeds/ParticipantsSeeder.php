@@ -6,33 +6,50 @@ use App\Models\ParticipantsModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Seeder;
 use Faker\Factory;
+use Myth\Auth\Password;
 
 class ParticipantsSeeder extends Seeder
 {
     public function run()
     {
-        $participantsModel = new ParticipantsModel();
-        $userModel = new UserModel();
-        $faker = Factory::create('id_ID');
-        
-        // Ambil semua user ID yang ada di tabel users
-        $userIDs = $userModel->select('id')->findAll();
 
-        foreach ($userIDs as $user) {
-            $participantsModel->insert([
-                'user_id'    => $user->id,
-                'full_name'  => $faker->name,
-                'institution'=> $faker->company,
-                'level'      => $faker->randomElement(['Beginner', 'Intermediate', 'Advanced']),
-                'start_date' => $faker->date('Y-m-d', 'now'),
-                'end_date'   => $faker->date('Y-m-d', '+1 year'),
-                'status'     => $faker->randomElement(['Active', 'Completed', 'Dropped']),
+        require_once APPPATH . 'Config/Eloquent.php';
+
+        $userModel = new UserModel();
+        $participantsModel = new ParticipantsModel();
+        $faker = Factory::create('id_ID');
+ 
+
+        // Buat pengguna acak
+        for ($i = 0; $i < 30; $i++) {
+            $userModel->insert([
+                'email' => $faker->unique()->safeEmail,
+                'username' => $faker->unique()->userName,
+                'password_hash' => Password::hash('password123'),
+                'status' => $faker->randomElement(['Active', 'Inactive']),
+                'active' => $faker->numberBetween(0, 1),
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
                 'updated_at' => $faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
                 'deleted_at' => null,
             ]);
+
+            // Ambil ID pengguna terakhir yang di-insert
+            $userId = $userModel->first();
+
+            $participantsModel->insert([
+                'user_id' => $userId->id, // Pastikan user_id tidak null
+                'full_name' => $faker->name(),
+                'institution' => $faker->company(),
+                'level' => $faker->randomElement(['SMA', 'SMK', 'D3', 'S1', 'S2', 'Other']),
+                'start_date' => $faker->date('Y-m-d', 'now'),
+                'end_date' => $faker->date('Y-m-d', '+1 year'),
+                'status' => $faker->randomElement(['Active', 'Completed', 'Dropped']),
+                'created_at' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
+                'updated_at' => $faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
+            ]);
         }
 
-        echo "Data participants berhasil di-seed!\n";
+
+        echo "Data users berhasil di-seed!\n";
     }
 }

@@ -2,8 +2,6 @@
 
 @include('layouts.table')
 
-@php use Illuminate\Support\Str; @endphp
-
 @section('header')
     <li class="breadcrumb-item">
         <a href="{{ site_url('logbooks') }}">
@@ -15,11 +13,6 @@
 @section('content')
     <div class="card rounded">
         <div class="card-body">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
 
             <div class="mb-3">
                 <a href="{{ site_url('logbooks/new') }}" class="btn btn-primary">Tambah logbooks</a>
@@ -40,7 +33,7 @@
                             <tr>
                                 <td>{{ ++$no }}</td>
                                 <td>{{ Carbon\Carbon::parse($logbook->date)->format('d M Y') }}</td>
-                                <td>{{ Str::limit($logbook->activity, 40, '...') }}</td>
+                                <td>{{ Illuminate\Support\Str::limit($logbook->activity, 40, '...') }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="{{ site_url('logbooks/' . $logbook->id . '/edit') }}"
