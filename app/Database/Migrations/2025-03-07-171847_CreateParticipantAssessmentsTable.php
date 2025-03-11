@@ -9,36 +9,32 @@ class CreateParticipantAssessmentsTable extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id'             => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+            'id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
                 'auto_increment' => true,
             ],
             'participant_id' => [
-                'type'       => 'INT',
+                'type' => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true,
+                'unsigned' => true,
             ],
-            'indicator_id'   => [
-                'type'       => 'INT',
+            'indicator_id' => [
+                'type' => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true,
+                'unsigned' => true,
             ],
-            'score'          => [
-                'type'       => 'DECIMAL',
-                'constraint' => '5,2',
-                'null'       => false,
+            'score' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => false,
             ],
-            'comments'       => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-            'created_at'     => [
+            'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-            'updated_at'     => [
+            'updated_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
             ]

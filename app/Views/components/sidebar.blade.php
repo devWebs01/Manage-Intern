@@ -41,6 +41,16 @@
                         <span class="pc-mtext">Peserta</span>
                     </a>
                 </li>
+                
+                <li class="pc-item">
+                    <a href="{{ site_url('participants') }}" class="pc-link">
+                        <span class="pc-micon">
+                            <i class="ti ti-color-swatch">
+                            </i>
+                        </span>
+                        <span class="pc-mtext">Peserta</span>
+                    </a>
+                </li>
 
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">

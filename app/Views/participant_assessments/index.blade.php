@@ -11,13 +11,13 @@
 @section('content')
     <div class="card rounded">
         <div class="card-body">
-            <a href="{{ site_url('participant-assessments/new') }}" class="btn btn-primary">Tambah Penilaian Peserta</a>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Peserta</th>
+                            <th>Waktu Magang</th>
                             <th>Penilaian</th>
                             <th>Sertifikat</th>
                             <th>Aksi</th>
@@ -28,20 +28,22 @@
                             <tr>
                                 <td>{{ ++$index }}.</td>
                                 <td>{{ $assessment->full_name }}</td>
-                                <td>{{ $assessment->assessments }}</td>
-                                <td>{{ $assessment->assessments }}</td>
                                 <td>
+                                {{ Carbon\carbon::parse($assessment->start_date)->format('d M Y') }} - {{ Carbon\carbon::parse($assessment->end_date)->format('d M Y') }}
+                                </td>
+                                <td>{{ $assessment->assessments->count() > 0 ? '✅' : '❌' }}
+                                </td>
+                                <td>{{ $assessment->assessments->count() > 0 ? '✅' : '❌' }}
+                                </td>
+                                <td>
+                                @if ($assessment->assessments->count() > 0)   
                                     <a href="{{ site_url('participant-assessments/' . $assessment->id) . '/edit' }}"
                                         class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ site_url('participant-assessments/' . $assessment->id) }}"
-                                        method="post" style="display:inline;">
-                                        <div class="d-none">
-                                            {{ csrf_field() }}
-                                        </div>
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Yakin ingin menghapus indikator ini?')">Hapus</button>
-                                    </form>
+                                @else  
+                                    <a href="{{ site_url('participant-assessments/' . $assessment->id) . '/new' }}"
+                                        class="btn btn-success btn-sm">Nilai</a>
+                                @endif
+                                    
                                 </td>
                             </tr>
                         @endforeach

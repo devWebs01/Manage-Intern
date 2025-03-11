@@ -14,21 +14,21 @@ class ParticipantAssessmentsController extends BaseController
 
     public function __construct()
     {
-        $this->blade           = new BladeOneLibrary();
+        $this->blade = new BladeOneLibrary();
     }
 
     public function index()
     {
         // Tampilkan seluruh data penilaian peserta; Anda bisa filter berdasarkan participant_id jika diperlukan
-        $data['assessments'] = ParticipantsModel::latest()->get();
+        $data['assessments'] = ParticipantsModel::where('status', 'Active')->latest()->get();
         return $this->blade->render('participant_assessments.index', $data);
     }
 
-    public function new()
+    public function new($id)
     {
         // Untuk membuat penilaian baru, ambil semua indikator penilaian
         $data['indicators'] = AssessmentIndicatorModel::get();
-        $data['participants'] = ParticipantsModel::latest()->get();
+        $data['participant'] = ParticipantsModel::find($id);
         return $this->blade->render('participant_assessments.create', $data);
     }
 
@@ -46,9 +46,9 @@ class ParticipantAssessmentsController extends BaseController
         foreach ($post['scores'] as $indicator_id => $score) {
             $data = [
                 'participant_id' => $participant_id,
-                'indicator_id'   => $indicator_id,
-                'score'          => $score,
-                'comments'       => $post['comments'][$indicator_id] ?? null,
+                'indicator_id' => $indicator_id,
+                'score' => $score,
+                'comments' => $post['comments'][$indicator_id] ?? null,
             ];
             ParticipantAssessmentModel::create($data);
         }
@@ -57,30 +57,71 @@ class ParticipantAssessmentsController extends BaseController
 
     public function edit($id)
     {
-        $assessment = ParticipantAssessmentModel::find($id);
-        if (!$assessment) {
-            throw new PageNotFoundException('Penilaian tidak ditemukan');
+        // Ambil data peserta berdasarkan ID peserta, bukan ID penilaian
+        $participant = ParticipantsModel::find($id);
+        if (!$participant) {
+            return redirect()->back()->with('errors', 'Peserta tidak ditemukan');
         }
-        $data['assessment'] = $assessment;
-        // Jika diperlukan, ambil indikator untuk mengedit nilai
-        $data['indicator'] = AssessmentIndicatorModel::find($assessment->indicator_id);
+    
+        // Ambil data penilaian peserta berdasarkan ID peserta
+        $assessments = ParticipantAssessmentModel::where('participant_id', $participant->id)->get();
+    
+        // Ambil data indikator untuk form penilaian
+        $indicators = AssessmentIndicatorModel::get();
+    
+        $data = [
+            'participant' => $participant,
+            'assessments' => $assessments,
+            'indicators' => $indicators,
+        ];
+    
         return $this->blade->render('participant_assessments.edit', $data);
     }
+    
 
     public function update($id)
     {
-        $data = $this->request->getPost();
-        if (!ParticipantAssessmentModel::update($id, $data)) {
-            return redirect()->back()->withInput()->with('errors', ParticipantAssessmentModel::errors());
-        }
-        return redirect()->to('/participant-assessments')->with('success', 'Penilaian berhasil diperbarui.');
+        // Validasi data input dari form
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'scores' => 'required',
+        'scores.*' => 'numeric|greater_than_equal_to[0]',
+    ]);
+
+    if (!$this->validate($validation->getRules())) {
+        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
     }
 
-    public function delete($id)
-    {
-        $assessment = ParticipantAssessmentModel::find($id);
-        
-        $assessment->delete();
-        return redirect()->to('/participant-assessments')->with('success', 'Penilaian berhasil dihapus.');
+    // Ambil data peserta berdasarkan ID
+    $participant = ParticipantsModel::find($id);
+    if (!$participant) {
+        throw PageNotFoundException::forPageNotFound('Peserta tidak ditemukan.');
     }
+
+    // Ambil input data penilaian dari form
+    $scores = $this->request->getPost('scores');
+
+    foreach ($scores as $indicator_id => $score) {
+        // Cek apakah penilaian sudah ada atau baru
+        $assessment = ParticipantAssessmentModel::where('participant_id', $participant->id)
+            ->where('indicator_id', $indicator_id)
+            ->first();
+
+        if ($assessment) {
+            // Update data jika penilaian sudah ada
+            $assessment->score = $score;
+            $assessment->save();
+        } else {
+            // Simpan data baru jika penilaian belum ada
+            ParticipantAssessmentModel::create([
+                'participant_id' => $participant->id,
+                'indicator_id' => $indicator_id,
+                'score' => $score,
+            ]);
+        }
+    }
+
+    return redirect()->to('participant-assessments')->with('success', 'Penilaian peserta berhasil diperbarui.');
+    }
+    
 }

@@ -13,7 +13,6 @@ class ParticipantAssessmentModel extends Model
         'participant_id',
         'indicator_id',
         'score',
-        'comments'
     ];
 
     // Relasi ke indikator penilaian

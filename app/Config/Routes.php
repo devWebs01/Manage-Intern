@@ -2,6 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\Home;
+use App\Controllers\ParticipantAssessmentsController;
 
 /**
  * @var RouteCollection $routes
@@ -39,10 +40,11 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
 
-    $routes->resource('participant-assessments', [
-        'controller' => 'ParticipantAssessmentsController',
-        'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
-    ]);
+    $routes->get('/participant-assessments', [ParticipantAssessmentsController::class, 'index']);
+    $routes->get('/participant-assessments/(:num)/new', [ParticipantAssessmentsController::class, 'new']);
+    $routes->post('/participant-assessments', [ParticipantAssessmentsController::class, 'create']);
+    $routes->get('/participant-assessments/(:num)/edit', [ParticipantAssessmentsController::class, 'edit']);
+    $routes->put('/participant-assessments/(:num)', [ParticipantAssessmentsController::class, 'update']);
 
     $routes->resource('internships', [
         'controller' => 'InternshipsController',
