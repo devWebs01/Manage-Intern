@@ -18,6 +18,12 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
         'controller' => 'UserController',
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
+    
+    // Routes untuk Mentors
+    $routes->resource('mentors', [
+        'controller' => 'MentorsController',
+        'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
+    ]);
 
     // Routes untuk Participants
     $routes->resource('participants', [

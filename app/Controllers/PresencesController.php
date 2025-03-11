@@ -84,7 +84,7 @@ class PresencesController extends BaseController
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
-            throw new PageNotFoundException('Presensi tidak ditemukan');
+            return redirect()->back()->with('errors','Presensi tidak ditemukan');
         }
         $data = ['presence' => $presence];
         return $this->blade->render('presences.edit', $data);
@@ -97,7 +97,7 @@ class PresencesController extends BaseController
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
-            throw new PageNotFoundException('Presensi tidak ditemukan');
+            return redirect()->back()->with('errors','Presensi tidak ditemukan');
         }
 
         $data = $this->request->getPost();
@@ -131,7 +131,7 @@ class PresencesController extends BaseController
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
-            throw new PageNotFoundException('Presensi tidak ditemukan');
+            return redirect()->back()->with('errors','Presensi tidak ditemukan');
         }
         try {
             $presence->delete();

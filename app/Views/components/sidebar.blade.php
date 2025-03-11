@@ -33,15 +33,14 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ site_url('participants') }}" class="pc-link">
+                    <a href="{{ site_url('mentors') }}" class="pc-link">
                         <span class="pc-micon">
-                            <i class="ti ti-color-swatch">
+                            <i class="ti ti-typography">
                             </i>
                         </span>
-                        <span class="pc-mtext">Peserta</span>
+                        <span class="pc-mtext">Pembimbing</span>
                     </a>
                 </li>
-                
                 <li class="pc-item">
                     <a href="{{ site_url('participants') }}" class="pc-link">
                         <span class="pc-micon">
@@ -51,7 +50,8 @@
                         <span class="pc-mtext">Peserta</span>
                     </a>
                 </li>
-
+                
+             
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">
@@ -66,7 +66,7 @@
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item">
-                            <a class="pc-link" href="{{ site_url('internships') }}">Peserta Magang</a>
+                            <a class="pc-link" href="{{ site_url('internships') }}">Peserta Aktif</a>
                         </li>
                         <li class="pc-item">
                             <a class="pc-link" href="{{ site_url('assessment-indicators') }}">Indikator Penilaian</a>

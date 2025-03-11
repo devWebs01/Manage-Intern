@@ -69,7 +69,7 @@ class LogbooksController extends BaseController
     {
         $logbook = LogbooksModel::find($id);
         if (!$logbook) {
-            throw new PageNotFoundException('Logbook tidak ditemukan');
+            return redirect()->back()->with('errors','Logbook tidak ditemukan');
         }
         $data['logbook'] = $logbook;
         return $this->blade->render('logbooks.edit', $data);
@@ -82,7 +82,7 @@ class LogbooksController extends BaseController
     {
         $logbook = LogbooksModel::find($id);
         if (!$logbook) {
-            throw new PageNotFoundException('Logbook tidak ditemukan');
+            return redirect()->back()->with('errors','Logbook tidak ditemukan');
         }
         
         $validation = \Config\Services::validation();
@@ -110,7 +110,7 @@ class LogbooksController extends BaseController
     {
         $logbook = LogbooksModel::find($id);
         if (!$logbook) {
-            throw new PageNotFoundException('Logbook tidak ditemukan');
+            return redirect()->back()->with('errors','Logbook tidak ditemukan');
         }
         $logbook->delete();
         return redirect()->to('/logbooks')->with('success', 'Logbook berhasil dihapus.');

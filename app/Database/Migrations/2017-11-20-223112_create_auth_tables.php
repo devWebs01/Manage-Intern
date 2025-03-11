@@ -25,6 +25,11 @@ class CreateAuthTables extends Migration
             'created_at'       => ['type' => 'datetime', 'null' => true],
             'updated_at'       => ['type' => 'datetime', 'null' => true],
             'deleted_at'       => ['type' => 'datetime', 'null' => true],
+            'role' => [
+                'type' => 'VARCHAR',
+                'constraint' => 20,
+                'default' => 'PARTICIPANT',
+            ],
         ]);
 
         $this->forge->addKey('id', true);

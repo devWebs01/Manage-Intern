@@ -25,6 +25,35 @@ class UsersSeeder extends Seeder
                 'username' => 'admin',
                 'password_hash' => Password::hash('password'), // Ubah password sesuai kebutuhan
                 'status' => 'Active',
+                'role' => 'ADMIN',
+                'active' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+        // Cek apakah mentor sudah ada berdasarkan email
+        $existingMentor = $userModel->where('email', 'pembimbing@example.com')->first();
+        if (!$existingMentor) {
+            $mentor = $userModel->create([
+                'email' => 'pembimbing@example.com',
+                'username' => 'mentor',
+                'password_hash' => Password::hash('password'), // Ubah password sesuai kebutuhan
+                'status' => 'Active',
+                'role' => 'MENTOR',
+                'active' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+        // Cek apakah participant sudah ada berdasarkan email
+        $existingParticipant = $userModel->where('email', 'peserta@example.com')->first();
+        if (!$existingParticipant) {
+            $participant = $userModel->create([
+                'email' => 'peserta@example.com',
+                'username' => 'participant',
+                'password_hash' => Password::hash('password'), // Ubah password sesuai kebutuhan
+                'status' => 'Active',
+                'role' => 'participant',
                 'active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -42,6 +71,7 @@ class UsersSeeder extends Seeder
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
                 'updated_at' => $faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
                 'deleted_at' => null,
+                'role' => $faker->randomElement(['ADMIN', 'MENTOR']),
             ]);
         }
 

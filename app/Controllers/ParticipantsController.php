@@ -9,15 +9,10 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class ParticipantsController extends BaseController
 {
-    protected $participantModel;
-    protected $userModel;
     protected $blade;
 
     public function __construct()
     {
-        // Inisialisasi model Eloquent dan BladeOneLibrary
-        $this->participantModel = new ParticipantsModel();
-        $this->userModel        = new UserModel();
         $this->blade            = new BladeOneLibrary();
     }
 
@@ -27,7 +22,7 @@ class ParticipantsController extends BaseController
     public function index()
     {
         // Mengambil data partisipan secara Eloquent
-        $data['participants'] = $this->participantModel->orderBy('created_at', 'DESC')->get();
+        $data['participants'] = ParticipantsModel::orderBy('created_at', 'DESC')->get();
         return $this->blade->render('participants.index', $data);
     }
 
@@ -101,11 +96,11 @@ class ParticipantsController extends BaseController
     {
         $participant = ParticipantsModel::find($id);
         if (!$participant) {
-            throw new PageNotFoundException('Partisipan tidak ditemukan');
+            return redirect()->back()->with('errors','Partisipan tidak ditemukan');
         }
         $user = UserModel::find($participant->user_id);
         if (!$user) {
-            throw new PageNotFoundException('Pengguna terkait partisipan tidak ditemukan');
+            return redirect()->back()->with('errors','Pengguna terkait partisipan tidak ditemukan');
         }
         $data = [
             'participant' => $participant,
@@ -121,11 +116,11 @@ class ParticipantsController extends BaseController
     {
         $participant = ParticipantsModel::find($id);
         if (!$participant) {
-            throw new PageNotFoundException('Partisipan tidak ditemukan');
+            return redirect()->back()->with('errors','Partisipan tidak ditemukan');
         }
         $user = UserModel::find($participant->user_id);
         if (!$user) {
-            throw new PageNotFoundException('Pengguna terkait partisipan tidak ditemukan');
+            return redirect()->back()->with('errors','Pengguna terkait partisipan tidak ditemukan');
         }
         
         $validation = \Config\Services::validation();
@@ -183,15 +178,11 @@ class ParticipantsController extends BaseController
     {
         $participant = ParticipantsModel::find($id);
         if (!$participant) {
-            throw new PageNotFoundException('Partisipan tidak ditemukan');
+            return redirect()->back()->with('errors','Partisipan tidak ditemukan');
         }
         
-        // Soft delete partisipan
         $participant->delete();
-        // Jika ingin menghapus data user juga, bisa diaktifkan:
-        // $user = UserModel::find($participant->user_id);
-        // if ($user) { $user->delete(); }
-        
+       
         return redirect()->to('/participants')->with('success', 'Partisipan berhasil dihapus.');
     }
 }

@@ -2,18 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
 use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
 
 class UserController extends BaseController
 {
-    protected $userModel;
     protected $blade;
 
     public function __construct()
     {
         // Inisialisasi model dan BladeOneLibrary satu kali untuk digunakan di semua method
-        $this->userModel = new UserModel();
         $this->blade = new BladeOneLibrary();
     }
 
@@ -22,7 +21,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $data['users'] = $this->userModel->latest()->get();
+        $data['users'] = UserModel::where('role', 'ADMIN')->latest()->get();
 
         return $this->blade->render('users.index', $data);
     }
@@ -56,6 +55,8 @@ class UserController extends BaseController
         if ($password = $this->request->getPost('password')) {
             $data['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
         }
+
+        $data['role'] = 'ADMIN';
     
         UserModel::create($data);
         
@@ -68,7 +69,7 @@ class UserController extends BaseController
      */
     public function edit($id)
     {
-        $data['user'] = $this->userModel->find($id);
+        $data['user'] = UserModel::find($id);
 
         if (!$data['user']) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('User tidak ditemukan');
@@ -105,6 +106,8 @@ class UserController extends BaseController
             'email' => $this->request->getPost('email'),
             'username' => $this->request->getPost('username'),
         ];
+
+        $data['role'] = 'ADMIN';
 
         $password = $this->request->getPost('password');
         if ($password) {
