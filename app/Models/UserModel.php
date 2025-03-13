@@ -68,6 +68,11 @@ class UserModel extends Model
         return $this->hasOne(\App\Models\ParticipantsModel::class, 'user_id', 'id');
     }
 
+    public function mentors()
+    {
+        return $this->hasMany(\App\Models\ParticipantsModel::class, 'mentor_id', 'id');
+    }
+
     /**
      * The id of a group to assign.
      * Set internally by withGroup.

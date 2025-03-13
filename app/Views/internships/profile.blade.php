@@ -4,7 +4,7 @@
 
          <div class="card">
              <div class="card-header">
-                 <h5>Personal Details</h5>
+                 <h5>Personal Detail</h5>
              </div>
              <div class="card-body">
                  <ul class="list-group list-group-flush">

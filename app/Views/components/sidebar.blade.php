@@ -3,7 +3,7 @@
         <div class="m-header">
             <a href="" class="b-brand text-primary">
 
-                <img src="{{ base_url('/assets/images/logo-dark.svg') }}" class="img-fluid logo-lg" alt="logo">
+                <img src="{{ base_url("/assets/images/logo-dark.svg") }}" class="img-fluid logo-lg" alt="logo">
             </a>
         </div>
         <div class="navbar-content">
@@ -14,7 +14,7 @@
                             <i class="ti ti-dashboard">
                             </i>
                         </span>
-                        <span class="pc-mtext">Dashboard</span>
+                        <span class="pc-mtext">Beranda</span>
                     </a>
                 </li>
 
@@ -24,16 +24,16 @@
                     </i>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ site_url('users') }}" class="pc-link">
+                    <a href="{{ site_url("users") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-typography">
                             </i>
                         </span>
-                        <span class="pc-mtext">Pengguna</span>
+                        <span class="pc-mtext">Admin</span>
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ site_url('mentors') }}" class="pc-link">
+                    <a href="{{ site_url("mentors") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-typography">
                             </i>
@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ site_url('participants') }}" class="pc-link">
+                    <a href="{{ site_url("participants") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-color-swatch">
                             </i>
@@ -50,8 +50,7 @@
                         <span class="pc-mtext">Peserta</span>
                     </a>
                 </li>
-                
-             
+
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">
@@ -66,10 +65,10 @@
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item">
-                            <a class="pc-link" href="{{ site_url('internships') }}">Peserta Aktif</a>
+                            <a class="pc-link" href="{{ site_url("internships") }}">Peserta Magang</a>
                         </li>
                         <li class="pc-item">
-                            <a class="pc-link" href="{{ site_url('assessment-indicators') }}">Indikator Penilaian</a>
+                            <a class="pc-link" href="{{ site_url("assessment-indicators") }}">Indikator Penilaian</a>
                         </li>
                     </ul>
                 </li>
@@ -79,20 +78,19 @@
                     <i class="ti ti-news">
                     </i>
                 </li>
-               
 
                 <li class="pc-item">
-                    <a href="{{ site_url('internships') }}" class="pc-link">
+                    <a href="{{ site_url("internships") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-menu">
                             </i>
                         </span>
-                        <span class="pc-mtext">Magang</span>
+                        <span class="pc-mtext">Peserta Magang</span>
                     </a>
                 </li>
 
                 <li class="pc-item">
-                    <a href="{{ site_url('participant-assessments') }}" class="pc-link">
+                    <a href="{{ site_url("participant-assessments") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-menu">
                             </i>
@@ -106,8 +104,8 @@
                     <i class="ti ti-dashboard">
                     </i>
 
-                     <li class="pc-item">
-                    <a href="{{ site_url('presences') }}" class="pc-link">
+                <li class="pc-item">
+                    <a href="{{ site_url("presences") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-lock">
                             </i>
@@ -115,9 +113,9 @@
                         <span class="pc-mtext">Absen</span>
                     </a>
                 </li>
-                
+
                 <li class="pc-item">
-                    <a href="{{ site_url('logbooks') }}" class="pc-link">
+                    <a href="{{ site_url("logbooks") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-plant-2">
                             </i>

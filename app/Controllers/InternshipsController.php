@@ -19,9 +19,14 @@ class InternshipsController extends BaseController
         $this->blade        = new BladeOneLibrary();
     }
     public function index()
-    {
-        $data['participants'] = ParticipantsModel::where('status' , 'ACTIVE')->get();
+    {   
 
+        if (User()->role === 'ADMIN') {
+            $data['participants'] = ParticipantsModel::get();
+        } elseif (User()->role === 'MENTOR') {
+            $data['participants'] = ParticipantsModel::where('mentor_id', User()->id)->get();
+        } 
+            
         return $this->blade->render('internships.index', $data);
     }
 

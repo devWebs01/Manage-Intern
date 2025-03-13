@@ -41,7 +41,7 @@
                         <textarea class="form-control 
                         @error('activity')
                         is-invalid
-                        @enderror" name="activity" id="activity" rows="3">{{ old('activity') }}</textarea>
+                        @enderror" name="activity" id="activity" rows="10">{{ old('activity') }}</textarea>
                          @error('activity')
                             <div class="invalid-feedback">
                                 {{ session('errors')['activity'] }}

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\LogbooksModel;
+use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
 
 class Home extends BaseController
@@ -33,8 +34,8 @@ class Home extends BaseController
     }
 
     function test () {
-        $user = LogbooksModel::get();
+        $mentor = UserModel::where('role', 'MENTOR')->inRandomOrder()->first()->id;
 
-        dd($user);
+        dd($mentor);
     }
 }

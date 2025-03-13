@@ -31,7 +31,8 @@ class ParticipantsController extends BaseController
      */
     public function new()
     {
-        return $this->blade->render('participants.create');
+        $data['mentors'] = UserModel::where('role', 'MENTOR')->get();
+        return $this->blade->render('participants.create', $data);
     }
 
     /**
@@ -50,6 +51,7 @@ class ParticipantsController extends BaseController
             'full_name'   => 'required|min_length[3]|max_length[255]',
             'institution' => 'required|min_length[3]|max_length[255]',
             'level'       => 'required',
+            'mentor_id'       => 'required',
             'start_date'  => 'required|valid_date[Y-m-d]',
             'end_date'    => 'required|valid_date[Y-m-d]',
             'status'      => 'required|in_list[Active, Completed, Dropped]',
@@ -77,6 +79,7 @@ class ParticipantsController extends BaseController
             'full_name'   => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
             'level'       => $this->request->getPost('level'),
+            'mentor_id'       => $this->request->getPost('mentor_id'),
             'start_date'  => $this->request->getPost('start_date'),
             'end_date'    => $this->request->getPost('end_date'),
             'status'      => $this->request->getPost('status')
@@ -103,9 +106,11 @@ class ParticipantsController extends BaseController
             return redirect()->back()->with('errors','Pengguna terkait partisipan tidak ditemukan');
         }
         $data = [
+            'mentors'     => UserModel::where('role', 'MENTOR')->get(),
             'participant' => $participant,
-            'user'        => $user
+            'user'        => $user,
         ];
+        
         return $this->blade->render('participants.edit', $data);
     }
 
@@ -132,6 +137,7 @@ class ParticipantsController extends BaseController
             'full_name'   => 'required|min_length[3]|max_length[255]',
             'institution' => 'required|min_length[3]|max_length[255]',
             'level'       => 'required',
+            'mentor_id'       => 'required',
             'start_date'  => 'required|valid_date[Y-m-d]',
             'end_date'    => 'required|valid_date[Y-m-d]',
             'status'      => 'required|in_list[Active, Completed, Dropped]',
@@ -161,6 +167,7 @@ class ParticipantsController extends BaseController
             'full_name'   => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
             'level'       => $this->request->getPost('level'),
+            'mentor_id'       => $this->request->getPost('mentor_id'),
             'start_date'  => $this->request->getPost('start_date'),
             'end_date'    => $this->request->getPost('end_date'),
             'status'      => $this->request->getPost('status')

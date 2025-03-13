@@ -11,6 +11,7 @@ class CreateParticipantsTable extends Migration
         $this->forge->addField([
             'id'           => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'user_id'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'mentor_id'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'full_name'    => ['type' => 'VARCHAR', 'constraint' => 255],
             'institution'  => ['type' => 'VARCHAR', 'constraint' => 255],
             'level'        => ['type' => 'ENUM', 'constraint' => ['SMA', 'SMK', 'D3', 'S1', 'S2', 'Other'], 'default' => 'Other'],
@@ -23,6 +24,7 @@ class CreateParticipantsTable extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('mentor_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('participants');
     }
 

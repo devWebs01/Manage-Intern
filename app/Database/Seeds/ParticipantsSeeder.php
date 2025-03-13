@@ -15,14 +15,14 @@ class ParticipantsSeeder extends Seeder
 
         require_once APPPATH . 'Config/Eloquent.php';
 
-        $userModel = new UserModel();
-        $participantsModel = new ParticipantsModel();
         $faker = Factory::create('id_ID');
  
 
         // Buat pengguna acak
         for ($i = 0; $i < 30; $i++) {
-            $userModel->insert([
+            $mentor_id = UserModel::where('role', 'MENTOR')->inRandomOrder()->first()->id;
+
+            UserModel::insert([
                 'email' => $faker->unique()->safeEmail,
                 'username' => $faker->unique()->userName,
                 'password_hash' => Password::hash('password123'),
@@ -34,9 +34,9 @@ class ParticipantsSeeder extends Seeder
             ]);
 
             // Ambil ID pengguna terakhir yang di-insert
-            $userId = $userModel->first();
+            $userId = UserModel::first();
 
-            $participantsModel->insert([
+            ParticipantsModel::insert([
                 'user_id' => $userId->id, // Pastikan user_id tidak null
                 'full_name' => $faker->name(),
                 'institution' => $faker->company(),
@@ -46,6 +46,7 @@ class ParticipantsSeeder extends Seeder
                 'status' => $faker->randomElement(['Active', 'Completed', 'Dropped']),
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
                 'updated_at' => $faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
+                'mentor_id' => $mentor_id
             ]);
         }
 

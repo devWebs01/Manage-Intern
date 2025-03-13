@@ -19,8 +19,19 @@ class ParticipantAssessmentsController extends BaseController
 
     public function index()
     {
-        // Tampilkan seluruh data penilaian peserta; Anda bisa filter berdasarkan participant_id jika diperlukan
-        $data['assessments'] = ParticipantsModel::where('status', 'Active')->latest()->get();
+        if (User()->role === 'ADMIN') {
+            $data['assessments'] = ParticipantsModel::where('status', 'Active')
+                ->latest()
+                ->get();
+
+        } elseif (User()->role === 'MENTOR') {
+            $data['assessments'] = ParticipantsModel::where('status', 'Active')
+                ->where('mentor_id', User()->id)
+                ->latest()
+                ->get();
+
+        }
+
         return $this->blade->render('participant_assessments.index', $data);
     }
 
@@ -62,66 +73,66 @@ class ParticipantAssessmentsController extends BaseController
         if (!$participant) {
             return redirect()->back()->with('errors', 'Peserta tidak ditemukan');
         }
-    
+
         // Ambil data penilaian peserta berdasarkan ID peserta
         $assessments = ParticipantAssessmentModel::where('participant_id', $participant->id)->get();
-    
+
         // Ambil data indikator untuk form penilaian
         $indicators = AssessmentIndicatorModel::get();
-    
+
         $data = [
             'participant' => $participant,
             'assessments' => $assessments,
             'indicators' => $indicators,
         ];
-    
+
         return $this->blade->render('participant_assessments.edit', $data);
     }
-    
+
 
     public function update($id)
     {
         // Validasi data input dari form
-    $validation = \Config\Services::validation();
-    $validation->setRules([
-        'scores' => 'required',
-        'scores.*' => 'numeric|greater_than_equal_to[0]',
-    ]);
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'scores' => 'required',
+            'scores.*' => 'numeric|greater_than_equal_to[0]',
+        ]);
 
-    if (!$this->validate($validation->getRules())) {
-        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-    }
-
-    // Ambil data peserta berdasarkan ID
-    $participant = ParticipantsModel::find($id);
-    if (!$participant) {
-        throw PageNotFoundException::forPageNotFound('Peserta tidak ditemukan.');
-    }
-
-    // Ambil input data penilaian dari form
-    $scores = $this->request->getPost('scores');
-
-    foreach ($scores as $indicator_id => $score) {
-        // Cek apakah penilaian sudah ada atau baru
-        $assessment = ParticipantAssessmentModel::where('participant_id', $participant->id)
-            ->where('indicator_id', $indicator_id)
-            ->first();
-
-        if ($assessment) {
-            // Update data jika penilaian sudah ada
-            $assessment->score = $score;
-            $assessment->save();
-        } else {
-            // Simpan data baru jika penilaian belum ada
-            ParticipantAssessmentModel::create([
-                'participant_id' => $participant->id,
-                'indicator_id' => $indicator_id,
-                'score' => $score,
-            ]);
+        if (!$this->validate($validation->getRules())) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
+
+        // Ambil data peserta berdasarkan ID
+        $participant = ParticipantsModel::find($id);
+        if (!$participant) {
+            throw PageNotFoundException::forPageNotFound('Peserta tidak ditemukan.');
+        }
+
+        // Ambil input data penilaian dari form
+        $scores = $this->request->getPost('scores');
+
+        foreach ($scores as $indicator_id => $score) {
+            // Cek apakah penilaian sudah ada atau baru
+            $assessment = ParticipantAssessmentModel::where('participant_id', $participant->id)
+                ->where('indicator_id', $indicator_id)
+                ->first();
+
+            if ($assessment) {
+                // Update data jika penilaian sudah ada
+                $assessment->score = $score;
+                $assessment->save();
+            } else {
+                // Simpan data baru jika penilaian belum ada
+                ParticipantAssessmentModel::create([
+                    'participant_id' => $participant->id,
+                    'indicator_id' => $indicator_id,
+                    'score' => $score,
+                ]);
+            }
+        }
+
+        return redirect()->to('participant-assessments')->with('success', 'Penilaian peserta berhasil diperbarui.');
     }
 
-    return redirect()->to('participant-assessments')->with('success', 'Penilaian peserta berhasil diperbarui.');
-    }
-    
 }

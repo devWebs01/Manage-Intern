@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
-    <title>{{ $title ?? '' }}</title>
+    <title>{{ $title ?? "" }}</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -14,22 +13,21 @@
         content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
     <meta name="author" content="CodedThemes">
 
-
-    <link rel="icon" href="{{ base_url('/assets/images/favicon.svg') }}" type="image/x-icon">
+    <link rel="icon" href="{{ base_url("/assets/images/favicon.svg") }}" type="image/x-icon">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
         id="main-font-link">
 
-    <link rel="stylesheet" href="{{ base_url('/assets/fonts/tabler-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ base_url("/assets/fonts/tabler-icons.min.css") }}">
 
-    <link rel="stylesheet" href="{{ base_url('/assets/fonts/feather.css') }}">
+    <link rel="stylesheet" href="{{ base_url("/assets/fonts/feather.css") }}">
 
-    <link rel="stylesheet" href="{{ base_url('/assets/fonts/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ base_url("/assets/fonts/fontawesome.css") }}">
 
-    <link rel="stylesheet" href="{{ base_url('/assets/fonts/material.css') }}">
+    <link rel="stylesheet" href="{{ base_url("/assets/fonts/material.css") }}">
 
-    <link rel="stylesheet" href="{{ base_url('/assets/css/style.css') }}" id="main-style-link">
-    <link rel="stylesheet" href="{{ base_url('/assets/css/style-preset.css') }}">
+    <link rel="stylesheet" href="{{ base_url("/assets/css/style.css") }}" id="main-style-link">
+    <link rel="stylesheet" href="{{ base_url("/assets/css/style-preset.css") }}">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -39,13 +37,15 @@
             font-weight: 400;
             font-style: normal;
         }
+
+        .btn {
+            border-radius: var(--bs-border-radius) !important;
+        }
     </style>
 
-    @yield('styles')
+    @yield("styles")
 
 </head>
-
-
 
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
 
@@ -55,10 +55,9 @@
         </div>
     </div>
 
+    @include("components.sidebar")
 
-    @include('components.sidebar')
-
-    @include('components.header')
+    @include("components.header")
 
     <div class="pc-container">
         <div class="pc-content">
@@ -70,17 +69,17 @@
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item">
                                     <a href="/dashboard">
-                                        Dashboard
+                                        Beranda
                                     </a>
                                 </li>
-                                @yield('header')
+                                @yield("header")
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            @yield('content')
+            @yield("content")
 
         </div>
     </div>
@@ -101,16 +100,15 @@
             </div>
         </div>
     </footer>
-    <script src="{{ base_url('/assets/js/plugins/popper.min.js') }}"></script>
-    <script src="{{ base_url('/assets/js/plugins/simplebar.min.js') }}"></script>
-    <script src="{{ base_url('/assets/js/plugins/bootstrap.min.js') }}"></script>
-    <script src="{{ base_url('/assets/js/fonts/custom-font.js') }}"></script>
-    <script src="{{ base_url('/assets/js/pcoded.js') }}"></script>
-    <script src="{{ base_url('/assets/js/plugins/feather.min.js') }}"></script>
+    <script src="{{ base_url("/assets/js/plugins/popper.min.js") }}"></script>
+    <script src="{{ base_url("/assets/js/plugins/simplebar.min.js") }}"></script>
+    <script src="{{ base_url("/assets/js/plugins/bootstrap.min.js") }}"></script>
+    <script src="{{ base_url("/assets/js/fonts/custom-font.js") }}"></script>
+    <script src="{{ base_url("/assets/js/pcoded.js") }}"></script>
+    <script src="{{ base_url("/assets/js/plugins/feather.min.js") }}"></script>
 
-    @yield('scripts')
+    @yield("scripts")
 
 </body>
-
 
 </html>

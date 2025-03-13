@@ -1,21 +1,21 @@
-@extends('components.layout')
+@extends("components.layout")
 
-@include('layouts.table')
+@include("layouts.table")
 
-@section('header')
+@section("header")
     <li class="breadcrumb-item">
-        <a href="{{ site_url('logbooks') }}">
+        <a href="{{ site_url("logbooks") }}">
             Logbook
         </a>
     </li>
 @endsection
 
-@section('content')
+@section("content")
     <div class="card rounded">
         <div class="card-body">
 
             <div class="mb-3">
-                <a href="{{ site_url('logbooks/new') }}" class="btn btn-primary">Tambah logbooks</a>
+                <a href="{{ site_url("logbooks/new") }}" class="btn btn-primary">Tambah Logbook</a>
             </div>
 
             <div class="table-responsive">
@@ -32,14 +32,14 @@
                         @foreach ($logbooks as $no => $logbook)
                             <tr>
                                 <td>{{ ++$no }}</td>
-                                <td>{{ Carbon\Carbon::parse($logbook->date)->format('d M Y') }}</td>
-                                <td>{{ Illuminate\Support\Str::limit($logbook->activity, 40, '...') }}</td>
+                                <td>{{ Carbon\Carbon::parse($logbook->date)->format("d M Y") }}</td>
+                                <td>{{ Illuminate\Support\Str::limit($logbook->activity, 40, "...") }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{ site_url('logbooks/' . $logbook->id . '/edit') }}"
+                                        <a href="{{ site_url("logbooks/" . $logbook->id . "/edit") }}"
                                             class="btn btn-sm btn-sm btn-warning">Edit</a>
 
-                                        <form action="{{ site_url('logbooks/' . $logbook->id) }}" method="post"
+                                        <form action="{{ site_url("logbooks/" . $logbook->id) }}" method="post"
                                             onsubmit="return confirm('Yakin ingin menghapus?');">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit" class="btn btn-sm btn-danger">Hapus</button>

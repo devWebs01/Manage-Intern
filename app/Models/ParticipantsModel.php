@@ -15,7 +15,8 @@ class ParticipantsModel extends Model
     
     // Daftar kolom yang dapat diisi secara mass assignment
     protected $fillable = [
-       'user_id',
+        'user_id',
+        'mentor_id',
         'full_name',
         'institution',
         'level',
@@ -35,6 +36,14 @@ class ParticipantsModel extends Model
     public function user()
     {
         return $this->belongsTo(\App\Models\UserModel::class, 'user_id', 'id');
+    }
+
+    /**
+     * Relasi ke model User.
+     */
+    public function participant()
+    {
+        return $this->belongsTo(\App\Models\UserModel::class, 'mentor_id', 'id');
     }
 
     /**

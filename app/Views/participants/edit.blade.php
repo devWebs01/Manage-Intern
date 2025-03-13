@@ -149,6 +149,23 @@
                             </div>
                         @enderror
                     </div>
+
+                     <div class="col-12 mb-3">
+                        <label for="mentor_id" class="form-label">Pembimbing</label>
+                        <select class="form-select" name="mentor_id" id="mentor_id">
+                            <option selected>Select one</option>
+                            @foreach ($mentors as $mentor)
+                                <option value="{{ $mentor->id }}" {{ $participant->mentor_id === $mentor->id ? 'selected' : '' }}>{{ $mentor->username }}</option>
+                            @endforeach
+
+                        </select>
+
+                        @error('mentor_id')
+                            <div class="invalid-feedback">
+                                {{ session('errors')['mentor_id'] }}
+                            </div>
+                        @enderror
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
