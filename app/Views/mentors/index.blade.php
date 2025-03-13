@@ -28,8 +28,8 @@
                 <thead>
                     <tr>
                         <th>No.</th>
+                        <th>Nama Lengkap</th>
                         <th>Email</th>
-                        <th>Username</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -37,8 +37,8 @@
                     @foreach ($mentors as $no => $user)
                         <tr>
                             <td>{{ ++$no }}</td>
-                            <td>{{ $user->email }}</td>
                             <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
                             <td>
                                 <div class="d-flex gap-2 justify-content-center">
                                     <a href="{{ site_url('mentors/' . $user->id . '/edit') }}"

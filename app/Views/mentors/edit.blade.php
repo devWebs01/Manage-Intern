@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="username" class="form-label">username</label>
+                        <label for="username" class="form-label">Nama Lengkap</label>
                         <input type="text" class="form-control {{ isset(session('errors')['username']) ? 'is-invalid' : '' }}"
                             name="username" id="username" value="{{ $user->username ?? '' }}">
 

@@ -47,7 +47,8 @@
                     <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header d-flex align-items-center justify-content-between">
                             <h5 class="m-0">Message</h5>
-                            <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-x text-danger"></i></a>
+                            <a href="#!" class="pc-head-link bg-transparent"><i
+                                    class="ti ti-x text-danger"></i></a>
                         </div>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative"
@@ -56,7 +57,7 @@
                                 <a class="list-group-item list-group-item-action">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ base_url('/assets/images/user/avatar-2.jpg') }}"
+                                            <img src="{{ base_url("/assets/images/user/avatar-2.jpg") }}"
                                                 alt="user-image" class="user-avtar">
                                         </div>
                                         <div class="flex-grow-1 ms-1">
@@ -69,7 +70,7 @@
                                 <a class="list-group-item list-group-item-action">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ base_url('/assets/images/user/avatar-1.jpg') }}"
+                                            <img src="{{ base_url("/assets/images/user/avatar-1.jpg") }}"
                                                 alt="user-image" class="user-avtar">
                                         </div>
                                         <div class="flex-grow-1 ms-1">
@@ -82,7 +83,7 @@
                                 <a class="list-group-item list-group-item-action">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ base_url('/assets/images/user/avatar-3.jpg') }}"
+                                            <img src="{{ base_url("/assets/images/user/avatar-3.jpg") }}"
                                                 alt="user-image" class="user-avtar">
                                         </div>
                                         <div class="flex-grow-1 ms-1">
@@ -95,7 +96,7 @@
                                 <a class="list-group-item list-group-item-action">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ base_url('/assets/images/user/avatar-4.jpg') }}"
+                                            <img src="{{ base_url("/assets/images/user/avatar-4.jpg") }}"
                                                 alt="user-image" class="user-avtar">
                                         </div>
                                         <div class="flex-grow-1 ms-1">
@@ -117,7 +118,7 @@
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-                        <img src="{{ base_url('/assets/images/user/avatar-2.jpg') }}" alt="user-image"
+                        <img src="{{ base_url("/assets/images/user/avatar-2.jpg") }}" alt="user-image"
                             class="user-avtar">
                         <span>{{ user()->username }}</span>
                     </a>
@@ -125,26 +126,27 @@
                         <div class="dropdown-header">
                             <div class="d-flex mb-1">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ base_url('/assets/images/user/avatar-2.jpg') }}" alt="user-image"
+                                    <img src="{{ base_url("/assets/images/user/avatar-2.jpg") }}" alt="user-image"
                                         class="user-avtar wid-35">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1">{{ user()->username }}</h6>
-                                    
+                                    <p class="mb-1">{{ lang("role." . user()->role) }}</p>
+
                                 </div>
                                 <a href="#!" class="pc-head-link bg-transparent"><i
                                         class="ti ti-power text-danger"></i></a>
                             </div>
                         </div>
-                       <a href="#!" class="dropdown-item">
-                                    <i class="ti ti-edit-circle"></i>
-                                    <span>Profile User</span>
-                                </a>
-                                <a href="{{ base_url('logout') }}" class="dropdown-item">
-                                    <i class="ti ti-power"></i>
-                                    <span>Logout</span>
-                                </a>
-         
+                        <a href="{{ base_url("profiles/" . User()->id . "/show") }}" class="dropdown-item">
+                            <i class="ti ti-edit-circle"></i>
+                            <span>Profil Akun</span>
+                        </a>
+                        <a href="{{ base_url("logout") }}" class="dropdown-item">
+                            <i class="ti ti-power"></i>
+                            <span>Keluar</span>
+                        </a>
+
                     </div>
                 </li>
             </ul>

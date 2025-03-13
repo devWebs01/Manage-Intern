@@ -5,7 +5,7 @@
 @section("header")
     <li class="breadcrumb-item">
         <a href="{{ site_url("users") }}">
-            Pengguna
+            Admin
         </a>
     </li>
 @endsection
@@ -20,7 +20,7 @@
             @endif
 
             <div class="mb-3">
-                <a href="{{ site_url("users/new") }}" class="btn btn-primary">Tambah User</a>
+                <a href="{{ site_url("users/new") }}" class="btn btn-primary">Tambah Admin</a>
             </div>
 
             <div class="table-responsive">
@@ -28,8 +28,8 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Nama Lengkap</th>
                             <th>Email</th>
-                            <th>Username</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -37,8 +37,8 @@
                         @foreach ($users as $no => $user)
                             <tr>
                                 <td>{{ ++$no }}</td>
-                                <td>{{ $user->email }}</td>
                                 <td>{{ $user->username }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="{{ site_url("users/" . $user->id . "/edit") }}"

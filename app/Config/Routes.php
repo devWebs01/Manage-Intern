@@ -59,5 +59,6 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
     $routes->put('/participant-assessments/(:num)', [ParticipantAssessmentsController::class, 'update']);
 
 
-    
+    $routes->get('/profiles/(:num)/show', [Home::class, 'show']);
+    $routes->put('/profiles/(:num)', [Home::class, 'update']);
 });
