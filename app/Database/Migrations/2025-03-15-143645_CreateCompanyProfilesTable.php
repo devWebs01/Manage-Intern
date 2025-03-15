@@ -11,9 +11,10 @@ class CreateCompanyProfilesTable extends Migration
         $this->forge->addField([
             'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true, 'unsigned' => true],
             'company_name' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => false],
+            'company_logo' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'representative_name' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => false],
             'position' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => false],
-            'signature' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true], // File tanda tangan
+            'signature' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);

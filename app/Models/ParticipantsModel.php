@@ -41,7 +41,7 @@ class ParticipantsModel extends Model
     /**
      * Relasi ke model User.
      */
-    public function participant()
+    public function mentor()
     {
         return $this->belongsTo(\App\Models\UserModel::class, 'mentor_id', 'id');
     }

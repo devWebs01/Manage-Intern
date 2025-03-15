@@ -23,33 +23,33 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
     // Routes untuk Mentors
     $routes->resource('mentors', [
-        'controller' => 'MentorsController',
+        'controller' => 'Admin\MentorsController',
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
 
     // Routes untuk Participants
     $routes->resource('participants', [
-        'controller' => 'ParticipantsController',
+        'controller' => 'Admin\ParticipantsController',
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
 
     $routes->resource('logbooks', [
-        'controller' => 'LogbooksController',
+        'controller' => 'Participant\LogbooksController',
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
 
     $routes->resource('presences', [
-        'controller' => 'PresencesController',
+        'controller' => 'Participant\PresencesController',
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
 
     $routes->resource('assessment-indicators', [
-        'controller' => 'AssessmentIndicatorsController',
+        'controller' => 'Admin\AssessmentIndicatorsController',
         'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
     ]);
 
     $routes->resource('internships', [
-        'controller' => 'InternshipsController',
+        'controller' => 'Admin\InternshipsController',
         'only' => ['index', 'show']
     ]);
 

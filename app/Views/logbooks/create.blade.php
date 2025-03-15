@@ -15,7 +15,6 @@
     @endsection
     
     @section("content")
-    @include("layouts.editor")
     <div class="card rounded">
         <div class="card-body">
             <form action="{{ site_url("logbooks") }}" method="post">

@@ -1,26 +1,26 @@
-@extends('components.layout')
+@extends("components.layout")
 
-@include('layouts.table')
+@include("layouts.table")
 
-@section('header')
+@section("header")
     <li class="breadcrumb-item">
-        <a href="{{ site_url('participants') }}">
+        <a href="{{ site_url("participants") }}">
             Peserta
         </a>
     </li>
 @endsection
 
-@section('content')
+@section("content")
     <div class="card rounded">
         <div class="card-body">
-            @if (session('success'))
+            @if (session("success"))
                 <div class="alert alert-success">
-                    {{ session('success') }}
+                    {{ session("success") }}
                 </div>
             @endif
 
             <div class="mb-3">
-                <a href="{{ site_url('participants/new') }}" class="btn btn-primary">Tambah Peserta</a>
+                <a href="{{ site_url("participants/new") }}" class="btn btn-primary">Tambah Peserta</a>
             </div>
 
             <div class="table-responsive">
@@ -30,7 +30,7 @@
                             <th>No.</th>
                             <th>Nama Lengkap</th>
                             <th>Institusi</th>
-                            <th>Level</th>
+                            <th>Tingkat</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
                             <th>Status</th>
@@ -44,15 +44,15 @@
                                 <td>{{ $participant->full_name }}</td>
                                 <td>{{ $participant->institution }}</td>
                                 <td>{{ $participant->level }}</td>
-                                <td>{{ Carbon\Carbon::parse($participant->start_date)->format('d M Y') }}</td>
-                                <td>{{ Carbon\Carbon::parse($participant->end_date)->format('d M Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($participant->start_date)->format("d M Y") }}</td>
+                                <td>{{ Carbon\Carbon::parse($participant->end_date)->format("d M Y") }}</td>
                                 <td>{{ $participant->status }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{ site_url('participants/' . $participant->id . '/edit') }}"
+                                        <a href="{{ site_url("participants/" . $participant->id . "/edit") }}"
                                             class="btn btn-sm btn-warning">Edit</a>
 
-                                        <form action="{{ site_url('participants/' . $participant->id) }}" method="post"
+                                        <form action="{{ site_url("participants/" . $participant->id) }}" method="post"
                                             onsubmit="return confirm('Yakin ingin menghapus?');">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit" class="btn btn-sm btn-danger">Hapus</button>

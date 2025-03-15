@@ -12,6 +12,7 @@ class CompanyProfileModel extends Model
 
     protected $fillable = [
         'company_name',
+        'company_logo',
         'representative_name',
         'position',
         'signature'

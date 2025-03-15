@@ -1,5 +1,5 @@
  <div class="row">
-    
+
      <div class="col-12">
 
          <div class="card">
@@ -37,12 +37,12 @@
                              <div class="col-md-6">
                                  <p class="mb-1 text-muted">Tanggal Mulai</p>
                                  <p class="mb-0">
-                                     {{ date('d-m-Y', strtotime($participant->start_date)) }}</p>
+                                     {{ date("d-m-Y", strtotime($participant->start_date)) }}</p>
                              </div>
                              <div class="col-md-6">
                                  <p class="mb-1 text-muted">Tanggal Akhir</p>
                                  <p class="mb-0">
-                                     {{ date('d-m-Y', strtotime($participant->end_date)) }}</p>
+                                     {{ date("d-m-Y", strtotime($participant->end_date)) }}</p>
                              </div>
                          </div>
                      </li>
@@ -59,8 +59,16 @@
                          </div>
                      </li>
                      <li class="list-group-item px-0 pb-0">
-                         <p class="mb-1 text-muted">Status Akun</p>
-                         <p class="mb-0">{{ $participant->status }}</p>
+                         <div class="row">
+                             <div class="col-md-6">
+                                 <p class="mb-1 text-muted">Status Akun</p>
+                                 <p class="mb-0">{{ $participant->status }}</p>
+                             </div>
+                             <div class="col-md-6">
+                                 <p class="mb-1 text-muted">Pembimbing</p>
+                                 <p class="mb-0">{{ $participant->mentor->username }}</p>
+                             </div>
+                         </div>
                      </li>
                  </ul>
              </div>

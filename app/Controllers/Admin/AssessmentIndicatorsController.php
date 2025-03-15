@@ -57,10 +57,22 @@ class AssessmentIndicatorsController extends BaseController
 
     public function update($id)
     {
-        $data = $this->request->getPost();
-        if (!AssessmentIndicatorModel::update($id, $data)) {
-            return redirect()->back()->withInput()->with('errors', AssessmentIndicatorModel::errors());
+        // Ambil data indikator penilaian berdasarkan ID
+        $indicator = AssessmentIndicatorModel::find($id);
+
+        // Cek apakah data ditemukan
+        if (!$indicator) {
+            return redirect()->back()->with('errors', ['Data tidak ditemukan.']);
         }
+
+        // Ambil input dari request
+        $data = $this->request->getPost();
+
+        // Lakukan update
+        if (!$indicator->update($data)) {
+            return redirect()->back()->withInput()->with('errors', ['Gagal memperbarui data.']);
+        }
+
         return redirect()->to('/assessment-indicators')->with('success', 'Indikator penilaian berhasil diperbarui.');
     }
 

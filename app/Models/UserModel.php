@@ -68,7 +68,7 @@ class UserModel extends Model
         return $this->hasOne(\App\Models\ParticipantsModel::class, 'user_id', 'id');
     }
 
-    public function mentors()
+    public function mentor_participant()
     {
         return $this->hasMany(\App\Models\ParticipantsModel::class, 'mentor_id', 'id');
     }

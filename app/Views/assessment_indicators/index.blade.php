@@ -28,7 +28,7 @@
                                 <td>{{ ++$index }}.</td>
                                 <td>{{ $indicator->component }}</td>
                                 <td>
-                                    <a href="{{ site_url("assessment-indicators/edit/" . $indicator->id) }}"
+                                    <a href="{{ site_url("assessment-indicators/" . $indicator->id) . "/edit" }}"
                                         class="btn btn-warning btn-sm">Edit</a>
                                     <form action="{{ site_url("assessment-indicators/" . $indicator->id) }}" method="post"
                                         style="display:inline;">

@@ -2,8 +2,11 @@
     <div class="navbar-wrapper">
         <div class="m-header">
             <a href="" class="b-brand text-primary">
+                {{-- 
+                <img src="{{ base_url("/assets/images/logo-dark.svg") }}" class="img-fluid logo-lg" alt="logo"> --}}
 
-                <img src="{{ base_url("/assets/images/logo-dark.svg") }}" class="img-fluid logo-lg" alt="logo">
+                <h5 class="mt-2">{{ $GLOBALS["companyName"] }}</h5>
+
             </a>
         </div>
         <div class="navbar-content">
@@ -71,7 +74,8 @@
                             <a class="pc-link" href="{{ site_url("assessment-indicators") }}">Indikator Penilaian</a>
                         </li>
                         <li class="pc-item">
-                            <a class="pc-link" href="{{ site_url("company-profile/show") }}">Indikator Penilaian</a>
+                            <a class="pc-link" href="{{ site_url("company-profile/show") }}">Profil Perusahaan
+                                Magang</a>
                         </li>
                     </ul>
                 </li>
