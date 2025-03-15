@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\ParticipantsModel;
 use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
-use CodeIgniter\Exceptions\PageNotFoundException;
+use App\Controllers\BaseController;
 
 class ParticipantsController extends BaseController
 {

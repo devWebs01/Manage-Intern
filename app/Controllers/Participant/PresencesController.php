@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Participant;
 
 use App\Models\PresencesModel;
 use App\Libraries\BladeOneLibrary;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use App\Controllers\BaseController;
 
 class PresencesController extends BaseController
 {

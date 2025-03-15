@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\AssessmentIndicatorModel;
 use App\Libraries\BladeOneLibrary;
-use CodeIgniter\Exceptions\PageNotFoundException;
+use App\Controllers\BaseController;
 
 class AssessmentIndicatorsController extends BaseController
 {
@@ -49,7 +49,7 @@ class AssessmentIndicatorsController extends BaseController
     {
         $indicator = AssessmentIndicatorModel::find($id);
         if (!$indicator) {
-            return redirect()->back()->with('errors','Indikator tidak ditemukan');
+            return redirect()->back()->with('errors', 'Indikator tidak ditemukan');
         }
         $data['indicator'] = $indicator;
         return $this->blade->render('assessment_indicators.edit', $data);
@@ -68,9 +68,9 @@ class AssessmentIndicatorsController extends BaseController
     {
         $indicator = AssessmentIndicatorModel::find($id);
         if (!$indicator) {
-            return redirect()->back()->with('errors','Indikator tidak ditemukan');
+            return redirect()->back()->with('errors', 'Indikator tidak ditemukan');
         }
-        $indicator->delete($id);
+        $indicator->delete();
         return redirect()->to('/assessment-indicators')->with('success', 'Indikator penilaian berhasil dihapus.');
     }
 }

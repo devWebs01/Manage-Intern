@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Participant;
 
 use App\Models\LogbooksModel;
 use App\Libraries\BladeOneLibrary;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use App\Controllers\BaseController;
 
 class LogbooksController extends BaseController
 {
@@ -15,7 +16,7 @@ class LogbooksController extends BaseController
     {
         // Inisialisasi model dan BladeOneLibrary
         $this->logbookModel = new LogbooksModel();
-        $this->blade        = new BladeOneLibrary();
+        $this->blade = new BladeOneLibrary();
     }
 
     /**
@@ -43,17 +44,17 @@ class LogbooksController extends BaseController
         $validation = \Config\Services::validation();
         $rules = [
             'participant_id' => 'required|integer|is_natural_no_zero',
-            'date'           => 'required|valid_date[Y-m-d]',
-            'activity'       => 'required|min_length[10]|max_length[1000]',
+            'date' => 'required|valid_date[Y-m-d]',
+            'activity' => 'required|min_length[10]|max_length[1000]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-        
+
         // Ambil data yang telah tervalidasi
         $data = $this->request->getPost(['participant_id', 'date', 'activity']);
-        
+
         // Buat logbook dengan Eloquent
         $logbook = LogbooksModel::create($data);
         if (!$logbook) {
@@ -69,7 +70,7 @@ class LogbooksController extends BaseController
     {
         $logbook = LogbooksModel::find($id);
         if (!$logbook) {
-            return redirect()->back()->with('errors','Logbook tidak ditemukan');
+            return redirect()->back()->with('errors', 'Logbook tidak ditemukan');
         }
         $data['logbook'] = $logbook;
         return $this->blade->render('logbooks.edit', $data);
@@ -82,22 +83,22 @@ class LogbooksController extends BaseController
     {
         $logbook = LogbooksModel::find($id);
         if (!$logbook) {
-            return redirect()->back()->with('errors','Logbook tidak ditemukan');
+            return redirect()->back()->with('errors', 'Logbook tidak ditemukan');
         }
-        
+
         $validation = \Config\Services::validation();
         $rules = [
             'participant_id' => 'required|integer|is_natural_no_zero',
-            'date'           => 'required|valid_date[Y-m-d]',
-            'activity'       => 'required|min_length[10]|max_length[1000]',
+            'date' => 'required|valid_date[Y-m-d]',
+            'activity' => 'required|min_length[10]|max_length[1000]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-        
+
         $data = $this->request->getPost(['participant_id', 'date', 'activity']);
-        
+
         // Perbarui data logbook
         $logbook->update($data);
         return redirect()->to('/logbooks')->with('success', 'Logbook berhasil diperbarui.');
@@ -110,7 +111,7 @@ class LogbooksController extends BaseController
     {
         $logbook = LogbooksModel::find($id);
         if (!$logbook) {
-            return redirect()->back()->with('errors','Logbook tidak ditemukan');
+            return redirect()->back()->with('errors', 'Logbook tidak ditemukan');
         }
         $logbook->delete();
         return redirect()->to('/logbooks')->with('success', 'Logbook berhasil dihapus.');

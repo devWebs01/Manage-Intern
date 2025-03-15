@@ -70,6 +70,9 @@
                         <li class="pc-item">
                             <a class="pc-link" href="{{ site_url("assessment-indicators") }}">Indikator Penilaian</a>
                         </li>
+                        <li class="pc-item">
+                            <a class="pc-link" href="{{ site_url("company-profile/show") }}">Indikator Penilaian</a>
+                        </li>
                     </ul>
                 </li>
 

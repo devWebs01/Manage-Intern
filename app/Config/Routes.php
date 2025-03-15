@@ -1,8 +1,9 @@
 <?php
 
+use App\Controllers\Admin\CompanyProfileController;
+use App\Controllers\Mentor\ParticipantAssessmentsController;
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\Home;
-use App\Controllers\ParticipantAssessmentsController;
 
 /**
  * @var RouteCollection $routes
@@ -61,4 +62,8 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
     $routes->get('/profiles/(:num)/show', [Home::class, 'show']);
     $routes->put('/profiles/(:num)', [Home::class, 'update']);
+
+    $routes->get('/company-profile/show', [CompanyProfileController::class, 'show']);
+    $routes->put('/company-profile/update', [CompanyProfileController::class, 'update']);
+
 });

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Mentor;
 
 use App\Models\ParticipantAssessmentModel;
 use App\Models\AssessmentIndicatorModel;
 use App\Libraries\BladeOneLibrary;
 use App\Models\ParticipantsModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use App\Controllers\BaseController;
 
 class ParticipantAssessmentsController extends BaseController
 {
