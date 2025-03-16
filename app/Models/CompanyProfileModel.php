@@ -15,6 +15,7 @@ class CompanyProfileModel extends Model
         'company_logo',
         'representative_name',
         'position',
-        'signature'
+        'signature',
+        'signature_code'
     ];
 }

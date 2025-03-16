@@ -17,6 +17,11 @@ class CreateCompanyProfilesTable extends Migration
             'signature' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
+            'signature_code' => [
+                'type' => 'TEXT', // JSON data bisa disimpan sebagai TEXT
+                'null' => true,
+                'after' => 'signature', // Letakkan setelah kolom signature (jika ada)
+            ],
         ]);
 
         $this->forge->addKey('id', true);

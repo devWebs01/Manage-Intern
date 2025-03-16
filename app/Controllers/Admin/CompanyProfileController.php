@@ -36,7 +36,8 @@ class CompanyProfileController extends BaseController
             'company_name' => 'required|string|max_length[255]',
             'representative_name' => 'required|string|max_length[255]',
             'position' => 'required|string|max_length[255]',
-            'signature' => 'permit_empty|uploaded[signature]|max_size[signature,2048]|is_image[signature]|mime_in[signature,image/png,image/jpeg,image/jpg]',
+            'signature_data' => 'permit_empty', // Validasi untuk gambar tanda tangan
+            'signature_code' => 'permit_empty', // Validasi untuk JSON stroke
             'company_logo' => 'permit_empty|uploaded[company_logo]|max_size[company_logo,2048]|is_image[company_logo]|mime_in[company_logo,image/png,image/jpeg,image/jpg]',
         ]);
 
@@ -49,34 +50,34 @@ class CompanyProfileController extends BaseController
             'company_name' => $this->request->getPost('company_name'),
             'representative_name' => $this->request->getPost('representative_name'),
             'position' => $this->request->getPost('position'),
+            'signature_code' => $this->request->getPost('signature_code'), // Simpan JSON stroke
         ];
 
-        // Handle file upload untuk tanda tangan
-        $signatureFile = $this->request->getFile('signature');
-        if ($signatureFile && $signatureFile->isValid() && !$signatureFile->hasMoved()) {
-            $signatureName = $signatureFile->getRandomName();
-            $signatureFile->move('uploads/signatures/', $signatureName);
+        // 🛠 **Simpan tanda tangan sebagai file gambar**
+        $signatureData = $this->request->getPost('signature_data');
+        if (!empty($signatureData)) {
+            $folderPath = 'uploads/signatures/';
 
-            // Hapus gambar lama jika ada dan file masih tersedia
+            // Hapus tanda tangan lama jika ada
             if (!empty($company->signature) && file_exists($company->signature)) {
                 unlink($company->signature);
             }
 
-            $data['signature'] = 'uploads/signatures/' . $signatureName;
-        }
+            // Dekode base64 menjadi file gambar
+            $imageParts = explode(";base64,", $signatureData);
+            $imageTypeAux = explode("image/", $imageParts[0]);
+            $imageType = $imageTypeAux[1];
+            $imageBase64 = base64_decode($imageParts[1]);
 
-        // Handle file upload untuk logo perusahaan
-        $logoFile = $this->request->getFile('company_logo');
-        if ($logoFile && $logoFile->isValid() && !$logoFile->hasMoved()) {
-            $logoName = $logoFile->getRandomName();
-            $logoFile->move('uploads/company_logos/', $logoName);
+            // Buat nama file unik
+            $fileName = uniqid() . '.' . $imageType;
+            $filePath = $folderPath . $fileName;
 
-            // Hapus gambar lama jika ada dan file masih tersedia
-            if (!empty($company->company_logo) && file_exists($company->company_logo)) {
-                unlink($company->company_logo);
-            }
+            // Simpan file gambar
+            file_put_contents($filePath, $imageBase64);
 
-            $data['company_logo'] = 'uploads/company_logos/' . $logoName;
+            // Simpan path ke database
+            $data['signature'] = $filePath;
         }
 
         // Update data perusahaan
@@ -84,4 +85,5 @@ class CompanyProfileController extends BaseController
 
         return redirect()->back()->with('success', 'Profil perusahaan berhasil diperbarui.');
     }
+
 }
