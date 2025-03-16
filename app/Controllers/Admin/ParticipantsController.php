@@ -13,7 +13,7 @@ class ParticipantsController extends BaseController
 
     public function __construct()
     {
-        $this->blade            = new BladeOneLibrary();
+        $this->blade = new BladeOneLibrary();
     }
 
     /**
@@ -21,7 +21,6 @@ class ParticipantsController extends BaseController
      */
     public function index()
     {
-        // Mengambil data partisipan secara Eloquent
         $data['participants'] = ParticipantsModel::orderBy('created_at', 'DESC')->get();
         return $this->blade->render('participants.index', $data);
     }
@@ -40,18 +39,16 @@ class ParticipantsController extends BaseController
      */
     public function create()
     {
-        // Validasi input untuk user dan partisipan
         $validation = \Config\Services::validation();
         $rules = [
-            // Validasi untuk User
             'email'    => 'required|valid_email|is_unique[users.email]',
             'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
             'password' => 'required|min_length[6]',
-            // Validasi untuk Participant
+            'avatar'   => 'permit_empty|uploaded[avatar]|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
             'full_name'   => 'required|min_length[3]|max_length[255]',
             'institution' => 'required|min_length[3]|max_length[255]',
             'level'       => 'required',
-            'mentor_id'       => 'required',
+            'mentor_id'   => 'required',
             'start_date'  => 'required|valid_date[Y-m-d]',
             'end_date'    => 'required|valid_date[Y-m-d]',
             'status'      => 'required|in_list[Active, Completed, Dropped]',
@@ -60,136 +57,128 @@ class ParticipantsController extends BaseController
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-        
-        // Data untuk User
+
         $userData = [
             'email'         => $this->request->getPost('email'),
             'username'      => $this->request->getPost('username'),
-            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT)
+            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
-        // Buat user dengan Eloquent
+
+        // Handle file upload avatar
+        $file = $this->request->getFile('avatar');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('uploads/avatars/', $newName);
+            $userData['avatar'] = 'uploads/avatars/' . $newName;
+        }
+
         $user = UserModel::create($userData);
         if (!$user) {
             return redirect()->back()->withInput()->with('errors', ['Unable to create user.']);
         }
-        
-        // Data untuk Participant
+
         $participantData = [
             'user_id'     => $user->id,
             'full_name'   => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
             'level'       => $this->request->getPost('level'),
-            'mentor_id'       => $this->request->getPost('mentor_id'),
+            'mentor_id'   => $this->request->getPost('mentor_id'),
             'start_date'  => $this->request->getPost('start_date'),
             'end_date'    => $this->request->getPost('end_date'),
-            'status'      => $this->request->getPost('status')
+            'status'      => $this->request->getPost('status'),
         ];
-        $participant = ParticipantsModel::create($participantData);
-        if (!$participant) {
-            return redirect()->back()->withInput()->with('errors', ['Unable to create participant.']);
-        }
-        
+        ParticipantsModel::create($participantData);
+
         return redirect()->to('/participants')->with('success', 'Partisipan berhasil dibuat.');
     }
 
     /**
      * Menampilkan form untuk mengedit partisipan dan data pengguna terkait.
      */
-    public function edit($id = null)
+    public function edit($id)
     {
         $participant = ParticipantsModel::find($id);
         if (!$participant) {
-            return redirect()->back()->with('errors','Partisipan tidak ditemukan');
+            return redirect()->back()->with('errors', 'Partisipan tidak ditemukan');
         }
         $user = UserModel::find($participant->user_id);
         if (!$user) {
-            return redirect()->back()->with('errors','Pengguna terkait partisipan tidak ditemukan');
+            return redirect()->back()->with('errors', 'Pengguna terkait partisipan tidak ditemukan');
         }
         $data = [
             'mentors'     => UserModel::where('role', 'MENTOR')->get(),
             'participant' => $participant,
             'user'        => $user,
         ];
-        
         return $this->blade->render('participants.edit', $data);
     }
 
     /**
      * Memperbarui data partisipan dan data pengguna terkait.
      */
-    public function update($id = null)
+    public function update($id)
     {
         $participant = ParticipantsModel::find($id);
         if (!$participant) {
-            return redirect()->back()->with('errors','Partisipan tidak ditemukan');
+            return redirect()->back()->with('errors', 'Partisipan tidak ditemukan');
         }
         $user = UserModel::find($participant->user_id);
         if (!$user) {
-            return redirect()->back()->with('errors','Pengguna terkait partisipan tidak ditemukan');
+            return redirect()->back()->with('errors', 'Pengguna terkait partisipan tidak ditemukan');
         }
-        
+
         $validation = \Config\Services::validation();
         $rules = [
-            // Validasi data user (abaikan record milik user yang sedang diupdate)
             'email'    => "required|valid_email|is_unique[users.email,id,{$user->id}]",
             'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$user->id}]",
-            // Validasi data partisipan
+            'password' => 'permit_empty|min_length[6]',
+            'avatar'   => 'permit_empty|uploaded[avatar]|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
             'full_name'   => 'required|min_length[3]|max_length[255]',
             'institution' => 'required|min_length[3]|max_length[255]',
             'level'       => 'required',
-            'mentor_id'       => 'required',
+            'mentor_id'   => 'required',
             'start_date'  => 'required|valid_date[Y-m-d]',
             'end_date'    => 'required|valid_date[Y-m-d]',
             'status'      => 'required|in_list[Active, Completed, Dropped]',
         ];
-        if ($this->request->getPost('password')) {
-            $rules['password'] = 'min_length[6]';
-        }
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $validation->getErrors());
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-        
-        // Update data User
+
         $userData = [
             'email'    => $this->request->getPost('email'),
             'username' => $this->request->getPost('username'),
         ];
-        if ($this->request->getPost('password')) {
-            $userData['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+        if ($password = $this->request->getPost('password')) {
+            $userData['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
         }
+
+        $file = $this->request->getFile('avatar');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('uploads/avatars/', $newName);
+
+            if (!empty($user->avatar) && file_exists($user->avatar)) {
+                unlink($user->avatar);
+            }
+
+            $userData['avatar'] = 'uploads/avatars/' . $newName;
+        }
+
         $user->update($userData);
-        
-        // Update data Participant
+
         $participantData = [
             'full_name'   => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
             'level'       => $this->request->getPost('level'),
-            'mentor_id'       => $this->request->getPost('mentor_id'),
+            'mentor_id'   => $this->request->getPost('mentor_id'),
             'start_date'  => $this->request->getPost('start_date'),
             'end_date'    => $this->request->getPost('end_date'),
-            'status'      => $this->request->getPost('status')
+            'status'      => $this->request->getPost('status'),
         ];
         $participant->update($participantData);
-        
+
         return redirect()->to('/participants')->with('success', 'Partisipan berhasil diperbarui.');
-    }
-    
-    /**
-     * Menghapus (soft delete) data partisipan.
-     * Jika diperlukan, juga dapat menghapus data pengguna terkait.
-     */
-    public function delete($id = null)
-    {
-        $participant = ParticipantsModel::find($id);
-        if (!$participant) {
-            return redirect()->back()->with('errors','Partisipan tidak ditemukan');
-        }
-        
-        $participant->delete();
-       
-        return redirect()->to('/participants')->with('success', 'Partisipan berhasil dihapus.');
     }
 }

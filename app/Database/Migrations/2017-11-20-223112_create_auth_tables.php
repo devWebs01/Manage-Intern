@@ -29,6 +29,7 @@ class CreateAuthTables extends Migration
                 'type' => 'ENUM("PARTICIPANT", "MENTOR", "ADMIN")',
                 'default' => 'PARTICIPANT',
             ],
+            'avatar' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
         ]);
 
         $this->forge->addKey('id', true);

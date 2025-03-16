@@ -32,7 +32,10 @@ class UserModel extends Model
         'force_pass_reset',
         'permissions',
         'deleted_at',
+
+        // 
         'role',
+        'avatar'
     ];
     protected $useTimestamps = true;
     protected $validationRules = [

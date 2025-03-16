@@ -59,18 +59,15 @@ class Home extends BaseController
         $rules = [
             'email' => "required|valid_email|is_unique[users.email,id,{$user->id}]",
             'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$user->id}]",
+            'avatar' => 'permit_empty|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
         ];
 
-        // Jika role user adalah PARTICIPANT, tetapkan validasi untuk data participant
+        // Validasi tambahan untuk PARTICIPANT
         if ($user->role === "PARTICIPANT") {
             $rules += [
                 'full_name' => 'required|min_length[3]|max_length[255]',
                 'institution' => 'required|min_length[3]|max_length[255]',
                 'level' => 'required',
-                'mentor_id' => 'required|numeric',
-                'start_date' => 'required|valid_date[Y-m-d]',
-                'end_date' => 'required|valid_date[Y-m-d]',
-                'status' => 'required|in_list[Active,Completed,Dropped]',
             ];
         }
 
@@ -85,33 +82,48 @@ class Home extends BaseController
                 ->with('errors', $validation->getErrors());
         }
 
-        // Update data User
+        // Data yang akan diupdate
         $userData = [
             'email' => $this->request->getPost('email'),
             'username' => $this->request->getPost('username'),
         ];
+
         if ($this->request->getPost('password')) {
             $userData['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
+
+        // ✅ **Handle Upload Avatar**
+        $file = $this->request->getFile('avatar');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            // Buat folder jika belum ada
+            if (!is_dir(FCPATH . 'uploads/avatars')) {
+                mkdir(FCPATH . 'uploads/avatars', 0777, true);
+            }
+
+            $newName = $file->getRandomName();
+            $file->move(FCPATH . 'uploads/avatars/', $newName);
+
+            // Hapus avatar lama jika ada
+            if (!empty($user->avatar) && file_exists(FCPATH . $user->avatar)) {
+                unlink(FCPATH . $user->avatar);
+            }
+
+            $userData['avatar'] = 'uploads/avatars/' . $newName;
+        }
+
         $user->update($userData);
 
-        // Jika user berperan sebagai PARTICIPANT, update atau buat data participant
+        // ✅ **Update PARTICIPANT jika ada**
         if ($user->role === "PARTICIPANT") {
             $participantData = [
                 'full_name' => $this->request->getPost('full_name'),
                 'institution' => $this->request->getPost('institution'),
                 'level' => $this->request->getPost('level'),
-                'mentor_id' => $this->request->getPost('mentor_id'),
-                'start_date' => $this->request->getPost('start_date'),
-                'end_date' => $this->request->getPost('end_date'),
-                'status' => $this->request->getPost('status'),
             ];
 
             if ($participant) {
-                // Jika data participant sudah ada, lakukan update
                 $participant->update($participantData);
             } else {
-                // Jika belum ada, buat record baru dengan memasukkan user_id
                 $participantModel = new ParticipantsModel();
                 $participantData['user_id'] = $user->id;
                 $participantModel->insert($participantData);
@@ -120,9 +132,6 @@ class Home extends BaseController
 
         return redirect()->to('/profiles/' . $user->id . '/show')->with('success', 'Profil akun berhasil diperbarui.');
     }
-
-
-
     function test()
     {
         $mentor = UserModel::where('role', 'MENTOR')->inRandomOrder()->first()->id;

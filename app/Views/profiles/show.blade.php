@@ -1,5 +1,7 @@
 @extends("components.layout")
 
+@include("layouts.fancybox")
+
 @section("header")
     <li class="breadcrumb-item">
         <a href="{{ site_url("profiles") }}">
@@ -14,9 +16,28 @@
 @endsection
 
 @section("content")
+    @if (session("success"))
+        <div class="alert alert-success">
+            {{ session("success") }}
+        </div>
+    @endif
+
     <div class="card rounded">
+
+        @if (!empty($profile->avatar))
+            <a href="{{ base_url($profile->avatar) }}" data-fancybox data-caption="Foto profil">
+                <img src="{{ base_url($profile->avatar) }}" alt="Foto profil" class="card-img-top" width="100%"
+                    height="200px" style="object-fit: cover;">
+            </a>
+        @else
+            <div class="d-flex justify-content-center align-items-center bg-light text-muted border rounded"
+                style="width: 100%; height: 200px;">
+                <span class="fs-5">Foto Profil Tidak Tersedia</span>
+            </div>
+        @endif
+
         <div class="card-body">
-            <form action="{{ site_url("profiles/" . User()->id) }}" method="post">
+            <form action="{{ site_url("profiles/" . User()->id) }}" method="post" enctype="multipart/form-data">
                 <div class="d-none">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
@@ -58,9 +79,22 @@
                         @endif
                     </div>
 
+                    <div class="col-12 mb-3">
+                        <label for="avatar" class="form-label">Foto Profil</label>
+                        <input type="file"
+                            class="form-control {{ isset(session("errors")["avatar"]) ? "is-invalid" : "" }}"
+                            name="avatar" id="avatar">
+
+                        @error("avatar")
+                            <div class="invalid-feedback">
+                                {{ session("errors")["avatar"] }}
+                            </div>
+                        @enderror
+                    </div>
+
                     @if ($profile->role === "PARTICIPANT")
                         <!-- Data Partisipan -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="full_name" class="form-label">Nama Lengkap</label>
                             <input type="text"
                                 class="form-control {{ session("errors.full_name") ? "is-invalid" : "" }}" name="full_name"
@@ -111,7 +145,7 @@
                             <input type="date"
                                 class="form-control {{ session("errors.start_date") ? "is-invalid" : "" }}"
                                 name="start_date" id="start_date"
-                                value="{{ old("start_date", $profile->participant->start_date ?? "") }}">
+                                value="{{ old("start_date", $profile->participant->start_date ?? "") }}" disabled>
                             @if (session("errors.start_date"))
                                 <div class="invalid-feedback">
                                     {{ session("errors.start_date") }}
@@ -121,49 +155,13 @@
 
                         <div class="col-md-6 mb-3">
                             <label for="end_date" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control {{ session("errors.end_date") ? "is-invalid" : "" }}"
-                                name="end_date" id="end_date"
-                                value="{{ old("end_date", $profile->participant->end_date ?? "") }}">
+                            <input type="date"
+                                class="form-control {{ session("errors.end_date") ? "is-invalid" : "" }}" name="end_date"
+                                id="end_date" value="{{ old("end_date", $profile->participant->end_date ?? "") }}"
+                                disabled>
                             @if (session("errors.end_date"))
                                 <div class="invalid-feedback">
                                     {{ session("errors.end_date") }}
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select name="status" id="status"
-                                class="form-control {{ session("errors.status") ? "is-invalid" : "" }}" required>
-                                <option value="" disabled>Pilih Status</option>
-                                @foreach (["Active", "Completed", "Dropped"] as $status)
-                                    <option value="{{ $status }}"
-                                        {{ old("status", $profile->participant->status ?? "") == $status ? "selected" : "" }}>
-                                        {{ $status }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @if (session("errors.status"))
-                                <div class="invalid-feedback">
-                                    {{ session("errors.status") }}
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="col-12 mb-3">
-                            <label for="mentor_id" class="form-label">Pembimbing</label>
-                            <select class="form-select" name="mentor_id" id="mentor_id">
-                                <option value="" disabled selected>Select one</option>
-                                @foreach ($mentors as $mentor)
-                                    <option value="{{ $mentor->id }}"
-                                        {{ old("mentor_id", $profile->participant->mentor_id ?? "") == $mentor->id ? "selected" : "" }}>
-                                        {{ $mentor->username }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @if (session("errors.mentor_id"))
-                                <div class="invalid-feedback">
-                                    {{ session("errors.mentor_id") }}
                                 </div>
                             @endif
                         </div>

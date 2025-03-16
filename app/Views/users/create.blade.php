@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-body">
 
-            <form action="{{ site_url("users") }}" method="post">
+            <form action="{{ site_url("users") }}" method="post" enctype="multipart/form-data">
                 <div class="d-none">
                     {{ csrf_field() }}
                 </div>
@@ -56,6 +56,19 @@
                         @error("password")
                             <div class="invalid-feedback">
                                 {{ session("errors")["password"] }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="avatar" class="form-label">Foto Profil</label>
+                        <input type="file"
+                            class="form-control {{ isset(session("errors")["avatar"]) ? "is-invalid" : "" }}"
+                            name="avatar" id="avatar">
+
+                        @error("avatar")
+                            <div class="invalid-feedback">
+                                {{ session("errors")["avatar"] }}
                             </div>
                         @enderror
                     </div>

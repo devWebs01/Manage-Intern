@@ -16,10 +16,12 @@ class GlobalDataFilter implements FilterInterface
 
         // Ambil nama perusahaan dari database
         $company = CompanyProfileModel::first();
-        $companyName = $company ? $company->company_name : 'Nama Perusahaan Default';
+        $companyName = $company ? $company->company_name : 'Magang';
+        $companyLogo = $company ? $company->company_logo : '{{ base_url("/assets/images/logo-dark.svg") }}';
 
         // Kirim variabel ke semua view
         $GLOBALS['companyName'] = $companyName;
+        $GLOBALS['companyLogo'] = $companyLogo;
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

@@ -1,5 +1,7 @@
 @extends('components.layout')
 
+@include("layouts.fancybox")
+
 @section('header')
     <li class="breadcrumb-item">
         <a href="{{ site_url('participants') }}">
@@ -18,7 +20,7 @@
 
         <div class="card-body">
 
-            <form action="{{ site_url('participants') }}" method="post">
+            <form action="{{ site_url('participants') }}" method="post" enctype="multipart/form-data">
                 <div class="d-none">{{ csrf_field() }}</div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -53,6 +55,19 @@
                         @error('password')
                             <div class="invalid-feedback">
                                 {{ session('errors')['password'] }}
+                            </div>
+                        @enderror
+                    </div>
+
+                     <div class="col-12 mb-3">
+                        <label for="avatar" class="form-label">Foto Profil</label>
+                        <input type="file"
+                            class="form-control {{ isset(session("errors")["avatar"]) ? "is-invalid" : "" }}"
+                            name="avatar" id="avatar">
+
+                        @error("avatar")
+                            <div class="invalid-feedback">
+                                {{ session("errors")["avatar"] }}
                             </div>
                         @enderror
                     </div>

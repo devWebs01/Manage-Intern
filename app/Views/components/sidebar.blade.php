@@ -1,11 +1,14 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
-        <div class="m-header">
-            <a href="" class="b-brand text-primary">
-                {{-- 
-                <img src="{{ base_url("/assets/images/logo-dark.svg") }}" class="img-fluid logo-lg" alt="logo"> --}}
+        <div class="m-header justify-content-center">
+            <a href="" class="d-flex align-items-center b-brand text-dark fw-bolder">
 
-                <h5 class="mt-2">{{ $GLOBALS["companyName"] }}</h5>
+                @if (!empty($GLOBALS["companyLogo"]) && file_exists($GLOBALS["companyLogo"]))
+                    <img src="{{ base_url($GLOBALS["companyLogo"]) }}" class="img" width="50px" height="50px"
+                        style="object-fit: cover;" alt="logo">
+                @else
+                    <strong class="fs-5">{{ $GLOBALS["companyName"] }}</strong>
+                @endif
 
             </a>
         </div>
@@ -74,8 +77,7 @@
                             <a class="pc-link" href="{{ site_url("assessment-indicators") }}">Indikator Penilaian</a>
                         </li>
                         <li class="pc-item">
-                            <a class="pc-link" href="{{ site_url("company-profile/show") }}">Profil Perusahaan
-                                Magang</a>
+                            <a class="pc-link" href="{{ site_url("company-profile/show") }}">Profil Perusahaan</a>
                         </li>
                     </ul>
                 </li>

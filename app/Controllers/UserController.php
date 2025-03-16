@@ -12,7 +12,6 @@ class UserController extends BaseController
 
     public function __construct()
     {
-        // Inisialisasi model dan BladeOneLibrary satu kali untuk digunakan di semua method
         $this->blade = new BladeOneLibrary();
     }
 
@@ -22,7 +21,6 @@ class UserController extends BaseController
     public function index()
     {
         $data['users'] = UserModel::where('role', 'ADMIN')->latest()->get();
-
         return $this->blade->render('users.index', $data);
     }
 
@@ -44,24 +42,27 @@ class UserController extends BaseController
             'email' => 'required|valid_email|is_unique[users.email]',
             'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
             'password' => 'required|min_length[6]',
+            'avatar' => 'permit_empty|uploaded[avatar]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
         ]);
-    
+
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-    
+
         $data = $this->request->getPost(['email', 'username']);
-        
-        if ($password = $this->request->getPost('password')) {
-            $data['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+        $data['role'] = 'ADMIN';
+        $data['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+
+        // Handle file upload avatar
+        $file = $this->request->getFile('avatar');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('uploads/avatars/', $newName);
+            $data['avatar'] = 'uploads/avatars/' . $newName;
         }
 
-        $data['role'] = 'ADMIN';
-    
         UserModel::create($data);
-        
-        session()->setFlashdata('success', 'User berhasil ditambahkan.');
-        return redirect()->to('/users');
+        return redirect()->to('/users')->with('success', 'User berhasil ditambahkan.');
     }
 
     /**
@@ -70,7 +71,6 @@ class UserController extends BaseController
     public function edit($id)
     {
         $data['user'] = UserModel::find($id);
-
         if (!$data['user']) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('User tidak ditemukan');
         }
@@ -85,8 +85,7 @@ class UserController extends BaseController
     {
         $user = UserModel::find($id);
         if (!$user) {
-            session()->setFlashdata('error', 'User tidak ditemukan.');
-            return redirect()->to('/users');
+            return redirect()->to('/users')->with('error', 'User tidak ditemukan.');
         }
 
         $validation = \Config\Services::validation();
@@ -94,12 +93,11 @@ class UserController extends BaseController
             'email' => "required|valid_email|is_unique[users.email,id,{$id}]",
             'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$id}]",
             'password' => 'permit_empty|min_length[6]',
+            'avatar' => 'permit_empty|uploaded[avatar]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $validation->getErrors());
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         $data = [
@@ -107,19 +105,27 @@ class UserController extends BaseController
             'username' => $this->request->getPost('username'),
         ];
 
-        $data['role'] = 'ADMIN';
-
         $password = $this->request->getPost('password');
         if ($password) {
             $data['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
         }
 
-        try {
-            $user->update($data);
-            return redirect()->to('/users')->with('success', 'User berhasil diperbarui.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
+        // Handle file upload avatar
+        $file = $this->request->getFile('avatar');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('uploads/avatars/', $newName);
+
+            // Hapus avatar lama jika ada
+            if (!empty($user->avatar) && file_exists($user->avatar)) {
+                unlink($user->avatar);
+            }
+
+            $data['avatar'] = 'uploads/avatars/' . $newName;
         }
+
+        $user->update($data);
+        return redirect()->to('/users')->with('success', 'User berhasil diperbarui.');
     }
 
     /**
@@ -130,6 +136,10 @@ class UserController extends BaseController
         $user = UserModel::find($id);
         if ($user) {
             try {
+                // Hapus avatar jika ada
+                if (!empty($user->avatar) && file_exists($user->avatar)) {
+                    unlink($user->avatar);
+                }
 
                 $user->delete();
                 return redirect()->to('/users')->with('success', 'User berhasil dihapus.');
