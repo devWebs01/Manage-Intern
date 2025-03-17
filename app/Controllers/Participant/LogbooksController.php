@@ -45,7 +45,7 @@ class LogbooksController extends BaseController
         $rules = [
             'participant_id' => 'required|integer|is_natural_no_zero',
             'date' => 'required|valid_date[Y-m-d]',
-            'activity' => 'required|min_length[10]|max_length[1000]',
+            'activity' => 'required|min_length[10]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
@@ -90,7 +90,7 @@ class LogbooksController extends BaseController
         $rules = [
             'participant_id' => 'required|integer|is_natural_no_zero',
             'date' => 'required|valid_date[Y-m-d]',
-            'activity' => 'required|min_length[10]|max_length[1000]',
+            'activity' => 'required|min_length[10]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {

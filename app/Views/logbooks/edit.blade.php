@@ -13,6 +13,8 @@
     </li>
 @endsection
 
+@include("layouts.summernote")
+
 @section("content")
     <div class="card rounded">
         <div class="card-body">
@@ -48,7 +50,7 @@
                         @error("activity")
                         is-invalid
                         @enderror"
-                            name="activity" id="activity" rows="10">{{ $logbook->activity }}</textarea>
+                            name="activity" id="summernote" rows="10">{{ $logbook->activity }}</textarea>
 
                         @error("activity")
                             <div class="invalid-feedback">

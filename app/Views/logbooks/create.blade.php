@@ -1,6 +1,5 @@
 @extends("components.layout")
 
-
 @section("header")
     <li class="breadcrumb-item">
         <a href="{{ site_url("logbooks") }}">
@@ -12,15 +11,16 @@
             Logbook Baru
         </a>
     </li>
-    @endsection
-    
-    @section("content")
+@endsection
+
+@include("layouts.summernote")
+
+@section("content")
     <div class="card rounded">
         <div class="card-body">
             <form action="{{ site_url("logbooks") }}" method="post">
                 <div class="d-none">
                     {{ csrf_field() }}
-                    <!-- Contoh: Mengambil participant_id dari fungsi helper user() -->
                     <input type="hidden" name="participant_id" id="participant_id" value="{{ user()->id ?? "" }}" readonly>
                 </div>
                 <div class="row">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="activity" class="form-label">Isi Logbook</label>
-                        <textarea id="editor"
+                        <textarea id="summernote"
                             class="form-control 
                         @error("activity")
                         is-invalid
