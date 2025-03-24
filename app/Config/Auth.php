@@ -20,12 +20,12 @@ class Auth extends AuthConfig
 
 
     public $views = [
-        'login'           => 'App\Views\Auth\login',
-        'register'        => 'App\Views\Auth\register',
-        'forgot'          => 'App\Views\Auth\forgot',
-        'reset'           => 'App\Views\Auth\reset',
-        'emailForgot'     => 'App\Views\Auth\emails\forgot',
-        'emailActivation' => 'App\Views\Auth\emails\activation',
+        'login'           => 'App\Views\auth\login',
+        'register'        => 'App\Views\auth\register',
+        'forgot'          => 'App\Views\auth\forgot',
+        'reset'           => 'App\Views\auth\reset',
+        'emailForgot'     => 'App\Views\auth\emails\forgot',
+        'emailActivation' => 'App\Views\auth\emails\activation',
     ];
 
     /**
@@ -35,5 +35,5 @@ class Auth extends AuthConfig
      *
      * @var string
      */
-    public $viewLayout = 'App\Views\Auth\layout';
+    public $viewLayout = 'App\Views\auth\layout';
 }

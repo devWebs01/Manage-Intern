@@ -80,6 +80,27 @@ class CompanyProfileController extends BaseController
             $data['signature'] = $filePath;
         }
 
+         // ✅ **Update company_logo jika ada file yang diunggah**
+    $logo = $this->request->getFile('company_logo');
+    if ($logo && $logo->isValid() && !$logo->hasMoved()) {
+        $logoFolder = 'uploads/company_logos/';
+
+        // Hapus logo lama jika ada
+        if (!empty($company->company_logo) && file_exists($company->company_logo)) {
+            unlink($company->company_logo);
+        }
+
+        // Buat nama file unik
+        $newLogoName = uniqid() . '.' . $logo->getClientExtension();
+        $logoPath = $logoFolder . $newLogoName;
+
+        // Pindahkan file ke lokasi yang ditentukan
+        $logo->move($logoFolder, $newLogoName);
+
+        // Simpan path ke database
+        $data['company_logo'] = $logoPath;
+    }
+
         // Update data perusahaan
         $company->update($data);
 
