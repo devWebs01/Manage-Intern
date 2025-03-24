@@ -55,7 +55,7 @@
                 </label>
             </div>
         <?php endif; ?>
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-outline-dark btn-block w-100">
             <?= lang('Auth.loginAction') ?>
         </button>
     </form>
@@ -72,7 +72,7 @@
 
         <?php if ($config->activeResetter): ?>
             <p>
-                <a href="<?= url_to('forgot') ?>">
+                <a class="text-dark" href="<?= url_to('forgot') ?>">
                     <?= lang('Auth.forgotYourPassword') ?>
                 </a>
             </p>

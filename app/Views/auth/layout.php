@@ -50,7 +50,7 @@
         <div class="auth-wrapper v3">
             <div class="auth-form">
                 <div class="auth-header">
-                    <a href="#">
+                    <a href="/">
                         <img src="<?= base_url($GLOBALS["companyLogo"] ?? "/assets/images/favicon.svg") ?>" alt="img" style="width: 60px; height:60px;">
                     </a>
                 </div>

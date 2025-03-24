@@ -30,10 +30,10 @@ h2 {
   --pc-header-submenu-color: #6c757d;
 }
 
-[data-pc-theme_contrast=true] {
+[data-pc-theme_contrast="true"] {
   --bs-body-bg: #ffffff;
   --pc-sidebar-background: transparent;
-  --pc-sidebar-active-color: #1890ff;
+  --pc-sidebar-active-color: #88b44e;
   --pc-sidebar-shadow: 1px 0 3px 0px #dee2e6;
   --pc-sidebar-border: none;
   --pc-card-box-shadow: 0px 8px 24px rgba(27, 46, 94, 0.08);
@@ -65,7 +65,8 @@ section {
   background: transparent;
   box-shadow: none;
 }
-.navbar.default, .navbar.top-nav-collapse {
+.navbar.default,
+.navbar.top-nav-collapse {
   background: #141414;
   box-shadow: 0 8px 6px -10px rgba(0, 0, 0, 0.5);
 }
@@ -87,7 +88,11 @@ header::after {
   top: 0px;
   left: 0px;
   z-index: 2;
-  background: linear-gradient(329.36deg, rgb(0, 0, 0) 14.79%, rgba(67, 67, 67, 0.28) 64.86%);
+  background: linear-gradient(
+    329.36deg,
+    rgb(0, 0, 0) 14.79%,
+    rgba(67, 67, 67, 0.28) 64.86%
+  );
 }
 header .container {
   position: relative;
