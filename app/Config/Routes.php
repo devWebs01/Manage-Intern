@@ -9,7 +9,6 @@ use App\Controllers\Home;
  * @var RouteCollection $routes
  */
 $routes->get('/', [Home::class, 'index']);
-$routes->get('/test', [Home::class, 'test']);
 
 $routes->group('', ['filter' => 'login'], function ($routes) {
     $routes->get('dashboard', [Home::class, 'dashboard']);
