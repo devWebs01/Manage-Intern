@@ -21,24 +21,25 @@
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-                        <img src="{{ base_url(User()->avatar ?? "/assets/images/user/avatar-2.jpg") }}"
-                            alt="user-image" class="user-avtar">
+                        <img src="{{ base_url(User()->avatar ?? "/assets/images/user/avatar-2.jpg") }}" alt="user-image"
+                            class="user-avtar">
                         <span>{{ User()->username }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header">
                             <div class="d-flex mb-1">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ base_url(User()->avatar ?? "/assets/images/user/avatar-2.jpg") }}" alt="user-image"
-                                        class="user-avtar wid-35">
+                                    <img src="{{ base_url(User()->avatar ?? "/assets/images/user/avatar-2.jpg") }}"
+                                        alt="user-image" class="user-avtar wid-35">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1">{{ user()->username }}</h6>
                                     <p class="mb-1">{{ lang("role." . user()->role) }}</p>
 
                                 </div>
-                                <a href="#!" class="pc-head-link bg-transparent"><i
-                                        class="ti ti-power text-danger"></i></a>
+                                <a href="#!" class="pc-head-link bg-transparent">
+                                    <i class="ti ti-power text-success"></i>
+                                </a>
                             </div>
                         </div>
                         <a href="{{ base_url("profiles/" . User()->id . "/show") }}" class="dropdown-item">

@@ -15,7 +15,7 @@
         <div class="navbar-content">
             <ul class="pc-navbar">
                 <li class="pc-item">
-                    <a href="/dashboard" class="pc-link">
+                    <a href="{{ base_url("/dashboard") }}" class="pc-link">
                         <span class="pc-micon">
                             <i class="ti ti-dashboard">
                             </i>

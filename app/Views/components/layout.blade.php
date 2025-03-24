@@ -64,7 +64,7 @@
                         <div class="col-md-12">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="/dashboard">
+                                    <a href="{{ base_url("/dashboard") }}">
                                         Beranda
                                     </a>
                                 </li>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-auto my-1">
                     <ul class="list-inline footer-link mb-0">
-                        <li class="list-inline-item"><a href="">Home</a></li>
+                        <li class="list-inline-item"><a href="{{ base_url("/dashboard") }}">Beranda</a></li>
                     </ul>
                 </div>
             </div>

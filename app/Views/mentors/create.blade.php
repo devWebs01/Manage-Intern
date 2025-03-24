@@ -2,12 +2,12 @@
 
 @section("header")
     <li class="breadcrumb-item">
-        <a href="/mentors">
+        <a href="{{ base_url("/mentors") }}">
             Pembimbing
         </a>
     </li>
     <li class="breadcrumb-item">
-        <a href="/mentors/create">
+        <a href="{{ base_url("/mentors/create") }}">
             Pembimbing Baru
         </a>
     </li>
