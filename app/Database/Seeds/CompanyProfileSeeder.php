@@ -46,9 +46,9 @@ class CompanyProfileSeeder extends Seeder
 
         // Jika belum ada data, tambahkan satu record
         CompanyProfileModel::create([
-            "company_name" => "PT Maju Jaya Sejahtera",
-            "representative_name" => "Dr. Hadi Wijaya",
-            "position" => "Direktur Utama",
+            "company_name" => "PT Perkebunan Nusantara IV Regional IV",
+            "representative_name" => "Hery Kurniawan",
+            "position" => "Kepala Bagian SDM & Sistem Manajemen",
             "signature_image" => "uploads/signatures/sample-signature.png", // Pastikan gambar ini ada
             "company_logo" => $logoPath, // Simpan path logo
         ]);

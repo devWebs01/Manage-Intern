@@ -171,22 +171,22 @@
           <h1 class="display-6">Buka Jalan Menuju Karir Impian</h1>
         </div>
         <div class="owl-carousel product-carousel wow fadeInUp" data-wow-delay="0.5s">
-          <a data-fancybox href="https://www.ptpn4.co.id/assets/img/galeri/sawit/5.jpeg" class="d-block product-item rounded">
+          <a data-fancybox="gallery" href="https://www.ptpn4.co.id/assets/img/galeri/sawit/5.jpeg" class="d-block product-item rounded">
             <img src="https://www.ptpn4.co.id/assets/img/galeri/sawit/5.jpeg" alt="Program Magang" />
           </a>
-          <a data-fancybox href="https://www.ptpn4.co.id/assets/img/galeri/karet/ca_leather.jpeg" class="d-block product-item rounded">
+          <a data-fancybox="gallery" href="https://www.ptpn4.co.id/assets/img/galeri/karet/ca_leather.jpeg" class="d-block product-item rounded">
             <img src="https://www.ptpn4.co.id/assets/img/galeri/karet/ca_leather.jpeg" alt="Program Magang" />
           </a>
-          <a data-fancybox href="https://www.ptpn4.co.id/assets/img/galeri/pabrik/tr.jpeg" class="d-block product-item rounded">
+          <a data-fancybox="gallery" href="https://www.ptpn4.co.id/assets/img/galeri/pabrik/tr.jpeg" class="d-block product-item rounded">
             <img src="https://www.ptpn4.co.id/assets/img/galeri/pabrik/tr.jpeg" alt="Program Magang" />
           </a>
-          <a data-fancybox href="https://www.ptpn4.co.id/assets/img/galeri/pabrik/lori.jpeg" class="d-block product-item rounded">
+          <a data-fancybox="gallery" href="https://www.ptpn4.co.id/assets/img/galeri/pabrik/lori.jpeg" class="d-block product-item rounded">
             <img src="https://www.ptpn4.co.id/assets/img/galeri/pabrik/lori.jpeg" alt="Program Magang" />
           </a>
-          <a data-fancybox href="https://www.ptpn4.co.id/assets/img/galeri/kopi/IMG-20230922-WA0002.jpg" class="d-block product-item rounded">
+          <a data-fancybox="gallery" href="https://www.ptpn4.co.id/assets/img/galeri/kopi/IMG-20230922-WA0002.jpg" class="d-block product-item rounded">
             <img src="https://www.ptpn4.co.id/assets/img/galeri/kopi/IMG-20230922-WA0002.jpg" alt="Program Magang" />
           </a>
-          <a data-fancybox href="https://www.ptpn4.co.id/assets/img/galeri/teh/3.jpeg" class="d-block product-item rounded">
+          <a data-fancybox="gallery" href="https://www.ptpn4.co.id/assets/img/galeri/teh/3.jpeg" class="d-block product-item rounded">
             <img src="https://www.ptpn4.co.id/assets/img/galeri/teh/3.jpeg" alt="Program Magang" />
           </a>
          
@@ -205,7 +205,7 @@
                 Saksikan Perjalanan Magang Kami
               </h1>
               <p class="fw-normal lh-base fst-italic text-white mb-5">
-                Simak kisah dan testimoni para peserta magang yang telah merasakan manfaat nyata dari program kami.
+                Simak cerita para peserta magang yang telah merasakan manfaat nyata dari program kami.
               </p>
              
             </div>

@@ -80,7 +80,7 @@
                                     Penilaian</a>
                             </li>
                             <li class="pc-item">
-                                <a class="pc-link" href="{{ site_url("company-profile/show") }}">Profil Perusahaan</a>
+                                <a class="pc-link" href="{{ site_url("company-profile/show") }}">Format Piagam
                             </li>
                         </ul>
                     </li>

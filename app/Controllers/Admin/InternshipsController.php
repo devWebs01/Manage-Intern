@@ -7,6 +7,7 @@ use App\Libraries\BladeOneLibrary;
 use App\Models\LogbooksModel;
 use App\Models\ParticipantsModel;
 use App\Models\PresencesModel;
+use App\Models\CompanyProfileModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class InternshipsController extends BaseController
@@ -38,6 +39,8 @@ class InternshipsController extends BaseController
                               ->get();
         $data['logbooks']  = LogbooksModel::where('participant_id', $id)
                               ->get();
+
+                              $data['company'] = CompanyProfileModel::first();
 
         return $this->blade->render('internships.show', $data);
     }
