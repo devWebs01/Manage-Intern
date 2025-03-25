@@ -2,6 +2,7 @@
 
 use App\Controllers\Admin\CompanyProfileController;
 use App\Controllers\Mentor\ParticipantAssessmentsController;
+use App\Controllers\Admin\InternshipsController;
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\Home;
 
@@ -49,7 +50,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
     $routes->resource('internships', [
         'controller' => 'Admin\InternshipsController',
-        'only' => ['index', 'show']
+        'only' => ['index', 'show', ]
     ]);
 
     $routes->get('/participant-assessments', [ParticipantAssessmentsController::class, 'index']);
@@ -64,5 +65,6 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
     $routes->get('/company-profile/show', [CompanyProfileController::class, 'show']);
     $routes->put('/company-profile/update', [CompanyProfileController::class, 'update']);
+    $routes->get('/certificate/(:num)/print', [InternshipsController::class, 'print']);
 
 });

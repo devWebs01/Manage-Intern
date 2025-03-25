@@ -48,8 +48,7 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane show active" id="profile-1" role="tabpanel" aria-labelledby="profile-tab-1">
-                            {{-- @include("internships.profile") --}}
-                            @include("internships.certificate")
+                            @include("internships.profile")
 
                         </div>
                         <div class="tab-pane" id="profile-2" role="tabpanel" aria-labelledby="profile-tab-2">
@@ -59,6 +58,9 @@
                             @include("internships.logbooks")
                         </div>
                         <div class="tab-pane" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
+                            <a href="{{ base_url("/certificate/" . $participant->id . "/print") }}" class="btn btn-primary">
+                                Cetak
+                            </a>
                             @include("internships.certificate")
                         </div>
                     </div>

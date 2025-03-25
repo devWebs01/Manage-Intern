@@ -44,4 +44,18 @@ class InternshipsController extends BaseController
 
         return $this->blade->render('internships.show', $data);
     }
+
+ public function print($id)
+    {
+        $data['participant'] = ParticipantsModel::find($id);
+
+        $data['presences']  = PresencesModel::where('participant_id', $id)
+                              ->get();
+        $data['logbooks']  = LogbooksModel::where('participant_id', $id)
+                              ->get();
+
+                              $data['company'] = CompanyProfileModel::first();
+
+        return $this->blade->render('internships.print', $data);
+    }    
 }
