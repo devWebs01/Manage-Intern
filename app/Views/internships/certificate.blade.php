@@ -1,6 +1,19 @@
  @include("layouts.print")
 
- <div class="container pm-certificate-container mt-4">
+ @php
+     function getAssessmentCategory($score)
+     {
+         if ($score >= 86 && $score <= 100) {
+             return "Sangat Memuaskan";
+         } elseif ($score >= 71 && $score <= 85) {
+             return "Memuaskan";
+         } else {
+             return "Cukup Memuaskan";
+         }
+     }
+ @endphp
+
+ <div class="container-fluid pm-certificate-container">
      <div class="certificate-image top-left">
          <img src="{{ base_url("certificate/25e4d3ea-f67a-46a6-8105-dc29848f29a0.svg") }}" alt="Logo Kiri" />
      </div>
@@ -14,10 +27,10 @@
          <img src="{{ base_url("certificate/c2293968-24c7-4262-8c79-dc4613f34d48.svg") }}" alt="Logo Kanan Bawah" />
      </div>
      <div class="border border-white p-3 pm-certificate-border text-center">
-         <h1 class="fw-bolder certificate-title mt-5 display-5 text-uppercase">
+         <h1 class="fw-bolder certificate-title mt-5 display-6 text-uppercase col-8">
              {{ $company->company_name }}
          </h1>
-         <h3 class="fw-bolder text-uppercase">piagam penghargaan</h3>
+         <h3 class="fw-bolder text-uppercase mt-5">piagam penghargaan</h3>
          <p class="certificate-subtitle">Diberikan kepada :</p>
          <h3 class="fw-bold fullName my-3 display-6">{{ $participant->full_name }}</h3>
          <div class="row justify-content-center">
@@ -31,7 +44,10 @@
                  mulai tanggal
                  {{ Carbon\Carbon::parse($participant->start_date)->format("d F Y") . " - " . Carbon\Carbon::parse($participant->end_date)->format("d F Y") }}
                  <br />
-                 Dengan hasil : <strong>Sangat Memuaskan</strong>
+                 Dengan hasil : <strong>
+                     {{ getAssessmentCategory($participant->assessments->avg("score")) }}
+
+                 </strong>
              </p>
          </div>
          <div class="row mt-1 text-center justify-content-center">
@@ -52,7 +68,7 @@
  <br>
  <div class="page-break"></div>
 
- <div class="container pm-certificate-container mt-4">
+ <div class="container-fluid pm-certificate-container">
      <div class="row mb-5 align-items-center">
          <div class="col text-start">
              <div class="info-row">

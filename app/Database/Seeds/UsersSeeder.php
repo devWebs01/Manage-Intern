@@ -2,6 +2,7 @@
 
 namespace App\Database\Seeds;
 
+use App\Models\ParticipantsModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Seeder;
 use Faker\Factory;
@@ -16,7 +17,7 @@ class UsersSeeder extends Seeder
 
         $userModel = new UserModel();
         $faker = Factory::create('id_ID');
-        
+
         // Cek apakah admin sudah ada berdasarkan email
         $existingAdmin = $userModel->where('email', 'admin@example.com')->first();
         if (!$existingAdmin) {
@@ -57,6 +58,21 @@ class UsersSeeder extends Seeder
                 'active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            $mentor_id = UserModel::where('role', 'MENTOR')->inRandomOrder()->first()->id;
+
+            ParticipantsModel::create([
+                'user_id' => $participant->id,
+                'full_name' => $faker->name(),
+                'institution' => $faker->company(),
+                'level' => $faker->randomElement(['SMA', 'SMK', 'D3', 'S1', 'S2', 'Other']),
+                'start_date' => $faker->date('Y-m-d', 'now'),
+                'end_date' => $faker->date('Y-m-d', '+1 year'),
+                'status' => $faker->randomElement(['Active', 'Completed', 'Dropped']),
+                'created_at' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
+                'updated_at' => $faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d H:i:s'),
+                'mentor_id' => $mentor_id,
             ]);
         }
 
