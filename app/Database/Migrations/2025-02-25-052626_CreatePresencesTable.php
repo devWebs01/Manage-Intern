@@ -15,6 +15,7 @@ class CreatePresencesTable extends Migration
             'check_in'        => ['type' => 'TIME'],
             'check_out'        => ['type' => 'TIME', 'null' => true],
             'created_at'    => ['type' => 'DATETIME', 'null' => true],
+            'updated_at'    => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('participant_id', 'participants', 'id', 'CASCADE', 'CASCADE');

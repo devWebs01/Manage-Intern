@@ -78,13 +78,13 @@ class Home extends BaseController
                 'total_days' => $totalDays,
                 'days_passed' => $daysPassed,
                 'days_remaining' => $daysRemaining,
-                'attendance_reminder' => PresencesModel::where('participant_id', $participant->id)->whereDate('date', $today)->exists() ? 'Sudah Absen' : 'Belum Absen',
-                'logbook_reminder' => LogbooksModel::where('participant_id', $participant->id)->whereDate('date', $today)->exists() ? 'Sudah Isi' : 'Belum Isi',
+                'attendance_reminder' => PresencesModel::where('participant_id', User()->id)->whereDate('date', $today)->exists() ? 'Sudah Absen' : 'Belum Absen',
+                'logbook_reminder' => LogbooksModel::where('participant_id', User()->id)->whereDate('date', $today)->exists() ? 'Sudah Isi' : 'Belum Isi',
             ];
 
             // History Logbook dan Absensi (dikelompokkan per tanggal)
-            $logbookHistory = LogbooksModel::selectRaw('DATE(date) as day, COUNT(*) as count')->where('participant_id', $participant->id)->groupBy('day')->orderBy('day')->get();
-            $presenceHistory = PresencesModel::selectRaw('DATE(date) as day, COUNT(*) as count')->where('participant_id', $participant->id)->groupBy('day')->orderBy('day')->get();
+            $logbookHistory = LogbooksModel::selectRaw('DATE(date) as day, COUNT(*) as count')->where('participant_id', User()->id)->groupBy('day')->orderBy('day')->get();
+            $presenceHistory = PresencesModel::selectRaw('DATE(date) as day, COUNT(*) as count')->where('participant_id', User()->id)->groupBy('day')->orderBy('day')->get();
 
             // Buat array indeks berdasarkan tanggal
             $logbookArray = $logbookHistory->pluck('count', 'day')->toArray();

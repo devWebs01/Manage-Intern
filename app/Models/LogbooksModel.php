@@ -9,7 +9,7 @@ class LogbooksModel extends Model
     protected $table = 'logbooks';
     protected $primaryKey = 'id';
     // Jika tidak ingin Eloquent mengelola created_at/updated_at secara otomatis, set false.
-    public $timestamps = false; 
+    public $timestamps = true; 
     // Daftar field yang boleh diisi secara mass assignment.
     protected $fillable = [
         'participant_id',

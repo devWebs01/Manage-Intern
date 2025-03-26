@@ -9,7 +9,7 @@ class PresencesModel extends Model
     protected $table = 'presences';
     protected $primaryKey = 'id';
     // Jika Anda tidak ingin Eloquent mengelola created_at/updated_at secara otomatis:
-    public $timestamps = false; 
+    public $timestamps = true; 
     
     // Kolom yang diizinkan untuk mass assignment
     protected $fillable = [
