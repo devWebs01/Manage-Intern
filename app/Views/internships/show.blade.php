@@ -58,7 +58,9 @@
                             @include("internships.logbooks")
                         </div>
                         <div class="tab-pane" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
-                            <a href="{{ base_url("/certificate/" . $participant->id . "/print") }}" class="btn btn-primary">
+                            <a href="{{ base_url("/certificate/" . $participant->id . "/print") }}"
+                                class="btn btn-primary mb-3 {{ $participant->assessments->count() > 0 ?: "disabled" }}"
+                                target="_blank">
                                 Cetak
                             </a>
                             @include("internships.certificate")

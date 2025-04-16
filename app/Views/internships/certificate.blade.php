@@ -81,9 +81,9 @@
              </div>
              <div class="info-row">
                  <span class="info-label">Pelaksanaan Magang</span>
-                 <span class="info-value">: {{ Carbon\Carbon::parse($participant->start_date)->format("d m Y") }}
+                 <span class="info-value">: {{ Carbon\Carbon::parse($participant->start_date)->format("d F Y") }}
                      s.d
-                     {{ Carbon\Carbon::parse($participant->end_date)->format("d m Y") }}</span>
+                     {{ Carbon\Carbon::parse($participant->end_date)->format("d F Y") }}</span>
              </div>
          </div>
          <div class="col-4">
