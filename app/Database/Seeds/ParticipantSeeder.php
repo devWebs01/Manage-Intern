@@ -8,15 +8,14 @@ use CodeIgniter\Database\Seeder;
 use Faker\Factory;
 use Myth\Auth\Password;
 
-class ParticipantsSeeder extends Seeder
+class ParticipantSeeder extends Seeder
 {
     public function run()
     {
-
         require_once APPPATH . 'Config/Eloquent.php';
 
         $faker = Factory::create('id_ID');
- 
+
 
         // Buat pengguna acak
         for ($i = 0; $i < 30; $i++) {

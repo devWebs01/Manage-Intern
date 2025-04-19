@@ -17,8 +17,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Peserta</th>
+                            <th>Username</th>
+                            <th>Nama Lengkap</th>
                             <th>Status</th>
+                            <th>Mentor</th>
                             <th>Waktu Magang</th>
                             <th>Aksi</th>
                         </tr>
@@ -27,12 +29,15 @@
                         @foreach ($participants as $index => $participant)
                             <tr>
                                 <td>{{ ++$index }}.</td>
+                                <td>{{ $participant->user->username }}</td>
                                 <td>{{ $participant->full_name }}</td>
                                 <td>
-                                    <button class="btn btn-outline-dark btn-sm text-uppercase">
+                                    <span class="badge bg-primary">
                                         {{ lang("Status." . $participant->status) }}
-                                    </button>
+                                    </span>
+
                                 </td>
+                                <td>{{ $participant->mentor->username }}</td>
                                 <td>{{ Carbon\Carbon::parse($participant->start_date)->format("d M Y") }} -
                                     {{ Carbon\Carbon::parse($participant->end_date)->format("d M Y") }}</td>
                                 <td>

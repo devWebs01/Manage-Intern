@@ -8,7 +8,7 @@ use CodeIgniter\Database\Seeder;
 use Faker\Factory;
 use Myth\Auth\Password;
 
-class UsersSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     public function run()
     {

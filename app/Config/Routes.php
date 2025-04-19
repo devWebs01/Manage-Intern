@@ -35,7 +35,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
     $routes->resource('logbooks', [
         'controller' => 'Participant\LogbooksController',
-        'only' => ['index', 'new', 'create', 'edit', 'update', 'delete']
+        'only' => ['index', 'new', 'create', 'show', 'edit', 'update', 'delete']
     ]);
 
     $routes->resource('presences', [

@@ -4,13 +4,15 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class Database extends Seeder
 {
     public function run()
     {
-        $this->call('UsersSeeder');
+        $this->call('UserSeeder');
         $this->call('AssenddmentSeeder');
-        $this->call('ParticipantsSeeder');
+        $this->call('ParticipantSeeder');
         $this->call('CompanyProfileSeeder');
+        $this->call('LogbookSeeder');
+        $this->call('PresenceSeeder');
     }
 }

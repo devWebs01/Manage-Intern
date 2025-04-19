@@ -4,6 +4,7 @@ namespace App\Controllers\Participant;
 
 use App\Models\PresencesModel;
 use App\Libraries\BladeOneLibrary;
+use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use App\Controllers\BaseController;
 
@@ -21,6 +22,7 @@ class PresencesController extends BaseController
      */
     public function index()
     {
+
         $today = date('Y-m-d');
         // Mengambil data presensi dengan urutan tanggal (misalnya DESC)
         $presences = PresencesModel::orderBy('date', 'DESC')->get();
@@ -55,10 +57,9 @@ class PresencesController extends BaseController
         // Validasi menggunakan CodeIgniter Validation (sesuaikan aturan jika diperlukan)
         $validation = \Config\Services::validation();
         $rules = [
-            'participant_id' => 'required|integer|is_natural_no_zero',
-            'date'           => 'required|valid_date[Y-m-d]',
-            'check_in'       => 'required|valid_date[H:i:s]',
-            'check_out'      => 'permit_empty|valid_date[H:i:s]',
+            'date' => 'required|valid_date[Y-m-d]',
+            'check_in' => 'required|valid_date[H:i:s]',
+            'check_out' => 'permit_empty|valid_date[H:i:s]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
@@ -66,6 +67,10 @@ class PresencesController extends BaseController
                 ->withInput()
                 ->with('errors', $validation->getErrors());
         }
+
+        $user = UserModel::find(user_id());
+        $data['participant_id'] = $user->participant->id;
+
 
         try {
             $presence = PresencesModel::create($data);
@@ -85,7 +90,7 @@ class PresencesController extends BaseController
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
-            return redirect()->back()->with('errors','Presensi tidak ditemukan');
+            return redirect()->back()->with('errors', 'Presensi tidak ditemukan');
         }
         $data = ['presence' => $presence];
         return $this->blade->render('presences.edit', $data);
@@ -98,17 +103,18 @@ class PresencesController extends BaseController
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
-            return redirect()->back()->with('errors','Presensi tidak ditemukan');
+            return redirect()->back()->with('errors', 'Presensi tidak ditemukan');
         }
 
         $data = $this->request->getPost();
+        $user = UserModel::find(user_id());
+        $data['participant_id'] = $user->participant->id;
 
         $validation = \Config\Services::validation();
         $rules = [
-            'participant_id' => 'required|integer|is_natural_no_zero',
-            'date'           => 'required|valid_date[Y-m-d]',
-            'check_in'       => 'required|valid_date[H:i:s]',
-            'check_out'      => 'permit_empty|valid_date[H:i:s]',
+            'date' => 'required|valid_date[Y-m-d]',
+            'check_in' => 'required|valid_date[H:i:s]',
+            'check_out' => 'permit_empty|valid_date[H:i:s]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
@@ -116,7 +122,7 @@ class PresencesController extends BaseController
                 ->withInput()
                 ->with('errors', $validation->getErrors());
         }
-        
+
         try {
             $presence->update($data);
         } catch (\Exception $e) {
@@ -132,7 +138,7 @@ class PresencesController extends BaseController
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
-            return redirect()->back()->with('errors','Presensi tidak ditemukan');
+            return redirect()->back()->with('errors', 'Presensi tidak ditemukan');
         }
         try {
             $presence->delete();
