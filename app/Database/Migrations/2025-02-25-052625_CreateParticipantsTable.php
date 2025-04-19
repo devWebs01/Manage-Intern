@@ -22,11 +22,30 @@ class CreateParticipantsTable extends Migration
             'updated_at' => ['type' => 'DATETIME', 'null' => true],
             'deleted_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
+
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('mentor_id', 'users', 'id', 'CASCADE', 'CASCADE');
+
+        // Foreign key untuk user_id
+        $this->forge->addForeignKey(
+            'user_id',
+            'users',
+            'id',
+            'CASCADE', // ON DELETE
+            'CASCADE'  // ON UPDATE
+        );
+
+        // Foreign key untuk mentor_id
+        $this->forge->addForeignKey(
+            'mentor_id',
+            'users',
+            'id',
+            'SET NULL', // ON DELETE SET NULL supaya tidak error kalau mentor dihapus
+            'CASCADE'   // ON UPDATE
+        );
+
         $this->forge->createTable('participants');
     }
+
 
     public function down()
     {

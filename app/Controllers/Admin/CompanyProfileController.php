@@ -58,6 +58,11 @@ class CompanyProfileController extends BaseController
         if (!empty($signatureData)) {
             $folderPath = 'uploads/signatures/';
 
+            // Cek dan buat folder jika belum ada
+            if (!is_dir($folderPath)) {
+                mkdir($folderPath, 0755, true); // buat folder dengan izin 755
+            }
+
             // Hapus tanda tangan lama jika ada
             if (!empty($company->signature) && file_exists($company->signature)) {
                 unlink($company->signature);
@@ -80,26 +85,26 @@ class CompanyProfileController extends BaseController
             $data['signature'] = $filePath;
         }
 
-         // ✅ **Update company_logo jika ada file yang diunggah**
-    $logo = $this->request->getFile('company_logo');
-    if ($logo && $logo->isValid() && !$logo->hasMoved()) {
-        $logoFolder = 'uploads/company_logos/';
+        // ✅ **Update company_logo jika ada file yang diunggah**
+        $logo = $this->request->getFile('company_logo');
+        if ($logo && $logo->isValid() && !$logo->hasMoved()) {
+            $logoFolder = 'uploads/company_logos/';
 
-        // Hapus logo lama jika ada
-        if (!empty($company->company_logo) && file_exists($company->company_logo)) {
-            unlink($company->company_logo);
+            // Hapus logo lama jika ada
+            if (!empty($company->company_logo) && file_exists($company->company_logo)) {
+                unlink($company->company_logo);
+            }
+
+            // Buat nama file unik
+            $newLogoName = uniqid() . '.' . $logo->getClientExtension();
+            $logoPath = $logoFolder . $newLogoName;
+
+            // Pindahkan file ke lokasi yang ditentukan
+            $logo->move($logoFolder, $newLogoName);
+
+            // Simpan path ke database
+            $data['company_logo'] = $logoPath;
         }
-
-        // Buat nama file unik
-        $newLogoName = uniqid() . '.' . $logo->getClientExtension();
-        $logoPath = $logoFolder . $newLogoName;
-
-        // Pindahkan file ke lokasi yang ditentukan
-        $logo->move($logoFolder, $newLogoName);
-
-        // Simpan path ke database
-        $data['company_logo'] = $logoPath;
-    }
 
         // Update data perusahaan
         $company->update($data);
@@ -107,4 +112,26 @@ class CompanyProfileController extends BaseController
         return redirect()->back()->with('success', 'Profil perusahaan berhasil diperbarui.');
     }
 
+    public function deleteSignature()
+    {
+        $company = CompanyProfileModel::first();
+
+        if (!$company) {
+            return redirect()->back()->with('errors', ['company' => 'Profil perusahaan tidak ditemukan.']);
+        }
+
+        // Hapus file signature jika ada
+        if (!empty($company->signature) && file_exists($company->signature)) {
+            unlink($company->signature);
+        }
+
+        // Kosongkan kolom signature dan signature_code
+        $company->update([
+            'signature' => null,
+            'signature_code' => null,
+        ]);
+
+        return redirect()->back()->with('success', 'Tanda tangan berhasil dihapus.');
+    }
+    
 }

@@ -28,6 +28,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Username</th>
                             <th>Nama Lengkap</th>
                             <th>Institusi</th>
                             <th>Tingkat</th>
@@ -41,6 +42,7 @@
                         @foreach ($participants as $no => $participant)
                             <tr>
                                 <td>{{ ++$no }}</td>
+                                <td>{{ $participant->user->username }}</td>
                                 <td>{{ $participant->full_name }}</td>
                                 <td>{{ $participant->institution }}</td>
                                 <td>{{ $participant->level }}</td>

@@ -32,11 +32,11 @@ class ParticipantSeeder extends Seeder
                 'deleted_at' => null,
             ]);
 
-            // Ambil ID pengguna terakhir yang di-insert
-            $userId = UserModel::first();
+            // Ambil satu user random yang bukan ADMIN/MENTOR
+            $userId = UserModel::whereNotIn('role', ['ADMIN', 'MENTOR'])->inRandomOrder()->first()->id;
 
             ParticipantsModel::insert([
-                'user_id' => $userId->id, // Pastikan user_id tidak null
+                'user_id' => $userId, // Pastikan user_id tidak null
                 'full_name' => $faker->name(),
                 'institution' => $faker->company(),
                 'level' => $faker->randomElement(['SMA', 'SMK', 'D3', 'S1', 'S2', 'Other']),
@@ -50,6 +50,6 @@ class ParticipantSeeder extends Seeder
         }
 
 
-        echo "Data users berhasil di-seed!\n";
+        echo "Data peserta berhasil di-seed!\n";
     }
 }

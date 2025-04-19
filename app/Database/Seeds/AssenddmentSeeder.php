@@ -27,6 +27,7 @@ class AssenddmentSeeder extends Seeder
                 'component' => $item['component']
             ]);
         }
-        
+        echo "Data indikator berhasil di-seed!\n";
+
     }
 }

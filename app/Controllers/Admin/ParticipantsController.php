@@ -43,17 +43,17 @@ class ParticipantsController extends BaseController
     {
         $validation = \Config\Services::validation();
         $rules = [
-            'email'    => 'required|valid_email|is_unique[users.email]',
+            'email' => 'required|valid_email|is_unique[users.email]',
             'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
             'password' => 'required|min_length[6]',
-            'avatar'   => 'permit_empty|uploaded[avatar]|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
-            'full_name'   => 'required|min_length[3]|max_length[255]',
+            'avatar' => 'permit_empty|uploaded[avatar]|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
+            'full_name' => 'required|min_length[3]|max_length[255]',
             'institution' => 'required|min_length[3]|max_length[255]',
-            'level'       => 'required',
-            'mentor_id'   => 'required',
-            'start_date'  => 'required|valid_date[Y-m-d]',
-            'end_date'    => 'required|valid_date[Y-m-d]',
-            'status'      => 'required|in_list[Active, Completed, Dropped]',
+            'level' => 'required',
+            'mentor_id' => 'required',
+            'start_date' => 'required|valid_date[Y-m-d]',
+            'end_date' => 'required|valid_date[Y-m-d]',
+            'status' => 'required|in_list[Active, Completed, Dropped]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
@@ -61,8 +61,8 @@ class ParticipantsController extends BaseController
         }
 
         $userData = [
-            'email'         => $this->request->getPost('email'),
-            'username'      => $this->request->getPost('username'),
+            'email' => $this->request->getPost('email'),
+            'username' => $this->request->getPost('username'),
             'password_hash' => Password::hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
 
@@ -80,14 +80,14 @@ class ParticipantsController extends BaseController
         }
 
         $participantData = [
-            'user_id'     => $user->id,
-            'full_name'   => $this->request->getPost('full_name'),
+            'user_id' => $user->id,
+            'full_name' => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
-            'level'       => $this->request->getPost('level'),
-            'mentor_id'   => $this->request->getPost('mentor_id'),
-            'start_date'  => $this->request->getPost('start_date'),
-            'end_date'    => $this->request->getPost('end_date'),
-            'status'      => $this->request->getPost('status'),
+            'level' => $this->request->getPost('level'),
+            'mentor_id' => $this->request->getPost('mentor_id'),
+            'start_date' => $this->request->getPost('start_date'),
+            'end_date' => $this->request->getPost('end_date'),
+            'status' => $this->request->getPost('status'),
         ];
         ParticipantsModel::create($participantData);
 
@@ -108,9 +108,9 @@ class ParticipantsController extends BaseController
             return redirect()->back()->with('errors', 'Pengguna terkait partisipan tidak ditemukan');
         }
         $data = [
-            'mentors'     => UserModel::where('role', 'MENTOR')->get(),
+            'mentors' => UserModel::where('role', 'MENTOR')->get(),
             'participant' => $participant,
-            'user'        => $user,
+            'user' => $user,
         ];
         return $this->blade->render('participants.edit', $data);
     }
@@ -131,17 +131,17 @@ class ParticipantsController extends BaseController
 
         $validation = \Config\Services::validation();
         $rules = [
-            'email'    => "required|valid_email|is_unique[users.email,id,{$user->id}]",
+            'email' => "required|valid_email|is_unique[users.email,id,{$user->id}]",
             'username' => "required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{$user->id}]",
             'password' => 'permit_empty|min_length[6]',
-            'avatar'   => 'permit_empty|uploaded[avatar]|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
-            'full_name'   => 'required|min_length[3]|max_length[255]',
+            'avatar' => 'permit_empty|uploaded[avatar]|max_size[avatar,2048]|is_image[avatar]|mime_in[avatar,image/png,image/jpeg,image/jpg]',
+            'full_name' => 'required|min_length[3]|max_length[255]',
             'institution' => 'required|min_length[3]|max_length[255]',
-            'level'       => 'required',
-            'mentor_id'   => 'required',
-            'start_date'  => 'required|valid_date[Y-m-d]',
-            'end_date'    => 'required|valid_date[Y-m-d]',
-            'status'      => 'required|in_list[Active, Completed, Dropped]',
+            'level' => 'required',
+            'mentor_id' => 'required',
+            'start_date' => 'required|valid_date[Y-m-d]',
+            'end_date' => 'required|valid_date[Y-m-d]',
+            'status' => 'required|in_list[Active, Completed, Dropped]',
         ];
         $validation->setRules($rules);
         if (!$validation->withRequest($this->request)->run()) {
@@ -149,7 +149,7 @@ class ParticipantsController extends BaseController
         }
 
         $userData = [
-            'email'    => $this->request->getPost('email'),
+            'email' => $this->request->getPost('email'),
             'username' => $this->request->getPost('username'),
         ];
         if ($password = $this->request->getPost('password')) {
@@ -171,16 +171,37 @@ class ParticipantsController extends BaseController
         $user->update($userData);
 
         $participantData = [
-            'full_name'   => $this->request->getPost('full_name'),
+            'full_name' => $this->request->getPost('full_name'),
             'institution' => $this->request->getPost('institution'),
-            'level'       => $this->request->getPost('level'),
-            'mentor_id'   => $this->request->getPost('mentor_id'),
-            'start_date'  => $this->request->getPost('start_date'),
-            'end_date'    => $this->request->getPost('end_date'),
-            'status'      => $this->request->getPost('status'),
+            'level' => $this->request->getPost('level'),
+            'mentor_id' => $this->request->getPost('mentor_id'),
+            'start_date' => $this->request->getPost('start_date'),
+            'end_date' => $this->request->getPost('end_date'),
+            'status' => $this->request->getPost('status'),
         ];
         $participant->update($participantData);
 
         return redirect()->to('/participants')->with('success', 'Partisipan berhasil diperbarui.');
+    }
+
+    public function delete($id)
+    {
+        $participant = ParticipantsModel::find($id);
+
+        $user = UserModel::find($participant->user->id);
+
+        if ($user) {
+            try {
+                // Hapus avatar jika ada
+                if (!empty($user->avatar) && file_exists($user->avatar)) {
+                    unlink($user->avatar);
+                }
+
+                $user->delete();
+                return redirect()->back()->with('success', 'Peserta berhasil dihapus.');
+            } catch (\Throwable $th) {
+                return redirect()->back()->withInput()->with('errors', [$th->getMessage()]);
+            }
+        }
     }
 }

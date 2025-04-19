@@ -75,8 +75,13 @@
                             <button type="button" id="edit-signature" class="btn btn-primary my-2">Buat Tanda
                                 Tangan</button>
                         @else
-                            <button type="button" id="edit-signature" class="btn btn-warning my-2">Ubah Tanda
-                                Tangan</button>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" id="edit-signature" class="btn btn-warning my-2">Ubah Tanda
+                                    Tangan</button>
+                                <a href="{{ base_url("company-profile/delete-signature") }}"
+                                    class="btn btn-danger my-2">Hapus Tanda
+                                    Tangan</a>
+                            </div>
                         @endif
                     </div>
 

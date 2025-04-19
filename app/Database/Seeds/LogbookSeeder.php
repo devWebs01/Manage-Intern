@@ -52,5 +52,6 @@ class LogbookSeeder extends Seeder
 
             ]);
         }
+        echo "Data logbook berhasil di-seed!\n";
     }
 }

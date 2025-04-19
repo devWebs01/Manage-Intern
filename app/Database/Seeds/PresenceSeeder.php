@@ -47,5 +47,8 @@ class PresenceSeeder extends Seeder
                 'check_out' => $checkOut->format('H:i:s'),
             ]);
         }
+
+        echo "Data absensi berhasil di-seed!\n";
+
     }
 }

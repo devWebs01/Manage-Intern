@@ -66,5 +66,6 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
     $routes->get('/company-profile/show', [CompanyProfileController::class, 'show']);
     $routes->put('/company-profile/update', [CompanyProfileController::class, 'update']);
     $routes->get('/certificate/(:num)/print', [InternshipsController::class, 'print']);
+    $routes->get('/company-profile/delete-signature', [CompanyProfileController::class, 'deleteSignature']);
 
 });
