@@ -4,7 +4,7 @@
 
 @section("header")
     <li class="breadcrumb-item">
-        <a href="{{ site_url("internships") }}">Detail Peserta Magang</a>
+        <a href="javascript:history.back()">Detail Peserta Magang</a>
     </li>
 @endsection
 

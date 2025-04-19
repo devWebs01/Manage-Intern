@@ -9,7 +9,7 @@
         </a>
     </li>
     <li class="breadcrumb-item">
-        <a href="{{ base_url("/users/create") }}">
+        <a href="javascript:history.back()">
             {{ $user->username }}
         </a>
     </li>

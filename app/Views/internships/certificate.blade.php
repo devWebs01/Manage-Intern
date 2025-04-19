@@ -56,6 +56,8 @@
                  <div>
                      @if (!empty($company->signature))
                          <img src="{{ base_url($company->signature) }}" class="img-fluid w-50" alt="" />
+                     @else
+                         <div class="my-3 py-3 text-white"></div>
                      @endif
                  </div>
                  <p class="fw-bolder underline col-4">{{ $company->representative_name }}</p>
@@ -136,6 +138,8 @@
                  <div>
                      @if (!empty($company->signature))
                          <img src="{{ base_url($company->signature) }}" class="img-fluid w-100" alt="" />
+                     @else
+                         <div class="my-3 py-3 text-white"></div>
                      @endif
                  </div>
                  <b>{{ $company->representative_name }}</b>

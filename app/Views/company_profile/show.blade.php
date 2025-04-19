@@ -4,7 +4,7 @@
 
 @section("header")
     <li class="breadcrumb-item">
-        <a href="#">Edit Profil Perusahaan</a>
+        <a href="#">Edit Format</a>
     </li>
 @endsection
 

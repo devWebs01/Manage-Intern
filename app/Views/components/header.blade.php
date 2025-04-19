@@ -21,16 +21,18 @@
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-                        <img src="{{ base_url(User()->avatar ?? "/assets/images/user/avatar-2.jpg") }}" alt="user-image"
-                            class="user-avtar">
+                        <img src="{{ User()->avatar ? base_url(User()->avatar) : "https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=" . User()->username }}"
+                            alt="user-image" class="user-avtar border border-dark" width="25" height="25"
+                            style="object-fit: cover;">
                         <span>{{ User()->username }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header">
                             <div class="d-flex mb-1">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ base_url(User()->avatar ?? "/assets/images/user/avatar-2.jpg") }}"
-                                        alt="user-image" class="user-avtar wid-35">
+                                    <img src="{{ User()->avatar ? base_url(User()->avatar) : "https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=" . User()->username }}"
+                                        alt="user-image" class="user-avtar border border-dark" width="40"
+                                        height="40" style="object-fit: cover;">>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1">{{ user()->username }}</h6>

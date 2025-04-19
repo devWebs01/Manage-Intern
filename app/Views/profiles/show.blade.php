@@ -4,7 +4,7 @@
 
 @section("header")
     <li class="breadcrumb-item">
-        <a href="{{ site_url("profiles") }}">
+        <a href="javascript:history.back()">
             Profil Akun
         </a>
     </li>

@@ -2,7 +2,7 @@
 
 @section("header")
     <li class="breadcrumb-item">
-        <a href="{{ site_url("logbooks") }}">
+        <a href="javascript:history.back()">
             Logbook
         </a>
     </li>

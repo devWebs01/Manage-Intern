@@ -1,8 +1,8 @@
-@extends('components.layout')
+@extends("components.layout")
 
-@section('header')
+@section("header")
     <li class="breadcrumb-item">
-        <a href="{{ site_url('participants') }}">
+        <a href="javascript:history.back()">
             Absensi
         </a>
     </li>
@@ -13,11 +13,10 @@
     </li>
 @endsection
 
-@section('content')
-
+@section("content")
     <div class="card">
         <div class="card-body">
-            <form action="{{ site_url('presences/' . $presence->id) }}" method="post">
+            <form action="{{ site_url("presences/" . $presence->id) }}" method="post">
                 <div class="d-none">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
@@ -33,7 +32,8 @@
 
                 <div class="mb-3">
                     <label for="check_out" class="form-label">Jam Keluar</label>
-                    <input type="time" name="check_out" class="form-control" value="{{ Carbon\Carbon::now('Asia/Jakarta')->format('H:i:s') }}" readonly>
+                    <input type="time" name="check_out" class="form-control"
+                        value="{{ Carbon\Carbon::now("Asia/Jakarta")->format("H:i:s") }}" readonly>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
