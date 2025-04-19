@@ -6,6 +6,8 @@ use App\Models\ParticipantsModel;
 use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
 use App\Controllers\BaseController;
+use Myth\Auth\Password;
+
 
 class ParticipantsController extends BaseController
 {
@@ -61,7 +63,7 @@ class ParticipantsController extends BaseController
         $userData = [
             'email'         => $this->request->getPost('email'),
             'username'      => $this->request->getPost('username'),
-            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'password_hash' => Password::hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
 
         // Handle file upload avatar
@@ -151,7 +153,7 @@ class ParticipantsController extends BaseController
             'username' => $this->request->getPost('username'),
         ];
         if ($password = $this->request->getPost('password')) {
-            $userData['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+            $userData['password_hash'] = Password::hash($password, PASSWORD_DEFAULT);
         }
 
         $file = $this->request->getFile('avatar');

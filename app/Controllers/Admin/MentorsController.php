@@ -5,6 +5,8 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\UserModel;
 use App\Libraries\BladeOneLibrary;
+use Myth\Auth\Password;
+
 
 class MentorsController extends BaseController
 {
@@ -51,7 +53,7 @@ class MentorsController extends BaseController
 
         $data = $this->request->getPost(['email', 'username']);
         $data['role'] = 'MENTOR';
-        $data['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+        $data['password_hash'] = Password::hash($this->request->getPost('password'), PASSWORD_DEFAULT);
 
         // Handle file upload avatar
         $file = $this->request->getFile('avatar');
@@ -107,7 +109,7 @@ class MentorsController extends BaseController
 
         $password = $this->request->getPost('password');
         if ($password) {
-            $data['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+            $data['password_hash'] = Password::hash($password, PASSWORD_DEFAULT);
         }
 
         // Handle file upload avatar

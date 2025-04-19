@@ -20,7 +20,7 @@ class CreateAuthTables extends Migration
             'activate_hash' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'status' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'status_message' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'active' => ['type' => 'tinyint', 'constraint' => 1, 'null' => 0, 'default' => 0],
+            'active' => ['type' => 'tinyint', 'constraint' => 1, 'null' => false, 'default' => 1],
             'force_pass_reset' => ['type' => 'tinyint', 'constraint' => 1, 'null' => 0, 'default' => 0],
             'created_at' => ['type' => 'datetime', 'null' => true],
             'updated_at' => ['type' => 'datetime', 'null' => true],
