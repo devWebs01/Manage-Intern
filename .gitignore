@@ -1,8 +1,8 @@
 #-------------------------
 # Operating Specific Junk Files
 #-------------------------
-/uploads/*
-!/uploads/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep
 
 
 # OS X
