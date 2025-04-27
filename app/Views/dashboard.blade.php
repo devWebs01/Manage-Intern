@@ -70,26 +70,63 @@
                     </table>
                 </div>
             @elseif (User()->role === "PARTICIPANT")
-                <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <strong>Pengingat! </strong> {{ $internship_status["attendance_reminder"] }}
-                </div>
-                <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <strong>Pengingat! </strong> {{ $internship_status["logbook_reminder"] }}
-                </div>
+               
                 <div class="row mt-5">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <!-- Timeline Magang -->
-                        <p class="fw-bold">Timeline Magang</p>
-                        <p class="fw-bold">
-                            Sisa Waktu Magang: <strong>{{ $internship_status["days_remaining"] }}
-                                hari</strong></p>
-                        <canvas id="timelineChart"></canvas>
+                        <div class="mb-3">
+                            <p class="fw-bold">Timeline Magang</p>
+                            <p class="fw-bold">
+                                Sisa Waktu Magang: <strong>{{ $internship_status["days_remaining"] }}
+                                    hari</strong></p>
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                        <div class="mb-3">
+                            <p class="fw-bold">History Logbook & Absensi</p>
+                            <canvas id="historyChart"></canvas>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <p class="fw-bold">History Logbook & Absensi</p>
-                        <canvas id="historyChart"></canvas>
+                    <div class="col-md-6">
+                        <div class="mb-4">
+                            <p class="fw-bold mb-3">Penilaian (Assessment)</p>
+
+                            @if (
+                                !empty($auth["participant"]) &&
+                                    !empty($auth["participant"]["assessments"]) &&
+                                    count($auth["participant"]["assessments"]) > 0)
+                                <ol class="list-group list-group-numbered list-group-flush mb-3">
+                                    @foreach ($auth["participant"]["assessments"] as $assessment)
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-start list-group-item-action">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">
+                                                    {{ Illuminate\Support\Str::limit($assessment["indicator_component"] ?? "Indikator Tidak Ditemukan", 30, "...") }}
+                                                </div>
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">{{ $assessment["score"] }}</span>
+                                        </li>
+                                    @endforeach
+                                </ol>
+
+                                <div class="text-center">
+                                    <a href="{{ base_url("/certificate/" . $auth["participant"]["id"] . "/print") }}"
+                                        class="btn btn-success d-grid" target="_blank">
+                                        Download Sertifikat
+                                    </a>
+                                </div>
+                            @else
+                                <div class="alert alert-warning text-center" role="alert">
+                                    Belum ada data penilaian tersedia.
+                                </div>
+                                <div class="text-center">
+                                    <a href="{{ base_url("/certificate/" . ($auth["participant"]["id"] ?? 0) . "/print") }}"
+                                        class="btn btn-secondary disabled d-grid">
+                                        Download Sertifikat
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
             @endif

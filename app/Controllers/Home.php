@@ -25,8 +25,8 @@ class Home extends BaseController
     public function dashboard()
     {
         $user = User(); // Ambil user yang sedang login
-         $now = Carbon::now();
-            $today = Carbon::today();
+        $now = Carbon::now();
+        $today = Carbon::today();
         $data = [];
 
         if ($user->role === 'ADMIN') {
@@ -65,7 +65,17 @@ class Home extends BaseController
             ];
             $data['mentoredParticipants'] = $mentoredParticipants;
         } elseif ($user->role === 'PARTICIPANT') {
-            $participant = ParticipantsModel::where('user_id', $user->id)->first();
+
+
+            $participant = ParticipantsModel::with([
+                'logbooks',
+                'assessments', // tambah ini!
+                'presences'
+            ])
+                ->where('user_id', $user->id)
+                ->first();
+
+            // dd($participant->assessments->pluck('indicator'));
 
             // Hitung total hari magang, hari terlewati, dan hari tersisa
             $startDate = Carbon::parse($participant->start_date);
@@ -107,6 +117,44 @@ class Home extends BaseController
                 'logbook' => $logbookData,
                 'presence' => $presenceData,
             ];
+
+            $data['auth'] = [
+                'id' => $user->id,
+                'email' => $user->email,
+                'username' => $user->username,
+                'role' => $user->role,
+                'participant' => $participant ? [
+                    'id' => $participant->id,
+                    'full_name' => $participant->full_name,
+                    'institution' => $participant->institution,
+                    'level' => $participant->level,
+                    'start_date' => $participant->start_date,
+                    'end_date' => $participant->end_date,
+                    'status' => $participant->status,
+                    'logbooks' => $participant->logbooks->map(function ($logbook) {
+                        return [
+                            'id' => $logbook->id,
+                            'date' => $logbook->date,
+                            'activity' => $logbook->activity,
+                        ];
+                    })->toArray(),
+                    'assessments' => $participant->assessments->map(function ($assessment) {
+                        return [
+                            'id' => $assessment->id,
+                            'score' => $assessment->score,
+                            'indicator_component' => optional($assessment->indicator)->component, // tambahkan ini
+                        ];
+                    })->toArray(),
+                    'presences' => $participant->presences->map(function ($presence) {
+                        return [
+                            'id' => $presence->id,
+                            'date' => $presence->date,
+                            'status' => $presence->status,
+                        ];
+                    })->toArray(),
+                ] : null,
+            ];
+
         }
 
         return $this->blade->render('dashboard', $data);
