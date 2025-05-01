@@ -69,6 +69,7 @@
                         </tbody>
                     </table>
                 </div>
+                
             @elseif (User()->role === "PARTICIPANT")
                
                 <div class="row mt-5">
