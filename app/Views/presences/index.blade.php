@@ -49,7 +49,7 @@
                                 <td>{{ $presence->check_out }}</td>
 
                                 <td>
-                                    @if (empty($presence->check_out) && $presence->date == Carbon\Carbon::today()->format("Y-m-d"))
+                                    @if (empty($presence->check_out) && Carbon\Carbon::parse($presence->date)->isToday())
                                         <a href="{{ site_url("presences/" . $presence->id . "/edit") }}"
                                             class="btn btn-sm btn-primary">
                                             Absen Keluar

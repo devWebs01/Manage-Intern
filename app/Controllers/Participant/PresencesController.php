@@ -23,11 +23,22 @@ class PresencesController extends BaseController
     public function index()
     {
 
-        $today = date('Y-m-d');
-        // Mengambil data presensi dengan urutan tanggal (misalnya DESC)
-        $presences = PresencesModel::orderBy('date', 'DESC')->get();
+        $user = service('authentication')->user();
+        $userModel = new UserModel();
+        $userData = $userModel->find($user->id);
 
-        // Cek apakah sudah ada check_in hari ini
+        $participant = $userData->participant;
+
+        if (!$participant) {
+            return redirect()->back()->with('error', 'Data peserta tidak ditemukan.');
+        }
+
+        $today = date('Y-m-d');
+
+        $presences = \App\Models\PresencesModel::where('participant_id', $participant->id)
+            ->orderBy('date', 'DESC')
+            ->get();
+
         $hasCheckInToday = $presences->contains(function ($presence) use ($today) {
             return $presence->date === $today && !empty($presence->check_in);
         });
@@ -36,6 +47,7 @@ class PresencesController extends BaseController
             'presences' => $presences,
             'hasCheckInToday' => $hasCheckInToday
         ];
+
         return $this->blade->render('presences.index', $data);
     }
 

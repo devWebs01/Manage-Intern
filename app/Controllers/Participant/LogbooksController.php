@@ -25,8 +25,22 @@ class LogbooksController extends BaseController
      */
     public function index()
     {
-        $user = UserModel::find(user_id());
-        $data['logbooks'] = LogbooksModel::where('participant_id', $user->participant->id)->orderBy('created_at', 'DESC')->get();
+        $user = service('authentication')->user();
+        $userModel = new UserModel();
+        $userData = $userModel->find($user->id); // Dapatkan user lengkap (dengan relasi)
+
+        $participant = $userData->participant;
+
+        if (!$participant) {
+            // Tidak ada relasi participant, bisa redirect atau tampilkan pesan error
+            return redirect()->back()->with('error', 'Data peserta tidak ditemukan.');
+        }
+
+        // Ambil logbook milik peserta yang sedang login
+        $data['logbooks'] = \App\Models\LogbooksModel::where('participant_id', $participant->id)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
         return $this->blade->render('logbooks.index', $data);
     }
 
@@ -45,7 +59,7 @@ class LogbooksController extends BaseController
     {
         $validation = \Config\Services::validation();
 
-        
+
         $rules = [
             'date' => 'required|valid_date[Y-m-d]',
             'activity' => 'required|min_length[10]',
@@ -54,7 +68,7 @@ class LogbooksController extends BaseController
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
-        
+
         // Ambil data yang telah tervalidasi
         $data = $this->request->getPost(['date', 'activity']);
 
