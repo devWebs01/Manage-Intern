@@ -1,23 +1,24 @@
-name: 🚀 Deploy CodeIgniter 4 ke Hosting via FTP
+name: 🚀 Deploy CI4 to FTP Hosting
 
 on:
   push:
     branches:
-      - main  # Ganti jika kamu pakai branch lain
+      - main
 
 jobs:
   ftp-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ✅ Checkout Source Code
+      - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: 🚀 FTP Deploy ke Hosting
+      - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: sidang-skripsi.my.id
           username: remote@sidang-skripsi.my.id
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /domains/ptpn4.sidang-skripsi.my.id/public_html/internship/
-          local-dir: internship/
+          local-dir: ./
+          # dangerous-clean-slate: true
