@@ -29,9 +29,6 @@ jobs:
           server-dir: /domains/ptpn4.sidang-skripsi.my.id/public_html/internship/
           local-dir: ./
           dry-run: true
-          exclude: |
-            **/.git*
-            **/.github*
-            **/node_modules/**
-            **/tests/**
-            **/.env
+          exclude: "**/.env"
+
+
