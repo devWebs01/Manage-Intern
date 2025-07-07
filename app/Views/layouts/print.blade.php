@@ -46,6 +46,11 @@
            /* Tambahkan padding agar konten tidak menempel */
        }
 
+       @page {
+           size: A4 landscape;
+           margin: 0;
+       }
+
        /* Hanya berlaku saat print */
        @media print {
            .pm-certificate-container {
@@ -148,5 +153,21 @@
 
        .page-break {
            page-break-before: always;
+       }
+
+       .signature-img {
+           max-width: 200px;
+           /* batas lebar maksimal */
+           max-height: 100px;
+           /* batas tinggi maksimal */
+           width: auto;
+           height: auto;
+       }
+
+       @media print {
+           .signature-img {
+               max-width: 200px;
+               max-height: 100px;
+           }
        }
    </style>

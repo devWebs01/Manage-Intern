@@ -43,8 +43,8 @@
                                 <td>
                                     {{ $assessment->full_name }}</td>
                                 <td>
-                                    {{ Carbon\carbon::parse($assessment->start_date)->format("d M Y") }} -
-                                    {{ Carbon\carbon::parse($assessment->end_date)->format("d M Y") }}
+                                    {{ Carbon\Carbon::parse($assessment->start_date)->format("d M Y") }} -
+                                    {{ Carbon\Carbon::parse($assessment->end_date)->format("d M Y") }}
                                 </td>
                                 <td>
                                     @if ($assessment->assessments->count() > 0)

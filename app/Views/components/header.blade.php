@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1">{{ user()->username }}</h6>
-                                    <p class="mb-1">{{ lang("role." . user()->role) }}</p>
+                                    <p class="mb-1">{{ lang("Role." . user()->role) }}</p>
 
                                 </div>
                                 <a href="#!" class="pc-head-link bg-transparent">

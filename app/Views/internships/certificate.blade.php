@@ -55,7 +55,8 @@
                  <p class="certificate-subtitle">Jambi, {{ Carbon\Carbon::today()->format("d F Y") }}</p>
                  <div>
                      @if (!empty($company->signature))
-                         <img src="{{ base_url($company->signature) }}" class="img-fluid w-50" alt="" />
+                         <img src="{{ base_url($company->signature) }}" class="img-fluid signature-img"
+                             alt="" />
                      @else
                          <div class="my-3 py-3 text-white"></div>
                      @endif
@@ -137,7 +138,8 @@
                  <p>{{ $company->position }}</p>
                  <div>
                      @if (!empty($company->signature))
-                         <img src="{{ base_url($company->signature) }}" class="img-fluid w-100" alt="" />
+                         <img src="{{ base_url($company->signature) }}" class="img-fluid signature-img"
+                             alt="" />
                      @else
                          <div class="my-3 py-3 text-white"></div>
                      @endif

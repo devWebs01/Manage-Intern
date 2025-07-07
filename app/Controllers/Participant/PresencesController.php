@@ -17,12 +17,8 @@ class PresencesController extends BaseController
         $this->blade = new BladeOneLibrary();
     }
 
-    /**
-     * Menampilkan daftar presensi.
-     */
     public function index()
     {
-
         $user = service('authentication')->user();
         $userModel = new UserModel();
         $userData = $userModel->find($user->id);
@@ -35,7 +31,7 @@ class PresencesController extends BaseController
 
         $today = date('Y-m-d');
 
-        $presences = \App\Models\PresencesModel::where('participant_id', $participant->id)
+        $presences = PresencesModel::where('participant_id', $participant->id)
             ->orderBy('date', 'DESC')
             ->get();
 
@@ -51,22 +47,15 @@ class PresencesController extends BaseController
         return $this->blade->render('presences.index', $data);
     }
 
-    /**
-     * Menampilkan form untuk input presensi baru.
-     */
     public function new()
     {
         return $this->blade->render('presences.create');
     }
 
-    /**
-     * Menyimpan data presensi baru.
-     */
     public function create()
     {
         $data = $this->request->getPost();
 
-        // Validasi menggunakan CodeIgniter Validation (sesuaikan aturan jika diperlukan)
         $validation = \Config\Services::validation();
         $rules = [
             'date' => 'required|valid_date[Y-m-d]',
@@ -81,8 +70,20 @@ class PresencesController extends BaseController
         }
 
         $user = UserModel::find(user_id());
-        $data['participant_id'] = $user->participant->id;
+        $participantId = $user->participant->id;
 
+        $today = $data['date'] ?? date('Y-m-d');
+
+        // Cek apakah sudah absen hari ini
+        $existingPresence = PresencesModel::where('participant_id', $participantId)
+            ->where('date', $today)
+            ->first();
+
+        if ($existingPresence) {
+            return redirect()->to('/presences')->with('error', 'Anda sudah melakukan absensi hari ini.');
+        }
+
+        $data['participant_id'] = $participantId;
 
         try {
             $presence = PresencesModel::create($data);
@@ -92,12 +93,10 @@ class PresencesController extends BaseController
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
         }
+
         return redirect()->to('/presences')->with('success', 'Presensi berhasil ditambahkan.');
     }
 
-    /**
-     * Menampilkan form untuk mengedit presensi.
-     */
     public function edit($id)
     {
         $presence = PresencesModel::find($id);
@@ -108,9 +107,6 @@ class PresencesController extends BaseController
         return $this->blade->render('presences.edit', $data);
     }
 
-    /**
-     * Memperbarui data presensi.
-     */
     public function update($id)
     {
         $presence = PresencesModel::find($id);
@@ -140,23 +136,23 @@ class PresencesController extends BaseController
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
         }
+
         return redirect()->to('/presences')->with('success', 'Presensi berhasil diperbarui.');
     }
 
-    /**
-     * Menghapus data presensi.
-     */
     public function delete($id)
     {
         $presence = PresencesModel::find($id);
         if (!$presence) {
             return redirect()->back()->with('errors', 'Presensi tidak ditemukan');
         }
+
         try {
             $presence->delete();
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('errors', [$e->getMessage()]);
         }
+
         return redirect()->to('/presences')->with('success', 'Presensi berhasil dihapus.');
     }
 }
