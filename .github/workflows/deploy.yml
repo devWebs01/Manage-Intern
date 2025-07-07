@@ -21,7 +21,7 @@ jobs:
         run: echo "✅ Simulating FTP deploy for folder: ./ to /internship/"
 
       - name: Deploy via FTP (Dry Run)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: sidang-skripsi.my.id
           username: remote@sidang-skripsi.my.id
