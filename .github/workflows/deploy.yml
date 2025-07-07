@@ -25,7 +25,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /domains/ptpn4.sidang-skripsi.my.id/public_html/internship/
           local-dir: ./
-          dry-run: true
+          dry-run: false
           exclude: |
             **/.git*
             **/.github*
